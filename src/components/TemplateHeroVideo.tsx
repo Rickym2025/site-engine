@@ -1,11 +1,11 @@
-// src/components/TemplateAutomotive.tsx
+// src/components/TemplateHeroVideo.tsx
 "use client";
 
 import { motion } from 'framer-motion';
 import { Car, Wrench, Award, Phone, Calendar, ArrowRight, Star, Play } from 'lucide-react';
 import React from 'react';
 
-interface TemplateAutomotiveProps {
+interface TemplateHeroVideoProps {
   data: {
     hero: {
       headline: string;
@@ -25,7 +25,7 @@ interface TemplateAutomotiveProps {
   nomeCliente: string;
 }
 
-export default function TemplateAutomotive({ data, nomeCliente }: TemplateAutomotiveProps) {
+export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVideoProps) {
   const { hero, servizi, social_proof, brand_color = '#F59E0B', video_bg_url } = data;
 
   const icons = [Wrench, Car, Award];
