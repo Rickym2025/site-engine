@@ -2,6 +2,7 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import TemplateSecurity from '@/components/TemplateSecurity';
+import TemplateAutomotive from '@/components/TemplateAutomotive'; // Importa il nuovo template
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +26,7 @@ export default async function SitePage({ params }: PageProps) {
 
   const siteData = site.site_data;
 
-  // 3. SWITCH ROUTER: Carichiamo il template corrispondente
+  // 3. SWITCH ROUTER: Smista in base al template_id
   if (site.template_id === 1) {
     return (
       <TemplateSecurity 
@@ -35,7 +36,16 @@ export default async function SitePage({ params }: PageProps) {
     );
   }
 
-  // Fallback
+  if (site.template_id === 2) {
+    return (
+      <TemplateAutomotive 
+        data={siteData} 
+        nomeCliente={site.nome_cliente} 
+      />
+    );
+  }
+
+  // Fallback se nessun template corrisponde
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
       <p>Sito configurato, ma nessun template visivo è assegnato a questo ID.</p>
