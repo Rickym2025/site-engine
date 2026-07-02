@@ -27,7 +27,7 @@ export default function GeneratorHome() {
 
     try {
       // Chiamata diretta al tuo n8n su Hetzner (usiamo il webhook-test per ora)
-      const response = await fetch('https://n8n.rmstudio.app/webhook/crea-sito-ai', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
