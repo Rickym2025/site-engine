@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import TemplateHeroImage from '@/components/TemplateHeroImage'; // Template 1
 import TemplateHeroVideo from '@/components/TemplateHeroVideo'; // Template 2
+import TemplateBooking from '@/components/TemplateBooking'; //  Template 3
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -38,6 +39,15 @@ export default async function SitePage({ params }: PageProps) {
   if (site.template_id === 2) {
     return (
       <TemplateHeroVideo 
+        data={siteData} 
+        nomeCliente={site.nome_cliente} 
+      />
+    );
+  }
+
+  if (site.template_id === 3) {
+    return (
+      <TemplateBooking 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
