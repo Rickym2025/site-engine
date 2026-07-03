@@ -18,9 +18,8 @@ interface TemplateHeroVideoProps {
       descrizione: string;
     }>;
     social_proof: string;
-    // Nuove proprietà dinamiche della nostra infrastruttura Pro:
-    brand_color?: string; // Es: "#F59E0B" (Oro), "#EF4444" (Rosso Corsa), "#06B6D4" (Cyan)
-    video_bg_url?: string; // URL di un video di sfondo loop .mp4 o .webm
+    brand_color?: string;
+    video_bg_url?: string;
   };
   nomeCliente: string;
 }
@@ -30,11 +29,11 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
 
   const icons = [Wrench, Car, Award];
 
-  // Configurazione CSS dinamico per l'effetto GLOW
+  // Configurazione variabili di colore e profondità
   const customStyles = {
     '--brand-color': brand_color,
-    '--brand-color-glow': `${brand_color}33`, // Colore con il 20% di opacità per l'effetto neon
-    '--brand-color-light': `${brand_color}66`,
+    '--brand-color-glow': `${brand_color}18`, // 10% opacità per aurore e bagliori soffusi
+    '--brand-color-light': `${brand_color}55`, // 33% opacità per bordi attivi
   } as React.CSSProperties;
 
   return (
@@ -43,64 +42,95 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
       className="min-h-screen bg-[#030303] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
     >
       
-      {/* 1. BACKGROUND VIDEO IMMERSIVO CON OVERLAY */}
-      <div className="absolute top-0 left-0 w-full h-[90vh] overflow-hidden pointer-events-none z-0">
-        {video_bg_url ? (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover scale-[1.05] filter brightness-[0.3] contrast-[1.1]"
-            src={video_bg_url}
-          />
-        ) : (
-          // Fallback se il video non è caricato: gradiente cinetico scuro
-          <div className="w-full h-full bg-gradient-to-b from-zinc-900/20 via-black to-black" />
-        )}
+      {/* ========================================================================= */}
+      {/* SFONDO TRIDIMENSIONALE PRO (STILE ACETERNITY / REFERO) */}
+      {/* ========================================================================= */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
-        {/* Griglia pixelata in stile Hyperframe per dare texture e aumentare la leggibilità */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] pointer-events-none" />
-        {/* Sfumatura verso il nero assoluto sul fondo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#030303]" />
+        {/* 1. Vignetta Cromatica Satura di base (Tinge lo sfondo nero col colore del brand) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--brand-color-glow)_0%,#020202_100%)] opacity-80" />
+
+        {/* 2. Doppia Aurora Danzante (Due bolle sfocate che fluttuano lentamente in loop) */}
+        <motion.div
+          animate={{
+            x: [0, 80, -40, 0],
+            y: [0, -60, 40, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-[color:var(--brand-color)]/5 blur-[120px]"
+        />
+
+        <motion.div
+          animate={{
+            x: [0, -60, 80, 0],
+            y: [0, 40, -60, 0],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] rounded-full bg-[color:var(--brand-color)]/5 blur-[120px]"
+        />
+
+        {/* 3. Griglia Geometrica ad alta precisione (sfuma verso i bordi dello schermo) */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_40px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
+
+        {/* 4. Video Immersivo se caricato (con griglia di pixel sopra per uniformare) */}
+        {video_bg_url && (
+          <div className="absolute inset-0 h-[85vh] opacity-35 filter contrast-[1.1] mix-blend-screen">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              src={video_bg_url}
+            />
+            <div className="absolute inset-0 bg-[#030303]/40" />
+          </div>
+        )}
+
+        {/* Griglia a linee scure orizzontali (pixel-grid) */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%)] bg-[size:100%_4px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_100%)]" />
+        
+        {/* Sfumatura finale verso il fondo nero profondo */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030303] h-[90vh]" />
       </div>
+      {/* ========================================================================= */}
 
       {/* NAVBAR GLASSMORPHISM */}
-      <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
+      <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-3 group cursor-pointer"
-          >
-            <Car className="h-8 w-8 text-[color:var(--brand-color)] transition-transform duration-500 group-hover:rotate-12" />
+          <div className="flex items-center space-x-3">
+            <Car className="h-8 w-8 text-[color:var(--brand-color)] drop-shadow-[0_0_8px_var(--brand-color)]" />
             <span className="font-black text-lg tracking-widest uppercase bg-gradient-to-r from-white to-stone-400 bg-clip-text text-transparent">
               {nomeCliente}
             </span>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full"
-          >
+          <div className="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
             <Star className="h-4 w-4 text-[color:var(--brand-color)] fill-[color:var(--brand-color)] animate-pulse" />
             <span className="text-[10px] font-mono text-stone-300 uppercase tracking-widest">Atelier Digitale</span>
-          </motion.div>
+          </div>
         </div>
       </header>
 
-      {/* HERO SECTION - MASSIVE GLOW */}
+      {/* HERO SECTION */}
       <section className="relative pt-32 pb-24 px-6 max-w-5xl mx-auto text-center z-10">
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 80 }}
-          className="inline-flex items-center space-x-2 bg-black/60 border border-[color:var(--brand-color-light)] px-4 py-1.5 rounded-full mb-8 shadow-[0_0_15px_var(--brand-color-glow)]"
+          className="inline-flex items-center space-x-2 bg-black/60 border border-[color:var(--brand-color-light)] px-4 py-1.5 rounded-full mb-8 shadow-[0_0_15px_var(--brand-color-glow)] backdrop-blur-md"
         >
           <span className="h-2 w-2 rounded-full bg-[color:var(--brand-color)] animate-ping" />
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold">Unicità ed Eccellenza</span>
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold">Ingegneria d'eccellenza</span>
         </motion.div>
 
         <motion.div
@@ -122,7 +152,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           {hero.subheadline}
         </motion.p>
 
-        {/* DOUBLE CTA CON EFFETTO NEON GLOW */}
+        {/* DOUBLE CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,7 +161,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         >
           <a
             href="tel:+3904251675950"
-            className="w-full sm:w-auto bg-[color:var(--brand-color)] hover:brightness-110 text-black font-black text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-[1.03] shadow-[0_0_30px_var(--brand-color-glow)] hover:shadow-[0_0_40px_var(--brand-color-light)]"
+            className="w-full sm:w-auto bg-[color:var(--brand-color)] text-black font-black text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-[1.03] shadow-[0_0_20px_var(--brand-color-glow)]"
           >
             <Phone className="h-5 w-5 fill-black" />
             <span>{hero.cta1}</span>
@@ -157,9 +187,9 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* SEZIONE SERVIZI - HOVER SPRING & GLOW BORDERS */}
+      {/* SEZIONE SERVIZI */}
       <section id="servizi" className="py-12 px-6 max-w-6xl mx-auto relative z-10">
-        <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-250">
+        <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-200">
           I Nostri Standard Operativi
         </h2>
 
@@ -176,7 +206,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
                 whileHover={{ y: -8 }}
                 className="bg-black/30 border border-white/5 hover:border-[color:var(--brand-color-light)] p-8 rounded-3xl transition-all duration-500 group relative backdrop-blur-md shadow-2xl overflow-hidden"
               >
-                {/* Bagliore radiale al passaggio del mouse */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--brand-color-glow)] to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
                 <div className="bg-white/[0.02] p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-8 border border-white/10 group-hover:border-[color:var(--brand-color-light)] group-hover:shadow-[0_0_15px_var(--brand-color-glow)] transition-all duration-500">
@@ -196,7 +225,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* FOOTER CON BOTTONE EMOTIVO MASSIVO */}
+      {/* FOOTER */}
       <footer className="border-t border-white/5 bg-black py-24 px-6 text-center relative z-10">
         <div className="max-w-2xl mx-auto">
           <Car className="h-12 w-12 text-[color:var(--brand-color)] mx-auto mb-6 filter drop-shadow-[0_0_15px_var(--brand-color)]" />
@@ -205,12 +234,12 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           </p>
           <a
             href="tel:+3904251675950"
-            className="inline-flex bg-[color:var(--brand-color)] hover:brightness-110 text-black font-black text-xl px-12 py-6 rounded-2xl items-center space-x-4 transition-all duration-300 shadow-[0_0_30px_var(--brand-color-glow)] hover:shadow-[0_0_45px_var(--brand-color-light)]"
+            className="inline-flex bg-[color:var(--brand-color)] text-black font-black text-xl px-12 py-6 rounded-2xl items-center space-x-4 transition-all duration-300 shadow-[0_0_20px_var(--brand-color-glow)]"
           >
             <Calendar className="h-6 w-6" />
             <span>Inizia il Tuo Progetto</span>
           </a>
-          <p className="text-zinc-600 text-xs font-mono mt-16 tracking-widest">
+          <p className="text-zinc-650 text-xs font-mono mt-16 tracking-widest">
             © {new Date().getFullYear()} {nomeCliente} • RM Studio HyperFrame Engine
           </p>
         </div>
