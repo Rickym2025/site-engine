@@ -10,6 +10,7 @@ import Template_l_atelier from '@/components/Template_l_atelier';
 import Template_il_chirurgo from '@/components/Template_il_chirurgo';
 import Template_l_autorita from '@/components/Template_l_autorita';
 import Template_il_creativo from '@/components/Template_il_creativo';
+import Template_il_regista from '@/components/Template_il_regista';
 
 // DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
@@ -165,6 +166,7 @@ export default function GeneratorHome() {
               { id: 3, label: 'Il Chirurgo' },
               { id: 4, label: 'L\'Autorità' },
               { id: 5, label: 'Il Creativo' },
+              { id: 6, label: 'Il Regista' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -213,6 +215,7 @@ export default function GeneratorHome() {
           {activeTemplateId === 3 && <Template_il_chirurgo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 4 && <Template_l_autorita data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 5 && <Template_il_creativo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -617,6 +620,47 @@ export default function GeneratorHome() {
                         <div className="col-span-2 bg-[#E6E4DC]/50 rounded-md"></div>
                       </div>
                       <div className="h-1 bg-zinc-150 rounded"></div>
+                    </div>
+                  </div>
+
+                  {/* TEMPLATE 6: IL REGISTA */}
+                  <div 
+                    onClick={() => setTemplateId(6)}
+                    className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                      templateId === 6 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                    }`}
+                  >
+                    <div className="space-y-2 flex-grow text-left">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-extrabold text-lg text-white">"Il Regista"</h4>
+                        {templateId === 6 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                      </div>
+                      <p className="text-sm font-bold text-purple-400">Ideale per: Video Productions, Palestre, Centri Estetici, Monoprodotto, SaaS</p>
+                      <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                        Layout cinetico a forte impatto. Presenta un Video Player interattivo sopra la piega, un Marquee infinito di testo scorrevole in background e blocchi alternati alimentati da clip B-Roll in loop automatico.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleViewDemo(6); }}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
+                      >
+                        <Eye className="h-4 w-4" /> Esplora Anteprima Live
+                      </button>
+                    </div>
+  
+                    {/* MINI FINESTRA 3:4 VISIVA CINEMATICA VIDEO */}
+                    <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-[#09090E] border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
+                      <div className="border-b border-zinc-900 pb-0.5">
+                        <div className="h-1.5 w-6 bg-purple-500 rounded"></div>
+                      </div>
+                      {/* Rappresentazione Video Player e Marquee */}
+                      <div className="flex-grow flex flex-col justify-center items-center relative space-y-1">
+                        <div className="h-12 w-full bg-zinc-900 border border-zinc-800 rounded-md flex items-center justify-center relative">
+                          <Play className="h-3 w-3 text-purple-500 fill-purple-500" />
+                        </div>
+                        <div className="h-1 w-full bg-zinc-900 rounded"></div>
+                      </div>
+                      <div className="h-1.5 bg-zinc-950 rounded"></div>
                     </div>
                   </div>
 
