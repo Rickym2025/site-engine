@@ -2,13 +2,13 @@
 "use client";
 
 import { useState } from 'react';
-import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft, Play, FileText, Check } from 'lucide-react';
+import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft } from 'lucide-react';
 
-// IMPORTIAMO I 4 TEMPLATE REALI
-import TemplateHeroImage from '@/components/TemplateHeroImage';
-import TemplateHeroVideo from '@/components/TemplateHeroVideo';
-import TemplateBooking from '@/components/TemplateBooking';
-import TemplateSEO from '@/components/TemplateSEO';
+// IMPORTIAMO I 4 TEMPLATE REALI CON I NUOVI NOMI IN ITALIANO
+import Template_il_guardiano from '@/components/Template_il_guardiano';
+import Template_l_atelier from '@/components/Template_l_atelier';
+import Template_il_chirurgo from '@/components/Template_il_chirurgo';
+import Template_l_autorita from '@/components/Template_l_autorita';
 
 // DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
@@ -156,13 +156,13 @@ export default function GeneratorHome() {
             </div>
           </div>
 
-          {/* SELETTORE LIVE DEI 4 TEMPLATE */}
+          {/* SELETTORE LIVE DEI 4 TEMPLATE (AGGIORNATI COERENTI) */}
           <div className="flex items-center bg-black border border-zinc-900 p-1.5 rounded-2xl gap-1">
             {[
-              { id: 1, label: 'The Guardian' },
-              { id: 2, label: 'The Atelier' },
-              { id: 3, label: 'The Surgeon' },
-              { id: 4, label: 'The Authority' },
+              { id: 1, label: 'Il Guardiano' },
+              { id: 2, label: 'L\'Atelier' },
+              { id: 3, label: 'Il Chirurgo' },
+              { id: 4, label: 'L\'Autorità' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -206,10 +206,10 @@ export default function GeneratorHome() {
 
         {/* CONTAINER DINAMICO */}
         <div className="flex-grow">
-          {activeTemplateId === 1 && <TemplateHeroImage data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 2 && <TemplateHeroVideo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 3 && <TemplateBooking data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 4 && <TemplateSEO data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 1 && <Template_il_guardiano data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 2 && <Template_l_atelier data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 3 && <Template_il_chirurgo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 4 && <Template_l_autorita data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -398,13 +398,13 @@ export default function GeneratorHome() {
               </div>
             </div>
 
-            {/* SELEZIONE TEMPLATE CON MINI-FINESTRE GRAPHIC 3:4 (ZERO ATTRITO) */}
+            {/* SELEZIONE TEMPLATE CON MINI-FINESTRE GRAPHIC 3:4 */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
               <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">Seleziona Scheletro Layout</label>
               
               <div className="grid grid-cols-1 gap-6">
                 
-                {/* TEMPLATE 1: THE GUARDIAN */}
+                {/* TEMPLATE 1: IL GUARDIANO */}
                 <div 
                   onClick={() => setTemplateId(1)}
                   className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
@@ -413,12 +413,12 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-2 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-lg text-white">"The Guardian"</h4>
+                      <h4 className="font-extrabold text-lg text-white">"Il Guardiano"</h4>
                       {templateId === 1 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <p className="text-sm font-bold text-cyan-400">Ideale per: Vigilanza, Sicurezza, Cantieri, Investigazioni</p>
                     <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
-                      Impaginazione autoritaria. Spazio imponente a sinistra per headlines di impatto e immagine di forza a destra. Comunica protezione e controllo immediato.
+                      Impaginazione autoritaria. Spazio imponente a sinistra per headlines di impatto e immagine di forza a destra. Comunica protezione e controllo immediato con grana satinata.
                     </p>
                     <button
                       type="button"
@@ -447,7 +447,7 @@ export default function GeneratorHome() {
                   </div>
                 </div>
 
-                {/* TEMPLATE 2: THE ATELIER */}
+                {/* TEMPLATE 2: L'ATELIER */}
                 <div 
                   onClick={() => setTemplateId(2)}
                   className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
@@ -456,12 +456,12 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-2 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-lg text-white">"The Atelier"</h4>
+                      <h4 className="font-extrabold text-lg text-white">"L'Atelier"</h4>
                       {templateId === 2 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <p className="text-sm font-bold text-amber-500">Ideale per: Officine di Lusso, Yacht, Immobiliari, Moda</p>
                     <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
-                      Fascino cinematico. Sfondo video oscurato coperto da texture pixelata. Comunica artigianalità ad alto margine, prestigio e attenzione maniacale ai dettagli.
+                      Fascino cinematico. Sfondo video oscurato coperto da texture pixelata e sparkles di polvere dorata. Comunica artigianalità ad alto margine.
                     </p>
                     <button
                       type="button"
@@ -474,10 +474,6 @@ export default function GeneratorHome() {
 
                   {/* MINI FINESTRA 3:4 VISIVA */}
                   <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
-                    {/* Rappresentazione dello sfondo video */}
-                    <div className="absolute inset-0 bg-amber-500/5 flex items-center justify-center">
-                      <Play className="h-3 w-3 text-amber-500 opacity-40" />
-                    </div>
                     <div className="flex items-center justify-between border-b border-zinc-900 pb-1 relative z-10">
                       <div className="h-1.5 w-6 bg-amber-500 rounded"></div>
                     </div>
@@ -490,7 +486,7 @@ export default function GeneratorHome() {
                   </div>
                 </div>
 
-                {/* TEMPLATE 3: THE SURGEON */}
+                {/* TEMPLATE 3: IL CHIRURGO */}
                 <div 
                   onClick={() => setTemplateId(3)}
                   className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
@@ -499,12 +495,12 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-2 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-lg text-white">"The Surgeon"</h4>
+                      <h4 className="font-extrabold text-lg text-white">"Il Chirurgo"</h4>
                       {templateId === 3 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <p className="text-sm font-bold text-blue-500">Ideale per: Studi Medici, Pronto Intervento, Avvocati d'Urgenza</p>
                     <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
-                      Focus sulla risoluzione. Riduce l'attrito decisionale posizionando il modulo di contatto interattivo sopra la piega. Ideale per chi deve convertire traffico di fretta.
+                      Sfondo bianco/beige chiaro pastello asettico con griglia a punti. Riduce l'attrito decisionale posizionando il modulo di contatto sopra la piega.
                     </p>
                     <button
                       type="button"
@@ -516,26 +512,26 @@ export default function GeneratorHome() {
                   </div>
 
                   {/* MINI FINESTRA 3:4 VISIVA */}
-                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
-                    <div className="flex items-center justify-between border-b border-zinc-900 pb-1">
+                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-white border border-zinc-200 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
+                    <div className="flex items-center justify-between border-b border-zinc-150 pb-1">
                       <div className="h-1.5 w-6 bg-blue-500 rounded"></div>
                     </div>
                     <div className="grid grid-cols-2 gap-1 flex-grow items-center py-2">
                       <div className="space-y-1">
-                        <div className="h-1.5 w-8 bg-zinc-700 rounded"></div>
-                        <div className="h-1 w-6 bg-zinc-800 rounded"></div>
+                        <div className="h-1.5 w-8 bg-zinc-300 rounded"></div>
+                        <div className="h-1 w-6 bg-zinc-200 rounded"></div>
                       </div>
-                      <div className="h-14 bg-zinc-950 border border-zinc-800 rounded p-1 space-y-1 flex flex-col justify-center">
-                        <div className="h-1 bg-zinc-800 rounded"></div>
-                        <div className="h-1 bg-zinc-800 rounded"></div>
+                      <div className="h-14 bg-zinc-50 border border-zinc-150 rounded p-1 space-y-1 flex flex-col justify-center">
+                        <div className="h-1 bg-zinc-200 rounded"></div>
+                        <div className="h-1 bg-zinc-200 rounded"></div>
                         <div className="h-1.5 bg-blue-500 rounded-sm"></div>
                       </div>
                     </div>
-                    <div className="h-1.5 bg-zinc-950 rounded"></div>
+                    <div className="h-1.5 bg-zinc-100 rounded"></div>
                   </div>
                 </div>
 
-                {/* TEMPLATE 4: THE AUTHORITY */}
+                {/* TEMPLATE 4: L'AUTORITÀ */}
                 <div 
                   onClick={() => setTemplateId(4)}
                   className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
@@ -544,12 +540,12 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-2 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-lg text-white">"The Authority"</h4>
+                      <h4 className="font-extrabold text-lg text-white">"L'Autorità"</h4>
                       {templateId === 4 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <p className="text-sm font-bold text-emerald-500">Ideale per: Consulenti, Agenzie, Scuole, Studi Legali Strutturati</p>
                     <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
-                      La struttura amata da Google. Combina recensioni affiancate sopra la piega, blocchi di descrizione alternati per la SEO semantica, e una sezione FAQ accordion.
+                      La struttura amata da Google. Sfondo blu notte-indaco con effetto luce text-shimmer metallico sui titoli e Spotlight al tocco sulle card dei servizi.
                     </p>
                     <button
                       type="button"
@@ -565,21 +561,15 @@ export default function GeneratorHome() {
                     <div className="border-b border-zinc-900 pb-1">
                       <div className="h-1.5 w-6 bg-emerald-500 rounded"></div>
                     </div>
-                    {/* Blocchi recensioni */}
                     <div className="grid grid-cols-3 gap-0.5 py-0.5">
                       <div className="h-3 bg-zinc-900 rounded-sm"></div>
                       <div className="h-3 bg-zinc-900 rounded-sm"></div>
                       <div className="h-3 bg-zinc-900 rounded-sm"></div>
                     </div>
-                    {/* Sezioni alternate */}
                     <div className="space-y-1 flex-grow">
                       <div className="flex gap-1 items-center">
                         <div className="h-3 w-5 bg-zinc-800 rounded-sm"></div>
                         <div className="h-1 w-6 bg-zinc-700 rounded-sm"></div>
-                      </div>
-                      <div className="flex gap-1 items-center justify-end">
-                        <div className="h-1 w-6 bg-zinc-700 rounded-sm"></div>
-                        <div className="h-3 w-5 bg-zinc-800 rounded-sm"></div>
                       </div>
                     </div>
                     <div className="h-1.5 bg-zinc-950 rounded"></div>
