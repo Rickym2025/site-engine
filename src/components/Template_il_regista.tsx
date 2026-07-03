@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Phone, Mail, MapPin, ChevronDown, Check, Star, ArrowRight } from 'lucide-react';
+import { Play, Phone, Mail, MapPin, ChevronDown, Check, Star, ArrowRight, Shield } from 'lucide-react';
 import React from 'react';
 
 interface TemplateProps {
