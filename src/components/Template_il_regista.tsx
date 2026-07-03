@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Star, Check, Mail, MapPin, ChevronDown, Play, Pause, Shield, ArrowRight } from 'lucide-react';
+import { Play, Phone, Mail, MapPin, ChevronDown, Check, Star, ArrowRight } from 'lucide-react';
 import React from 'react';
 
 interface TemplateProps {
@@ -30,12 +30,22 @@ interface TemplateProps {
 }
 
 export default function Template_il_regista({ data, nomeCliente }: TemplateProps) {
-  const { hero, servizi, social_proof, brand_color = '#A855F7', video_bg_url, email, indirizzo, social_fb, social_ig } = data;
-  
+  const { hero, social_proof, brand_color = '#8B5CF6', video_bg_url, email, indirizzo, social_fb, social_ig } = data;
+  const servizi = data.servizi || [];
+
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showCookies, setShowCookies] = useState(false);
   const [inviato, setInviato] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+
+  // SORGENTI VIDEO PUBBLICHE SU CDN GOOGLE CLOUD (STABILI, IPER-VELOCI, NO BLOCCHI HOTLINKING)
+  const defaultHeroVideo = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+  const bRollVideoLeft = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+  const bRollVideoRight = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4";
+
+  const fallbackEmail = email || `produzioni@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
+  const fallbackIndirizzo = indirizzo || "Via dei Registi 10, Cinecittà (RM)";
+  const fallbackFb = social_fb || "https://facebook.com";
+  const fallbackIg = social_ig || "https://instagram.com";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -58,52 +68,41 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
   const customStyles = {
     '--brand-color': brand_color,
     '--brand-color-glow': `${brand_color}18`,
-    '--brand-color-strong': `${brand_color}44`,
+    '--brand-color-strong': `${brand_color}55`,
     '--brand-color-light': `${brand_color}bb`,
   } as React.CSSProperties;
-
-  // Video B-Roll cinematici e leggeri di esempio
-  const videoHero = video_bg_url || "https://assets.mixkit.co/videos/preview/mixkit-sports-car-drifting-at-night-42217-large.mp4";
-  const videoBroll1 = "https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-tunnel-at-night-42220-large.mp4";
-  const videoBroll2 = "https://assets.mixkit.co/videos/preview/mixkit-camaro-car-detailing-43306-large.mp4";
-
-  const fallbackEmail = email || `regia@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
-  const fallbackIndirizzo = indirizzo || "Via del Cinema 11, Cinecittà (RM)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#09090E] text-zinc-100 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative"
+      className="min-h-screen bg-[#030308] text-zinc-100 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden"
     >
-      
-      {/* Animazione CSS per il testo scorrevole infinito (Marquee) */}
+      {/* Animazione CSS per il testo gigante che scorre in background (Infinite Marquee) */}
       <style jsx global>{`
         @keyframes marquee {
           0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
+          display: flex;
+          width: 200%;
           animation: marquee 25s linear infinite;
         }
       `}</style>
 
-      {/* SFONDO CINEMATICO */}
+      {/* SFONDO DINAMICO GEOMETRICO (Niente particelle scure, griglia ad alta definizione) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)] z-1" />
       </div>
 
       {/* NAVBAR */}
-      <header className="border-b border-zinc-900 bg-[#09090E]/80 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-zinc-900 bg-black/40 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <span className="font-black text-lg tracking-widest uppercase text-white">{nomeCliente}</span>
-          </div>
+          <span className="font-black text-lg tracking-widest uppercase text-[color:var(--brand-color)]">{nomeCliente}</span>
           <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-zinc-450">
-            <a href="#video" className="hover:text-white transition-colors">Showcase</a>
-            <a href="#servizi" className="hover:text-white transition-colors">Standard</a>
+            <a href="#showcase" className="hover:text-white transition-colors">Showcase</a>
+            <a href="#vantaggi" className="hover:text-white transition-colors">Dettagli</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
             <a href="#contatto" className="hover:text-white transition-colors">Contatto</a>
           </nav>
@@ -112,55 +111,48 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
 
       {/* HERO SECTION */}
       <section className="relative pt-24 pb-12 px-6 max-w-4xl mx-auto text-center z-10">
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 bg-gradient-to-b from-white to-zinc-450 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-7xl font-black tracking-tight leading-[1.1] mb-8 bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
           {hero.headline}
         </h1>
-        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto mb-10 leading-relaxed">
           {hero.subheadline}
         </p>
-        
-        <div className="flex justify-center">
-          <a
-            href="#contatto"
-            className="bg-[color:var(--brand-color)] text-black font-black text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 shadow-[0_0_30px_var(--brand-color-glow)] hover:brightness-110 transition-all transform hover:scale-[1.02]"
-          >
-            <Phone className="h-5 w-5 fill-black" />
-            <span>{hero.cta1}</span>
-          </a>
-        </div>
       </section>
 
-      {/* 1. SEZIONE VIDEO SHOWCASE INTEGRATA (THE VIDEO FRAME) */}
-      <section id="video" className="max-w-5xl mx-auto px-6 pb-24 relative z-10">
+      {/* ========================================================================= */}
+      {/* 1. SEZIONE VIDEO SHOWCASE INTEGRATA (IL VIDEO FRAME CON CORNICE ATTIVA) */}
+      {/* ========================================================================= */}
+      <section id="showcase" className="max-w-5xl mx-auto px-6 pb-24 relative z-10">
         <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[300px] md:h-[500px] bg-black group">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover filter brightness-[0.7] group-hover:scale-101 transition-transform duration-700"
-            src={videoHero}
+            className="w-full h-full object-cover filter brightness-[0.8] group-hover:scale-101 transition-transform duration-700"
+            src={video_bg_url || defaultHeroVideo}
           />
-          {/* Overlay scuro soffuso */}
-          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/25 pointer-events-none" />
           
-          {/* Pulsante di Play Flottante */}
+          {/* Pulsante Play Flottante al centro */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <button 
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="bg-[color:var(--brand-color)] text-black p-6 rounded-full shadow-[0_0_30px_var(--brand-color-light)] hover:scale-110 transition-all transform duration-300"
+            <motion.button 
+              whileHover={{ scale: 1.1 }}
+              className="bg-[color:var(--brand-color)] text-black p-6 rounded-full shadow-[0_0_30px_var(--brand-color-light)] hover:scale-115 transition-all transform duration-300 flex items-center justify-center"
             >
-              {isPlaying ? <Pause className="h-8 w-8 fill-black" /> : <Play className="h-8 w-8 fill-black ml-1" />}
-            </button>
+              <Play className="h-8 w-8 fill-black ml-1" />
+            </motion.button>
           </div>
         </div>
       </section>
 
-      {/* 2. BACKGROUND MARQUEE INFINITO (IL MOVIMENTO COSTANTE DI SFONDO) */}
+      {/* ========================================================================= */}
+      {/* 2. BACKGROUND MARQUEE INFINITO (IL TESTO CINEMATICO SCORREVOLE DI SFONDO) */}
+      {/* ========================================================================= */}
       <div className="w-full overflow-hidden bg-zinc-950 py-8 border-y border-zinc-900 relative z-10 pointer-events-none">
-        <div className="flex whitespace-nowrap animate-marquee text-6xl md:text-8xl font-black uppercase tracking-widest text-white/[0.02]">
-          <span className="mx-4">{nomeCliente} • MOTION • DETAIL • EMOTION • CREATIVITY •</span>
-          <span className="mx-4">{nomeCliente} • MOTION • DETAIL • EMOTION • CREATIVITY •</span>
+        <div className="animate-marquee flex whitespace-nowrap text-6xl md:text-8xl font-black uppercase tracking-widest text-white/[0.015]">
+          <span className="mx-4">{nomeCliente} • MOTION • CINEMATIC • EMOTION • ATELIER •</span>
+          <span className="mx-4">{nomeCliente} • MOTION • CINEMATIC • EMOTION • ATELIER •</span>
         </div>
       </div>
 
@@ -179,43 +171,47 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
         </div>
       </section>
 
-      {/* 3. BLOCCO ALTERNATO CON MINI-VIDEO B-ROLL 1 */}
-      <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+      {/* ========================================================================= */}
+      {/* 3. BLOCCO ALTERNATO CON MINI-VIDEO B-ROLL 1 (VIDEO A SX, TESTO A DX) */}
+      {/* ========================================================================= */}
+      <section id="vantaggi" className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
         <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px] bg-black">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover filter brightness-[0.7]" src={videoBroll1} />
+          <video autoPlay loop muted playsInline className="w-full h-full object-cover filter brightness-[0.75]" src={bRollVideoLeft} />
         </div>
         <div className="space-y-6 text-left">
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Inquadratura Dinamica</span>
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Impatto Cinetico</span>
           <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
-            La Potenza del Movimento
+            La Forza dei Dettagli in Movimento
           </h2>
-          <p className="text-lg text-stone-400 font-light leading-relaxed">
-            I dettagli statici non bastano più. Il nostro layout cattura l'essenza dinamica del tuo lavoro attraverso video loop B-Roll studiati per guidare l'occhio del cliente verso la conversione.
+          <p className="text-lg text-stone-450 font-light leading-relaxed">
+            I contenuti statici non bastano più per l'algoritmo visivo del cervello umano. Questo layout sostituisce le classiche foto con b-roll cinematografici in loop, studiati per trattenere l'attenzione del lead più a lungo.
           </p>
         </div>
       </section>
 
-      {/* 4. BLOCCO ALTERNATO CON MINI-VIDEO B-ROLL 2 */}
+      {/* ========================================================================= */}
+      {/* 4. BLOCCO ALTERNATO CON MINI-VIDEO B-ROLL 2 (TESTO A SX, VIDEO A DX) */}
+      {/* ========================================================================= */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
         <div className="space-y-6 text-left order-2 md:order-1">
           <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Focus sul Prodotto</span>
           <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
-            Dettagli Ravvicinati in Alta Fedeltà
+            Dettagli e Finiture in Alta Definizione
           </h2>
           <p className="text-lg text-stone-450 font-light leading-relaxed">
-            Mostra la finitura dei tuoi materiali, la fluidità dei tuoi movimenti o la grinta dei tuoi prodotti in tempo reale. L'IA impaginerà i testi intorno alla forza cinetica dei tuoi video.
+            Fai percepire la materia prima, la precisione di esecuzione o la grinta dei tuoi progetti in tempo reale. Ogni clip è ottimizzata per caricarsi all'istante anche sotto rete mobile 4G/5G.
           </p>
         </div>
 
         <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px] order-1 md:order-2 bg-black">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover filter brightness-[0.7]" src={videoBroll2} />
+          <video autoPlay loop muted playsInline className="w-full h-full object-cover filter brightness-[0.75]" src={bRollVideoRight} />
         </div>
       </section>
 
-      {/* SEZIONE STANDARD OPERATIVI */}
-      <section className="py-20 px-6 max-w-6xl mx-auto relative z-10 border-t border-white/5">
-        <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-250">
-          I Vantaggi di SiteEngine T6
+      {/* SEZIONE STANDARD */}
+      <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto relative z-10 border-t border-white/5">
+        <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-200">
+          I Vantaggi Inclusi
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -246,11 +242,11 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-white/5 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-white">Domande Frequenti</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           {[
-            { q: "Quali formati video sono consigliati?", a: "Supportiamo i formati .webm e .mp4 ottimizzati per il web, leggeri e ad avvio rapido senza rallentare il caricamento del sito." },
-            { q: "I video funzionano correttamente anche da mobile?", a: "Sì, tutti i nostri player video utilizzano tag ottimizzati con attributi mute e playsinline, garantendo l'autoplay istantaneo anche su smartphone." },
-            { q: "Come posso modificare i video di default?", a: "Ti basterà incollare l'indirizzo URL del tuo video (hostato su un servizio cloud o sul tuo server) nella colonna site_data di Supabase." }
+            { q: "Quali formati video sono raccomandati?", a: "Accettiamo video ottimizzati .mp4 e .webm a basso bitrate, caricabili direttamente nel tuo Supabase Storage gratuito ad altissima velocità." },
+            { q: "I video rallentano il caricamento della pagina?", a: "No. Tutti i nostri loop B-Roll utilizzano algoritmi di compressione avanzati e attributi di pre-caricamento differito per mantenere il caricamento istantaneo." },
+            { q: "Come posso modificare i video di default?", a: "Puoi incollare il link del tuo video direttamente nel campo `video_bg_url` all'interno della riga Supabase del cliente." }
           ].map((faq, idx) => (
             <div key={idx} className="border-b border-white/5 pb-4">
               <button 
@@ -297,7 +293,7 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
             <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold mb-1">Entra in Contatto</h3>
-                <p className="text-xs text-stone-500 font-mono">Consulenza preliminare protetta</p>
+                <p className="text-xs text-stone-500 font-mono">Consulenza preliminare senza impegno</p>
               </div>
 
               <div>
@@ -339,7 +335,7 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
           <div className="space-y-4 text-left">
             <span className="font-black text-lg tracking-widest text-[color:var(--brand-color)] uppercase">{nomeCliente}</span>
             <p className="text-xs text-stone-500 leading-relaxed font-light">
-              Soluzioni ad alta conversione basate sui più rigidi standard di neuromarketing e ingegneria visiva cinematografica.
+              Soluzioni ad alta conversione basate sui più rigidi standard di neuromarketing e ingegneria visiva.
             </p>
           </div>
 
@@ -360,7 +356,7 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
           <div className="space-y-4 text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
             <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all" aria-label="Facebook">
+              <a href={fallbackFb} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-500 hover:text-white transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
                 </svg>
@@ -387,7 +383,7 @@ export default function Template_il_regista({ data, nomeCliente }: TemplateProps
         </div>
 
         <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-white/5 text-center text-xs text-stone-600 font-mono tracking-widest">
-          © {new Date().getFullYear()} {nomeCliente} • RM Studio Master Engine
+          © {new Date().getFullYear()} {nomeCliente} • RM Studio HyperFrame Engine
         </div>
       </footer>
 
