@@ -557,48 +557,7 @@ export default function GeneratorHome() {
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
-                  </div>
-
-                  {/* TEMPLATE 5: IL CREATIVO */}
-                <div 
-                  onClick={() => setTemplateId(5)}
-                  className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
-                    templateId === 5 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
-                  }`}
-                >
-                  <div className="space-y-2 flex-grow text-left">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-lg text-white">"Il Creativo"</h4>
-                      {templateId === 5 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
-                    </div>
-                    <p className="text-sm font-bold text-stone-400">Ideale per: Architetti, Designer, Artisti, Prodotti Biologici, Cosmetica</p>
-                    <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
-                      Layout asimmetrico "Bento Grid". Sfondo organico color carta chiaro con accenti verde salvia e nuvole pastello. Costringe il cervello a scansionare attivamente il sito per memorizzare i servizi.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); handleViewDemo(5); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
-                    >
-                      <Eye className="h-4 w-4" /> Esplora Anteprima Live
-                    </button>
-                  </div>
-
-                  {/* MINI FINESTRA 3:4 VISIVA ASIMMETRICA BENTO */}
-                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-[#FAF9F5] border border-zinc-200 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
-                    <div className="border-b border-zinc-150 pb-0.5">
-                      <div className="h-1.5 w-6 bg-[#5F6F52] rounded"></div>
-                    </div>
-                    {/* Rappresentazione Bento Grid asimmetrica */}
-                    <div className="grid grid-cols-3 gap-1 flex-grow">
-                      <div className="col-span-2 row-span-2 bg-[#E6E4DC] rounded-md"></div>
-                      <div className="bg-[#E6E4DC]/50 rounded-md"></div>
-                      <div className="bg-[#5F6F52] rounded-md"></div>
-                      <div className="col-span-2 bg-[#E6E4DC]/50 rounded-md"></div>
-                    </div>
-                    <div className="h-1 bg-zinc-150 rounded"></div>
-                  </div>
-                </div>
+                  </div>                  
 
                   {/* MINI FINESTRA 3:4 VISIVA */}
                   <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg space-y-1">
@@ -619,6 +578,47 @@ export default function GeneratorHome() {
                     <div className="h-1.5 bg-zinc-950 rounded"></div>
                   </div>
                 </div>
+
+                {/* TEMPLATE 5: IL CREATIVO */}
+                  <div 
+                    onClick={() => setTemplateId(5)}
+                    className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                      templateId === 5 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                    }`}
+                  >
+                    <div className="space-y-2 flex-grow text-left">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-extrabold text-lg text-white">"Il Creativo"</h4>
+                        {templateId === 5 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                      </div>
+                      <p className="text-sm font-bold text-stone-400">Ideale per: Architetti, Designer, Artisti, Prodotti Biologici, Cosmetica</p>
+                      <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                        Layout asimmetrico "Bento Grid". Sfondo organico color carta chiaro con accenti verde salvia e nuvole pastello. Costringe il cervello a scansionare attivamente il sito per memorizzare i servizi.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleViewDemo(5); }}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
+                      >
+                        <Eye className="h-4 w-4" /> Esplora Anteprima Live
+                      </button>
+                    </div>
+  
+                    {/* MINI FINESTRA 3:4 VISIVA ASIMMETRICA BENTO */}
+                    <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-[#FAF9F5] border border-zinc-200 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
+                      <div className="border-b border-zinc-150 pb-0.5">
+                        <div className="h-1.5 w-6 bg-[#5F6F52] rounded"></div>
+                      </div>
+                      {/* Rappresentazione Bento Grid asimmetrica */}
+                      <div className="grid grid-cols-3 gap-1 flex-grow">
+                        <div className="col-span-2 row-span-2 bg-[#E6E4DC] rounded-md"></div>
+                        <div className="bg-[#E6E4DC]/50 rounded-md"></div>
+                        <div className="bg-[#5F6F52] rounded-md"></div>
+                        <div className="col-span-2 bg-[#E6E4DC]/50 rounded-md"></div>
+                      </div>
+                      <div className="h-1 bg-zinc-150 rounded"></div>
+                    </div>
+                  </div>
 
               </div>
             </div>
