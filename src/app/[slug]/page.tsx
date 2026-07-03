@@ -2,7 +2,7 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
-// IMPORTAZIONE COERENTE DEI TEMPLATE IN ITALIANO
+// IMPORTAZIONE SEMPLICE E COERENTE DEI TEMPLATE IN ITALIANO
 import Template_il_guardiano from '@/components/Template_il_guardiano'; // Template 1
 import Template_l_atelier from '@/components/Template_l_atelier';       // Template 2
 import Template_il_chirurgo from '@/components/Template_il_chirurgo';   // Template 3
@@ -23,17 +23,17 @@ export default async function SitePage({ params }: PageProps) {
     .eq('slug', slug)
     .single();
 
-  // 2. Se il sito non esiste o non è attivo, mostriamo la pagina 404
+  // 2. Se non esiste o non è attivo, 404
   if (error || !site || !site.is_active) {
     return notFound();
   }
 
   const siteData = site.site_data;
 
-  // 3. SMISTAMENTO DEI TEMPLATE STRUTTURALI
+  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO
   if (site.template_id === 1) {
     return (
-      <TemplateHeroImage 
+      <Template_il_guardiano 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
@@ -42,7 +42,7 @@ export default async function SitePage({ params }: PageProps) {
 
   if (site.template_id === 2) {
     return (
-      <TemplateHeroVideo 
+      <Template_l_atelier 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
@@ -51,7 +51,7 @@ export default async function SitePage({ params }: PageProps) {
 
   if (site.template_id === 3) {
     return (
-      <TemplateBooking 
+      <Template_il_chirurgo 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
@@ -67,9 +67,9 @@ export default async function SitePage({ params }: PageProps) {
     );
   }
 
-  // Fallback predefinito se nessun ID corrisponde (usa la struttura SEO completa)
+  // Fallback
   return (
-    <TemplateSEO 
+    <Template_l_atelier 
       data={siteData} 
       nomeCliente={site.nome_cliente} 
     />
