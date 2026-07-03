@@ -30,7 +30,7 @@ interface TemplateHeroVideoProps {
 }
 
 export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVideoProps) {
-  const { hero, servicios, social_proof, brand_color = '#F59E0B', video_bg_url, email, indirizzo, social_fb, social_ig } = data;
+  const { hero, social_proof, brand_color = '#F59E0B', video_bg_url, email, indirizzo, social_fb, social_ig } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -39,13 +39,11 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
   
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // GESTIONE DEI VALORI DI FALLBACK
   const fallbackEmail = email || `contatti@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Via dell'Artigianato 15, Zona Industriale (VE)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
 
-  // 1. TRACCIAMENTO DEL MOUSE PER IL FARO DI LUCE (SPOTLIGHT EFFECT)
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const rect = document.documentElement.getBoundingClientRect();
@@ -58,7 +56,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // 2. CANVAS PARTICELLE ATMOSFERICHE (POLVERE FLUTTUANTE INTERATTIVA)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -66,7 +63,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     if (!ctx) return;
 
     let animationFrameId: number;
-    let particles: Array<{ x: number; y: number; size: number; speedX: number; speedY: number; alpha: number }> = [];
+    let particles: Array<{ x: number; y: number; size: number; speedX: number; speedY: number; alpha: number; wobble: number; wobbleSpeed: number }> = [];
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -75,7 +72,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Inizializza 25 particelle fluttuanti
     for (let i = 0; i < 75; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -149,7 +145,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     '--brand-color-light': `${brand_color}bb`,
   } as React.CSSProperties;
 
-  // Video loop ad alta velocità e compatibilità
   const defaultVideo = "https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-tunnel-at-night-42220-large.mp4";
 
   return (
@@ -157,23 +152,15 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
       style={customStyles}
       className="min-h-screen bg-[#060606] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
     >
-      
-      {/* CANVAS DELLE PARTICELLE FIXED (COPRONO TUTTA LA PAGINA DURANTE LO SCROLL) */}
       <canvas ref={canvasRef} className="fixed inset-0 z-40 opacity-80 pointer-events-none" />
 
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Punti luce ambientali grandi e saturi */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
-
-        {/* IL FARO DI LUCE CHE SEGUE IL MOUSE */}
         <div className="absolute inset-0 bg-[radial-gradient(700px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
-
-        {/* Griglia Geometrica fine */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_90%)] z-1" />
 
-        {/* Player Video di Sfondo leggero (CORRETTO - ORA PARTE SEMPRE IN AUTOMATICO) */}
         <div className="absolute inset-0 h-[85vh] opacity-35 mix-blend-screen z-0">
           <video
             autoPlay
@@ -185,11 +172,9 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           />
         </div>
 
-        {/* Sfumatura finale verso il fondo scuro */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060606] h-[90vh] z-1" />
       </div>
 
-      {/* NAVBAR GLASSMORPHISM */}
       <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -206,7 +191,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </header>
 
-      {/* HERO SECTION */}
       <section className="relative pt-32 pb-24 px-6 max-w-5xl mx-auto text-center z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -247,7 +231,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* RECENSIONI */}
       <section className="relative z-10 px-6 mb-24 max-w-5xl mx-auto">
         <div className="bg-white/[0.01] border border-white/5 backdrop-blur-xl p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative">
           <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--brand-color-glow)] to-transparent rounded-3xl pointer-events-none" />
@@ -262,7 +245,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 1 - IMMAGINE A SX, TESTO A DX */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -285,7 +267,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 2 - TESTO A SX, IMMAGINE A DX */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
         <div className="space-y-6 text-left order-2 md:order-1">
           <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Unicità Garantita</span>
@@ -308,14 +289,13 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </motion.div>
       </section>
 
-      {/* SEZIONE SERVIZI */}
       <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto relative z-10 border-t border-white/5">
         <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-200">
           I Nostri Standard Operativi
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {servizi.map((servizio, idx) => {
+          {servizi.map((servizio: any, idx: number) => {
             const IconComponent = icons[idx] || Car;
             return (
               <motion.div
@@ -342,7 +322,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-white/5 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide">Domande Frequenti</h2>
         
@@ -380,7 +359,6 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* MODULO DI CONTATTO */}
       <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-white/5">
         <div className="bg-black/40 border border-white/5 p-8 rounded-3xl shadow-2xl backdrop-blur-md">
           {inviato ? (
@@ -390,7 +368,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
               </div>
               <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
               <p className="text-stone-400 text-sm max-w-xs mx-auto">
-                Ti ricontatteremo entro i primi 15 minuti.
+                Ti ricontatteremo entro i prossimi 15 minuti.
               </p>
             </div>
           ) : (
@@ -432,10 +410,8 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* FOOTER SEMANTICO COMPLETO */}
       <footer className="border-t border-white/5 bg-black py-16 px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-          
           <div className="space-y-4 text-left">
             <span className="font-black text-lg tracking-widest text-[color:var(--brand-color)] uppercase">{nomeCliente}</span>
             <p className="text-xs text-stone-500 leading-relaxed font-light">
@@ -469,3 +445,53 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
                 <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-4 text-xs text-stone-500 font-light text-left">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza</h4>
+            <p>P.IVA: IT01234567890</p>
+            <div className="flex flex-col space-y-2">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-white/5 text-center text-xs text-stone-600 font-mono tracking-widest">
+          © {new Date().getFullYear()} {nomeCliente} • RM Studio HyperFrame Engine
+        </div>
+      </footer>
+
+      <AnimatePresence>
+        {showCookies && (
+          <motion.div 
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4"
+          >
+            <p className="text-xs text-stone-450 leading-relaxed font-light text-left">
+              Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
+            </p>
+            <div className="flex items-center justify-end space-x-3">
+              <a href="#" className="text-[10px] font-mono text-stone-500 hover:text-stone-400 underline transition-colors">Maggiori info</a>
+              <button 
+                onClick={acceptCookies}
+                className="bg-[color:var(--brand-color)] text-black text-xs font-bold px-4 py-2.5 rounded-xl hover:brightness-110 transition-all flex items-center space-x-2"
+              >
+                <span>Accetto</span>
+                <Check className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+    </div>
+  );
+}
