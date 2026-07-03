@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Star, Phone, Mail, MapPin, Facebook, Instagram, ChevronDown, Check, ArrowRight } from 'lucide-react';
+import { Shield, Star, Phone, Mail, MapPin, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import React from 'react';
 
 interface TemplateSEOProps {
@@ -236,13 +236,19 @@ export default function TemplateSEO({ data, nomeCliente }: TemplateSEOProps) {
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Seguici</h4>
             <div className="flex items-center space-x-4">
               {social_fb && (
-                <a href={social_fb} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-light)] text-zinc-400 hover:text-white transition-all">
-                  <Facebook className="h-4 w-4" />
+                <a href={social_fb} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-light)] text-zinc-400 hover:text-white transition-all" aria-label="Facebook">
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                  </svg>
                 </a>
               )}
               {social_ig && (
-                <a href={social_ig} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-light)] text-zinc-400 hover:text-white transition-all">
-                  <Instagram className="h-4 w-4" />
+                <a href={social_ig} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-light)] text-zinc-400 hover:text-white transition-all" aria-label="Instagram">
+                  <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
                 </a>
               )}
             </div>
