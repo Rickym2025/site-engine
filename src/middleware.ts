@@ -1,6 +1,6 @@
 // src/middleware.ts
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/request';
+import type { NextRequest } from 'next/server'; // CORRETTO: da 'next/server' e non 'next/request'
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. Se è un dominio personalizzato (es: avvocatorossi.it), puliamo il "www." se presente
+  // 2. Se è un dominio personalizzato, puliamo il "www." se presente
   const cleanHost = host.replace('www.', '');
 
   try {
@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
 
     const data = await res.json();
 
-    // Se troviamo un'associazione tra il dominio e lo slug nel database, facciamo il Rewrite silente!
+    // Se troviamo un'associazione tra il dominio e lo slug nel database, facciamo il Rewrite silente
     if (data && data.length > 0) {
       const slug = data[0].slug;
       
@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Configurazione dei percorsi su cui deve agire il middleware (escludiamo file di sistema, immagini e api)
+// Configurazione dei percorsi su cui deve agire il middleware
 export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico|public/).*)',
