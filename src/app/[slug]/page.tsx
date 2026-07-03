@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import TemplateHeroImage from '@/components/TemplateHeroImage'; // Template 1
 import TemplateHeroVideo from '@/components/TemplateHeroVideo'; // Template 2
 import TemplateBooking from '@/components/TemplateBooking';   // Template 3
-import TemplateSEO from '@/components/TemplateSEO font';       // Template 4 (Google-Approved)
+import TemplateSEO from '@/components/TemplateSEO';      // Template 4 (Google-Approved)
 
 interface PageProps {
   params: Promise<{ slug: string }>;
