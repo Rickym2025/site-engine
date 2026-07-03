@@ -2,11 +2,11 @@
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
-// IMPORTAZIONE DEI 4 TEMPLATE
-import TemplateHeroImage from '@/components/TemplateHeroImage'; // Template 1
-import TemplateHeroVideo from '@/components/TemplateHeroVideo'; // Template 2
-import TemplateBooking from '@/components/TemplateBooking';   // Template 3
-import TemplateSEO from '@/components/TemplateSEO';      // Template 4 (Google-Approved)
+// IMPORTAZIONE COERENTE DEI TEMPLATE IN ITALIANO
+import Template_il_guardiano from '@/components/Template_il_guardiano'; // Template 1
+import Template_l_atelier from '@/components/Template_l_atelier';       // Template 2
+import TemplateBooking from '@/components/TemplateBooking';             // Template 3
+import TemplateSEO from '@/components/TemplateSEO';                     // Template 4
 
 interface PageProps {
   params: Promise<{ slug: string }>;
