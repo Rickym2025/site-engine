@@ -38,6 +38,12 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
   
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // GESTIONE DEI VALORI DI FALLBACK (Se lasciati vuoti nel modulo, mostriamo dati dimostrativi realistici)
+  const fallbackEmail = email || `contatti@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
+  const fallbackIndirizzo = indirizzo || "Via dell'Artigianato 15, Zona Industriale (VE)";
+  const fallbackFb = social_fb || "https://facebook.com";
+  const fallbackIg = social_ig || "https://instagram.com";
+
   // 1. TRACCIAMENTO DEL MOUSE PER IL FARO DI LUCE (SPOTLIGHT EFFECT)
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -51,7 +57,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // 2. CANVAS PARTICELLE ATMOSFERICHE (POLVERE FLUTTUANTE INTERATTIVA)
+  // 2. CANVAS DELLE PARTICELLE FLUTTUANTI (ATMO-DUST UNIVERSALE FISSO)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -59,7 +65,16 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     if (!ctx) return;
 
     let animationFrameId: number;
-    let particles: Array<{ x: number; y: number; size: number; speedX: number; speedY: number; alpha: number }> = [];
+    let particles: Array<{ 
+      x: number; 
+      y: number; 
+      size: number; 
+      speedX: number; 
+      speedY: number; 
+      alpha: number;
+      wobble: number;
+      wobbleSpeed: number;
+    }> = [];
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -68,15 +83,17 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Inizializza 25 particelle fluttuanti di polvere luminosa
-    for (let i = 0; i < 25; i++) {
+    // Inizializziamo 75 particelle (molto più denso e visibile)
+    for (let i = 0; i < 75; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 1.5 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.2,
-        speedY: (Math.random() - 0.5) * 0.2 - 0.1, // Fluttuazione verso l'alto
-        alpha: Math.random() * 0.5 + 0.2
+        size: Math.random() * 2.2 + 0.4, // Dimensione variabile tra 0.4 e 2.6px
+        speedX: (Math.random() - 0.5) * 0.25,
+        speedY: -(Math.random() * 0.4 + 0.1), // Fluttuazione lenta verso l'alto
+        alpha: Math.random() * 0.6 + 0.2, // Opacità variabile per profondità 3D
+        wobble: Math.random() * Math.PI * 2, // Angolo di oscillazione iniziale
+        wobbleSpeed: Math.random() * 0.02 + 0.01 // Velocità di oscillazione
       });
     }
 
@@ -85,12 +102,21 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
       ctx.fillStyle = brand_color;
 
       particles.forEach((p) => {
-        p.x += p.speedX;
         p.y += p.speedY;
+        p.wobble += p.wobbleSpeed;
+        
+        // Movimento sinusoidale per l'oscillazione casuale (effetto polvere reale)
+        p.x += p.speedX + Math.sin(p.wobble) * 0.25;
 
-        // Se esce dallo schermo, riposizionalo
-        if (p.y < 0) p.y = canvas.height;
-        if (p.x < 0 || p.x > canvas.width) p.x = Math.random() * canvas.width;
+        // Se esce sopra lo schermo, ricompare sotto con nuove coordinate X
+        if (p.y < -10) {
+          p.y = canvas.height + 10;
+          p.x = Math.random() * canvas.width;
+        }
+        // Se esce lateralmente, si riposiziona
+        if (p.x < -10 || p.x > canvas.width + 10) {
+          p.x = Math.random() * canvas.width;
+        }
 
         ctx.globalAlpha = p.alpha;
         ctx.beginPath();
@@ -128,45 +154,45 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
 
   const icons = [Wrench, Car, Award];
 
-  // Configurazione dei colori e dei BAGLIORI (GLOW) ad altissimo contrasto
+  // Configurazione dei colori e dei BAGLIORI (GLOW) potenziati al massimo
   const customStyles = {
     '--brand-color': brand_color,
-    '--brand-color-glow': `${brand_color}25`, // 15% opacità per l'orbita del mouse
-    '--brand-color-strong': `${brand_color}55`, // 33% per i contorni attivi
-    '--brand-color-light': `${brand_color}aa`, // 66% per i bagliori dei bottoni
+    '--brand-color-glow': `${brand_color}33`, // 20% opacità per l'orbita del mouse
+    '--brand-color-strong': `${brand_color}66`, // 40% per i contorni attivi
+    '--brand-color-light': `${brand_color}bb`, // 73% per i bagliori attivi dei pulsanti
   } as React.CSSProperties;
 
-  // Immagini di fallback professionali
-  const imgFallbackLeft = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600"; // Foto auto sportiva di profilo
-  const imgFallbackRight = "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600"; // Foto dettagli carrozzeria/fari
-
+  // Video loop di default ultra-leggero e veloce (fari e curve di notte)
   const defaultVideo = "https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-tunnel-at-night-42220-large.mp4";
 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#030303] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
+      className="min-h-screen bg-[#060606] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
     >
       
       {/* ========================================================================= */}
       {/* SFONDO DINAMICO INTERATTIVO (GRIGLIA, PARTICELLE FLUTTUANTI E MOUSE SPOTLIGHT) */}
       {/* ========================================================================= */}
+      
+      {/* 1. PARTICELLE IN PRIMO PIANO MA FIXED (COPRONO TUTTA LA PAGINA DURANTE LO SCROLL) */}
+      <canvas ref={canvasRef} className="fixed inset-0 z-40 opacity-80 pointer-events-none" />
+
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
-        {/* 1. Vignetta Cromatica di base molto scura */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,#030303_100%)] z-1" />
+        {/* 2. Più punti luce ambientali grandi e saturi lungo lo scroll per togliere il "troppo nero" */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
 
-        {/* 2. IL FARO DI LUCE CHE SEGUE IL MOUSE (MOUSE SPOTLIGHT - STILE REFERO) */}
-        <div className="absolute inset-0 bg-[radial-gradient(600px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
+        {/* 3. IL FARO DI LUCE CHE SEGUE IL MOUSE */}
+        <div className="absolute inset-0 bg-[radial-gradient(700px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
 
-        {/* 3. CANVAS DELLE PARTICELLE FLUTTUANTI (ATMO-DUST) */}
-        <canvas ref={canvasRef} className="absolute inset-0 z-1 opacity-70" />
-
-        {/* 4. Griglia Geometrica fine a maschera radiale */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_90%)] z-1" />
+        {/* 4. Griglia Geometrica fine */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_90%)] z-1" />
 
         {/* 5. Player Video di Sfondo leggero */}
-        <div className="absolute inset-0 h-[85vh] opacity-30 mix-blend-screen z-0">
+        <div className="absolute inset-0 h-[85vh] opacity-35 mix-blend-screen z-0">
           <video
             autoPlay
             loop
@@ -178,7 +204,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
 
         {/* Sfumatura finale verso il fondo scuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030303] h-[90vh] z-1" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060606] h-[90vh] z-1" />
       </div>
       {/* ========================================================================= */}
 
@@ -207,7 +233,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           animate={{ opacity: 1, scale: 1 }}
           className="inline-flex items-center space-x-2 bg-black/60 border border-[color:var(--brand-color-strong)] px-4 py-1.5 rounded-full mb-8 shadow-[0_0_20px_var(--brand-color-glow)] backdrop-blur-md"
         >
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold">Standard d'Eccellenza</span>
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold font-semibold">Ingegneria d'eccellenza</span>
         </motion.div>
 
         <motion.h1
@@ -257,9 +283,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* ========================================================================= */}
       {/* SEZIONE COMPLEMENTARE 1: ALTERNATA - IMMAGINE A SX, TESTO A DX */}
-      {/* ========================================================================= */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -267,9 +291,8 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           viewport={{ once: true }}
           className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px]"
         >
-          {/* Un gradiente di riflesso luminoso sull'immagine */}
           <div className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
-          <img src={imgFallbackLeft} alt="Precisione Artigianale" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+          <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600" alt="Precisione Artigianale" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
         </motion.div>
         
         <div className="space-y-6 text-left">
@@ -277,22 +300,20 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
             Ripristino Totale e Cura dei Dettagli
           </h2>
-          <p className="text-lg text-stone-400 font-light leading-relaxed">
+          <p className="text-lg text-stone-450 font-light leading-relaxed">
             Ogni progetto viene approcciato analizzandone l'originalità e la conservazione storica. Smontiamo completamente ogni componente per eseguire trattamenti dedicati di altissimo livello.
           </p>
         </div>
       </section>
 
-      {/* ========================================================================= */}
       {/* SEZIONE COMPLEMENTARE 2: ALTERNATA - TESTO A SX, IMMAGINE A DX */}
-      {/* ========================================================================= */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
         <div className="space-y-6 text-left order-2 md:order-1">
           <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Unicità Garantita</span>
           <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
             Una Storia che Merita di essere Tramandata
           </h2>
-          <p className="text-lg text-stone-400 font-light leading-relaxed">
+          <p className="text-lg text-stone-450 font-light leading-relaxed">
             Salvaguardiamo il valore storico e collezionistico della tua vettura, effettuando ricerche certosine dei ricambi originali d'epoca nei canali più esclusivi a livello europeo.
           </p>
         </div>
@@ -304,10 +325,9 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px] order-1 md:order-2"
         >
           <div className="absolute inset-0 bg-gradient-to-tl from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
-          <img src={imgFallbackRight} alt="Materiali e Finiture" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" alt="Materiali e Finiture" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
         </motion.div>
       </section>
-      {/* ========================================================================= */}
 
       {/* SEZIONE SERVIZI */}
       <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto relative z-10 border-t border-white/5">
@@ -322,7 +342,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
               <motion.div
                 key={idx}
                 whileHover={{ y: -8 }}
-                className="bg-black/40 border border-white/5 hover:border-[color:var(--brand-color-strong)] p-8 rounded-3xl transition-all duration-500 group relative backdrop-blur-md shadow-2xl overflow-hidden"
+                className="bg-black/45 border border-white/5 hover:border-[color:var(--brand-color-strong)] p-8 rounded-3xl transition-all duration-500 group relative backdrop-blur-md shadow-2xl overflow-hidden animate-none"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--brand-color-glow)] to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
@@ -433,7 +453,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* FOOTER SEMANTICO */}
+      {/* FOOTER SEMANTICO COMPLETO */}
       <footer className="border-t border-white/5 bg-black py-16 px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           
@@ -445,51 +465,43 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
             </p>
           </div>
 
-          {/* Contatti Diretti */}
+          {/* Contatti Diretti (FALLBACK IMPLEMENTATO) */}
           <div className="space-y-4 text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Contatti Diretti</h4>
             <ul className="space-y-3 text-xs text-stone-500 font-light">
-              {email && (
-                <li className="flex items-center space-x-2">
-                  <Mail className="h-4 w-4 text-[color:var(--brand-color)]" />
-                  <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
-                </li>
-              )}
-              {indirizzo && (
-                <li className="flex items-start space-x-2">
-                  <MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" />
-                  <span>{indirizzo}</span>
-                </li>
-              )}
+              <li className="flex items-center space-x-2">
+                <Mail className="h-4 w-4 text-[color:var(--brand-color)]" />
+                <a href={`mailto:${fallbackEmail}`} className="hover:text-white transition-colors">{fallbackEmail}</a>
+              </li>
+              <li className="flex items-start space-x-2">
+                <MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" />
+                <span>{fallbackIndirizzo}</span>
+              </li>
             </ul>
           </div>
 
-          {/* Canali Social */}
+          {/* Canali Social (FALLBACK IMPLEMENTATO CON ARGENTI E VETTORI) */}
           <div className="space-y-4 text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
             <div className="flex items-center space-x-3">
-              {social_fb && (
-                <a href={social_fb} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all">
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                  </svg>
-                </a>
-              )}
-              {social_ig && (
-                <a href={social_ig} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all">
-                  <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                </a>
-              )}
+              <a href={fallbackFb} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all" aria-label="Facebook">
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                </svg>
+              </a>
+              <a href={fallbackIg} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all" aria-label="Instagram">
+                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* Trasparenza */}
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza</h4>
             <p>P.IVA: IT01234567890</p>
             <div className="flex flex-col space-y-2">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
