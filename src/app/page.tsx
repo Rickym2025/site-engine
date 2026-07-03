@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft, Play } from 'lucide-react';
 
 // IMPORTIAMO I 4 TEMPLATE REALI CON I NUOVI NOMI IN ITALIANO
 import Template_il_guardiano from '@/components/Template_il_guardiano';
