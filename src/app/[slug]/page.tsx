@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 // IMPORTAZIONE COERENTE DEI TEMPLATE IN ITALIANO
 import Template_il_guardiano from '@/components/Template_il_guardiano'; // Template 1
 import Template_l_atelier from '@/components/Template_l_atelier';       // Template 2
-import TemplateBooking from '@/components/TemplateBooking';             // Template 3
+import Template_il_chirurgo from '@/components/Template_il_chirurgo';   // Template 3
 import TemplateSEO from '@/components/TemplateSEO';                     // Template 4
 
 interface PageProps {
