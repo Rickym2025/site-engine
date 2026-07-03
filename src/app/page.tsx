@@ -2,22 +2,45 @@
 "use client";
 
 import { useState } from 'react';
-import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft, ArrowLeftCircle } from 'lucide-react';
 
-// IMPORTIAMO I 4 TEMPLATE REALI PER L'ANTEPRIMA ISTANTANEA
+// IMPORTIAMO I 4 TEMPLATE REALI
 import TemplateHeroImage from '@/components/TemplateHeroImage';
 import TemplateHeroVideo from '@/components/TemplateHeroVideo';
 import TemplateBooking from '@/components/TemplateBooking';
 import TemplateSEO from '@/components/TemplateSEO';
 
+// DATI DI ESEMPIO GENERICI PER LE DEMO PRE-GENERAZIONE (NEUROMARKETING MOCK)
+const mockDemoData = {
+  hero: {
+    headline: "Soluzioni Professionali Ottimizzate per il Tuo Business",
+    subheadline: "Miglioriamo l'efficienza operativa e aumentiamo le tue conversioni con protocolli strategici certificati.",
+    cta1: "Richiedi Consulenza Gratuita",
+    cta2: "Scopri i Nostri Servizi"
+  },
+  servizi: [
+    { titolo: "Analisi di Processo", descrizione: "Identifichiamo ed eliminiamo i colli di bottiglia per ottimizzare i tuoi flussi operativi." },
+    { titolo: "Ingegneria di Vendita", descrizione: "Implementiamo protocolli di conversione ad altissimo rendimento studiati sul tuo target." },
+    { titolo: "Monitoraggio e Supporto", descrizione: "Garantiamo continuità e controllo operativo costante con assistenza dedicata." }
+  ],
+  social_proof: "Già scelto da oltre 450 aziende leader nel settore in tutta Italia.",
+  brand_color: "#06B6D4", // Colore ciano neon di default
+  logo_url: "",
+  email: "info@azienda-demo.it",
+  indirizzo: "Via dell'Innovazione 42, Milano (MI)",
+  social_fb: "https://facebook.com",
+  social_ig: "https://instagram.com"
+};
+
 export default function GeneratorHome() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  // STATI DEL PREVIEW SANDBOX (ZERO CLUTTER ENGINE)
+  // STATI DEL PREVIEW SANDBOX
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [previewData, setPreviewData] = useState<any>(null);
   const [activeTemplateId, setActiveTemplateId] = useState(1);
+  const [isDemoMode, setIsDemoMode] = useState(false); // Traccia se sta guardando una demo fittizia
 
   // STATI DEL FORM
   const [slug, setSlug] = useState('');
@@ -30,6 +53,36 @@ export default function GeneratorHome() {
   const [indirizzo, setIndirizzo] = useState('');
   const [socialFb, setSocialFb] = useState('');
   const [socialIg, setSocialIg] = useState('');
+
+  // AVVIA LA PREVIEW DI UN TEMPLATE CON I DATI DI ESEMPIO
+  const handleViewDemo = (tId: number) => {
+    // Configura i colori specifici per rendere le demo stupende
+    let demoColor = '#06B6D4'; // T1: Ciano
+    let demoVideo = '';
+    if (tId === 2) {
+      demoColor = '#D97706'; // T2: Oro caldo
+      demoVideo = 'https://assets.mixkit.co/videos/preview/mixkit-sports-car-drifting-at-night-42217-large.mp4';
+    }
+    if (tId === 3) demoColor = '#2563EB'; // T3: Blu medico/professionale
+    if (tId === 4) demoColor = '#10B981'; // T4: Smeraldo SEO
+
+    const customMockData = {
+      ...mockDemoData,
+      brand_color: demoColor,
+      video_bg_url: demoVideo
+    };
+
+    setPreviewData(customMockData);
+    setActiveTemplateId(tId);
+    setIsDemoMode(true);
+    setIsPreviewing(true);
+  };
+
+  // QUANDO L'UTENTE SELEZIONA IL TEMPLATE DALLA PREVIEW
+  const handleSelectTemplateFromPreview = (tId: number) => {
+    setTemplateId(tId);
+    setIsPreviewing(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,20 +115,17 @@ export default function GeneratorHome() {
         throw new Error('Errore durante la generazione del sito.');
       }
 
-      // Riceviamo i dati reali salvati da n8n
       const rawData = await response.json();
-      
-      // Estrazione sicura dei dati (gestisce sia oggetti singoli che array di Supabase)
       const siteData = Array.isArray(rawData) ? rawData[0]?.site_data : rawData?.site_data;
 
       if (!siteData) {
         throw new Error('I dati restituiti da n8n sono incompleti.');
       }
 
-      // Salviamo i dati generati in memoria per l'anteprima istantanea
       setPreviewData(siteData);
       setActiveTemplateId(templateId);
-      setIsPreviewing(true); // ATTIVA IL SANDBOX DI ANTEPRIMA
+      setIsDemoMode(false); // Questa è una preview REALE con i suoi dati
+      setIsPreviewing(true);
       setLoading(false);
     } catch (err: any) {
       console.error(err);
@@ -84,28 +134,32 @@ export default function GeneratorHome() {
     }
   };
 
-  // SE IL LEAD È IN MODALITÀ ANTEPRIMA, RENDERIZZIAMO LA SANDBOX
+  // SCHERMATA SANDBOX (ANTEPRIMA REALE O DEMO)
   if (isPreviewing && previewData) {
     return (
       <div className="min-h-screen bg-black flex flex-col">
         
-        {/* BARRA DI CONTROLLO SANDBOX (STILE SAAS DI LUSSO) */}
+        {/* BARRA DI CONTROLLO SANDBOX */}
         <div className="bg-zinc-950/90 border-b border-zinc-900 px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-0 z-100 backdrop-blur-md">
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => setIsPreviewing(false)}
-              className="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 px-4 py-2.5 rounded-xl border border-zinc-800 transition-all"
+              className="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 px-4 py-2.5 rounded-xl border border-zinc-800 transition-all font-mono"
             >
-              <ArrowLeft className="h-4 w-4" /> Modifica Dati
+              <ArrowLeft className="h-4 w-4" /> Torna al Modulo
             </button>
             <div className="h-4 w-[1px] bg-zinc-800 hidden md:block"></div>
             <div>
-              <p className="text-sm font-bold text-white leading-tight">Anteprima Interattiva</p>
-              <p className="text-[10px] font-mono text-zinc-500">Stai visualizzando i testi generati per: {nomeCliente}</p>
+              <p className="text-sm font-bold text-white leading-tight">
+                {isDemoMode ? "Sfoglia i Template di Esempio" : "Anteprima dei tuoi Dati"}
+              </p>
+              <p className="text-[10px] font-mono text-zinc-500">
+                {isDemoMode ? "Stai guardando una demo con dati fittizi" : `Sito generato per: ${nomeCliente}`}
+              </p>
             </div>
           </div>
 
-          {/* SELETTORE LIVE DEI 4 TEMPLATE (ZERO SCRITTURE DATABASE) */}
+          {/* SELETTORE LIVE DEI 4 TEMPLATE */}
           <div className="flex items-center bg-black border border-zinc-900 p-1.5 rounded-2xl gap-1">
             {[
               { id: 1, label: 'T1: Hero Image' },
@@ -115,7 +169,13 @@ export default function GeneratorHome() {
             ].map((t) => (
               <button
                 key={t.id}
-                onClick={() => setActiveTemplateId(t.id)}
+                onClick={() => {
+                  if (isDemoMode) {
+                    handleViewDemo(t.id);
+                  } else {
+                    setActiveTemplateId(t.id);
+                  }
+                }}
                 className={`text-xs font-semibold px-4 py-2 rounded-xl transition-all ${
                   activeTemplateId === t.id 
                     ? 'bg-cyan-500 text-black font-extrabold shadow-lg' 
@@ -127,26 +187,32 @@ export default function GeneratorHome() {
             ))}
           </div>
 
-          {/* PULSANTE DI PUBBLICAZIONE REALE */}
-          <a
-            href={`/api/generate?slug=${slug}`} // Link per visualizzare l'URL reale
-            onClick={(e) => {
-              e.preventDefault();
-              window.open(`/${slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-')}`, '_blank');
-            }}
-            className="bg-zinc-900 hover:bg-zinc-850 text-white border border-zinc-800 hover:border-zinc-700 font-extrabold text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all"
-          >
-            <span>Apri Sito Ufficiale</span>
-            <ExternalLink className="h-4 w-4" />
-          </a>
+          {/* CONVERSION ACTION */}
+          {isDemoMode ? (
+            <button
+              onClick={() => handleSelectTemplateFromPreview(activeTemplateId)}
+              className="bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-cyan-500/15"
+            >
+              <span>Usa questo Layout</span>
+              <CheckCircle className="h-4 w-4" />
+            </button>
+          ) : (
+            <button
+              onClick={() => window.open(`/${slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-')}`, '_blank')}
+              className="bg-zinc-900 hover:bg-zinc-850 text-white border border-zinc-800 hover:border-zinc-700 font-extrabold text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all"
+            >
+              <span>Apri Sito Ufficiale</span>
+              <ExternalLink className="h-4 w-4" />
+            </button>
+          )}
         </div>
 
-        {/* CONTAINER DINAMICO CHE MONTA IL LAYOUT SCELTO IN TEMPO REALE */}
+        {/* CONTAINER DINAMICO */}
         <div className="flex-grow">
-          {activeTemplateId === 1 && <TemplateHeroImage data={previewData} nomeCliente={nomeCliente} />}
-          {activeTemplateId === 2 && <TemplateHeroVideo data={previewData} nomeCliente={nomeCliente} />}
-          {activeTemplateId === 3 && <TemplateBooking data={previewData} nomeCliente={nomeCliente} />}
-          {activeTemplateId === 4 && <TemplateSEO data={previewData} nomeCliente={nomeCliente} />}
+          {activeTemplateId === 1 && <TemplateHeroImage data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 2 && <TemplateHeroVideo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 3 && <TemplateBooking data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 4 && <TemplateSEO data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -335,43 +401,124 @@ export default function GeneratorHome() {
               </div>
             </div>
 
-            {/* SELEZIONE TEMPLATE */}
+            {/* SELEZIONE TEMPLATE CON PREVIEW "GUARDA DEMO" (MODULARE PRO) */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
-              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-2">Seleziona Scheletro Layout Iniziale</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div
-                  onClick={() => setTemplateId(1)}
-                  className={`border-2 p-5 rounded-2xl cursor-pointer transition-all ${
-                    templateId === 1 
-                      ? 'border-cyan-400 bg-cyan-950/10' 
-                      : 'border-zinc-900 bg-zinc-900/50 hover:border-zinc-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-sm">Template 1: Hero Image</span>
-                    {templateId === 1 && <CheckCircle className="h-5 w-5 text-cyan-400" />}
-                  </div>
-                  <p className="text-xs text-zinc-400 font-light">
-                    Layout classico ed elegante. Massima attenzione ad un'immagine rappresentativa affiancata al testo.
+              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">Seleziona Scheletro Layout Iniziale</label>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* TEMPLATE 1 */}
+                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
+                  templateId === 1 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
+                }`}>
+                  <h4 className="font-extrabold text-sm mb-1">T1: Hero Image</h4>
+                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
+                    Layout con una grande immagine d'impatto affiancata al testo. Perfetto per catturare l'attenzione in settori commerciali tradizionali.
                   </p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setTemplateId(1)}
+                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
+                        templateId === 1 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
+                      }`}
+                    >
+                      {templateId === 1 ? 'Selezionato' : 'Seleziona'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewDemo(1)}
+                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
+                    >
+                      <Eye className="h-4 w-4" /> Guarda Demo
+                    </button>
+                  </div>
                 </div>
 
-                <div
-                  onClick={() => setTemplateId(2)}
-                  className={`border-2 p-5 rounded-2xl cursor-pointer transition-all ${
-                    templateId === 2 
-                      ? 'border-cyan-400 bg-cyan-950/10' 
-                      : 'border-zinc-900 bg-zinc-900/50 hover:border-zinc-800'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-sm">Template 2: Hero Video</span>
-                    {templateId === 2 && <CheckCircle className="h-5 w-5 text-cyan-400" />}
-                  </div>
-                  <p className="text-xs text-zinc-400 font-light">
-                    Sfondo video immersivo a pieno schermo in stile "Atelier". Massima emozione visiva per automotive o lusso.
+                {/* TEMPLATE 2 */}
+                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
+                  templateId === 2 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
+                }`}>
+                  <h4 className="font-extrabold text-sm mb-1">T2: Hero Video</h4>
+                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
+                    Layout d'atmosfera con video di sfondo in loop coperto da una griglia pixelata. Massima emozione visiva per automotive o lusso.
                   </p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setTemplateId(2)}
+                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
+                        templateId === 2 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
+                      }`}
+                    >
+                      {templateId === 2 ? 'Selezionato' : 'Seleziona'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewDemo(2)}
+                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
+                    >
+                      <Eye className="h-4 w-4" /> Guarda Demo
+                    </button>
+                  </div>
                 </div>
+
+                {/* TEMPLATE 3 */}
+                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
+                  templateId === 3 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
+                }`}>
+                  <h4 className="font-extrabold text-sm mb-1">T3: Direct Lead Capture</h4>
+                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
+                    Mette in evidenza un modulo interattivo direttamente sopra la piega. Massimizza le conversioni per servizi d'urgenza o studi medici.
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setTemplateId(3)}
+                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
+                        templateId === 3 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
+                      }`}
+                    >
+                      {templateId === 3 ? 'Selezionato' : 'Seleziona'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewDemo(3)}
+                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
+                    >
+                      <Eye className="h-4 w-4" /> Guarda Demo
+                    </button>
+                  </div>
+                </div>
+
+                {/* TEMPLATE 4 */}
+                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
+                  templateId === 4 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
+                }`}>
+                  <h4 className="font-extrabold text-sm mb-1">T4: Google-Approved Layout</h4>
+                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
+                    Struttura ad alta indicizzazione con recensioni sopra la piega, sezioni a scorrimento alternato e fisarmonica FAQ.
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setTemplateId(4)}
+                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
+                        templateId === 4 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
+                      }`}
+                    >
+                      {templateId === 4 ? 'Selezionato' : 'Seleziona'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleViewDemo(4)}
+                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
+                    >
+                      <Eye className="h-4 w-4" /> Guarda Demo
+                    </button>
+                  </div>
+                </div>
+
               </div>
             </div>
 
