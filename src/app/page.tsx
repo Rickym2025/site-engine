@@ -2,22 +2,29 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon } from 'lucide-react';
+import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft } from 'lucide-react';
+
+// IMPORTIAMO I 4 TEMPLATE REALI PER L'ANTEPRIMA ISTANTANEA
+import TemplateHeroImage from '@/components/TemplateHeroImage';
+import TemplateHeroVideo from '@/components/TemplateHeroVideo';
+import TemplateBooking from '@/components/TemplateBooking';
+import TemplateSEO from '@/components/TemplateSEO';
 
 export default function GeneratorHome() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
+  // STATI DEL PREVIEW SANDBOX (ZERO CLUTTER ENGINE)
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const [previewData, setPreviewData] = useState<any>(null);
+  const [activeTemplateId, setActiveTemplateId] = useState(1);
+
   // STATI DEL FORM
   const [slug, setSlug] = useState('');
   const [nomeCliente, setNomeCliente] = useState('');
   const [settore, setSettore] = useState('');
   const [puntiForza, setPuntiForza] = useState('');
   const [templateId, setTemplateId] = useState(1);
-  
-  // NUOVI CAMPI RICHIESTI
   const [logoUrl, setLogoUrl] = useState('');
   const [email, setEmail] = useState('');
   const [indirizzo, setIndirizzo] = useState('');
@@ -32,7 +39,6 @@ export default function GeneratorHome() {
     const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-');
 
     try {
-      // Invia il payload completo a n8n tramite il nostro proxy sicuro
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
@@ -56,14 +62,98 @@ export default function GeneratorHome() {
         throw new Error('Errore durante la generazione del sito.');
       }
 
-      router.push(`/${cleanSlug}`);
-    } catch (err) {
+      // Riceviamo i dati reali salvati da n8n
+      const rawData = await response.json();
+      
+      // Estrazione sicura dei dati (gestisce sia oggetti singoli che array di Supabase)
+      const siteData = Array.isArray(rawData) ? rawData[0]?.site_data : rawData?.site_data;
+
+      if (!siteData) {
+        throw new Error('I dati restituiti da n8n sono incompleti.');
+      }
+
+      // Salviamo i dati generati in memoria per l'anteprima istantanea
+      setPreviewData(siteData);
+      setActiveTemplateId(templateId);
+      setIsPreviewing(true); // ATTIVA IL SANDBOX DI ANTEPRIMA
+      setLoading(false);
+    } catch (err: any) {
       console.error(err);
-      setError('Connessione fallita. Assicurati che il flusso su n8n sia attivo e pubblicato.');
+      setError(err.message || 'Connessione fallita. Assicurati che n8n sia attivo.');
       setLoading(false);
     }
   };
 
+  // SE IL LEAD È IN MODALITÀ ANTEPRIMA, RENDERIZZIAMO LA SANDBOX
+  if (isPreviewing && previewData) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col">
+        
+        {/* BARRA DI CONTROLLO SANDBOX (STILE SAAS DI LUSSO) */}
+        <div className="bg-zinc-950/90 border-b border-zinc-900 px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-0 z-100 backdrop-blur-md">
+          <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => setIsPreviewing(false)}
+              className="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 px-4 py-2.5 rounded-xl border border-zinc-800 transition-all"
+            >
+              <ArrowLeft className="h-4 w-4" /> Modifica Dati
+            </button>
+            <div className="h-4 w-[1px] bg-zinc-800 hidden md:block"></div>
+            <div>
+              <p className="text-sm font-bold text-white leading-tight">Anteprima Interattiva</p>
+              <p className="text-[10px] font-mono text-zinc-500">Stai visualizzando i testi generati per: {nomeCliente}</p>
+            </div>
+          </div>
+
+          {/* SELETTORE LIVE DEI 4 TEMPLATE (ZERO SCRITTURE DATABASE) */}
+          <div className="flex items-center bg-black border border-zinc-900 p-1.5 rounded-2xl gap-1">
+            {[
+              { id: 1, label: 'T1: Hero Image' },
+              { id: 2, label: 'T2: Hero Video' },
+              { id: 3, label: 'T3: Direct Lead' },
+              { id: 4, label: 'T4: SEO Approved' },
+            ].map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setActiveTemplateId(t.id)}
+                className={`text-xs font-semibold px-4 py-2 rounded-xl transition-all ${
+                  activeTemplateId === t.id 
+                    ? 'bg-cyan-500 text-black font-extrabold shadow-lg' 
+                    : 'text-zinc-450 hover:text-white hover:bg-zinc-900/50'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* PULSANTE DI PUBBLICAZIONE REALE */}
+          <a
+            href={`/api/generate?slug=${slug}`} // Link per visualizzare l'URL reale
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(`/${slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-')}`, '_blank');
+            }}
+            className="bg-zinc-900 hover:bg-zinc-850 text-white border border-zinc-800 hover:border-zinc-700 font-extrabold text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-all"
+          >
+            <span>Apri Sito Ufficiale</span>
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
+
+        {/* CONTAINER DINAMICO CHE MONTA IL LAYOUT SCELTO IN TEMPO REALE */}
+        <div className="flex-grow">
+          {activeTemplateId === 1 && <TemplateHeroImage data={previewData} nomeCliente={nomeCliente} />}
+          {activeTemplateId === 2 && <TemplateHeroVideo data={previewData} nomeCliente={nomeCliente} />}
+          {activeTemplateId === 3 && <TemplateBooking data={previewData} nomeCliente={nomeCliente} />}
+          {activeTemplateId === 4 && <TemplateSEO data={previewData} nomeCliente={nomeCliente} />}
+        </div>
+
+      </div>
+    );
+  }
+
+  // SCHERMATA DEL FORM GENERATORE TRADIZIONALE
   return (
     <main className="min-h-screen bg-black text-white font-sans flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
       
@@ -247,7 +337,7 @@ export default function GeneratorHome() {
 
             {/* SELEZIONE TEMPLATE */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
-              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-2">Seleziona Scheletro Layout</label>
+              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-2">Seleziona Scheletro Layout Iniziale</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div
                   onClick={() => setTemplateId(1)}
