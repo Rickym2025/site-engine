@@ -7,7 +7,8 @@ import Template_il_guardiano from '@/components/Template_il_guardiano'; // Templ
 import Template_l_atelier from '@/components/Template_l_atelier';       // Template 2
 import Template_il_chirurgo from '@/components/Template_il_chirurgo';   // Template 3
 import Template_l_autorita from '@/components/Template_l_autorita';     // Template 4
-import Template_il_creativo from '@/components/Template_il_creativo';   // Template 5 (Nuovo Mosaico Bento)
+import Template_il_creativo from '@/components/Template_il_creativo';   // Template 5
+import Template_il_regista from '@/components/Template_il_regista';     // Template 6 (Showcase Video)
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -71,6 +72,15 @@ export default async function SitePage({ params }: PageProps) {
   if (site.template_id === 5) {
     return (
       <Template_il_creativo 
+        data={siteData} 
+        nomeCliente={site.nome_cliente} 
+      />
+    );
+  }
+
+  if (site.template_id === 6) {
+    return (
+      <Template_il_regista 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
