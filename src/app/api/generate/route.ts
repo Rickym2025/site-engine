@@ -37,7 +37,10 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ success: true });
+    // LEGGE I DATI REALI CHE N8N HA SALVATO E LI RESTITUISCE AL BROWSER
+    const responseData = await response.json();
+    return NextResponse.json(responseData);
+
   } catch (error: any) {
     console.error('Errore critico nel Proxy Vercel:', error);
     return NextResponse.json(
