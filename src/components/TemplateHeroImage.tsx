@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'react';
+import { motion, AnimatePresence } from 'framer-motion'; // CORRETTO: da framer-motion!
 import { Phone, ArrowRight, Star, Check, Mail, MapPin, ChevronDown } from 'lucide-react';
 import React from 'react';
 
@@ -30,7 +30,8 @@ interface TemplateHeroImageProps {
 }
 
 export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroImageProps) {
-  const { hero, servizi, social_proof, brand_color = '#06B6D4', hero_image_url, email, indirizzo, social_fb, social_ig } = data;
+  const { hero, social_proof, brand_color = '#06B6D4', hero_image_url, email, indirizzo, social_fb, social_ig } = data;
+  const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showCookies, setShowCookies] = useState(false);
@@ -38,13 +39,11 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
   
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // GESTIONE DEI VALORI DI FALLBACK
   const fallbackEmail = email || `contatti@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Via Roma 12, Chioggia (VE)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
 
-  // 1. TRACCIAMENTO DEL MOUSE PER IL FARO DI LUCE
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const rect = document.documentElement.getBoundingClientRect();
@@ -57,7 +56,6 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // 2. CANVAS DELLE PARTICELLE FIXED (COPRONO TUTTA LA PAGINA)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -150,11 +148,8 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
       style={customStyles}
       className="min-h-screen bg-[#060606] text-zinc-100 selection:bg-[var(--brand-color)] selection:text-black font-sans relative overflow-x-hidden"
     >
-      
-      {/* PARTICELLE FIXED SU TUTTO IL SITO */}
       <canvas ref={canvasRef} className="fixed inset-0 z-40 opacity-80 pointer-events-none" />
 
-      {/* SFONDO CROMATICO STRUTTURATO */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
@@ -164,20 +159,17 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060606] h-[90vh] z-1" />
       </div>
 
-      {/* NAVBAR */}
       <header className="border-b border-zinc-900 bg-black/40 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <span className="font-black text-lg tracking-widest uppercase text-[color:var(--brand-color)]">{nomeCliente}</span>
-          <div className="flex items-center space-x-2 bg-zinc-900 border border-zinc-850 px-4 py-2 rounded-full">
+          <div className="flex items-center space-x-2 bg-zinc-900 border border-zinc-855 px-4 py-2 rounded-full">
             <span className="h-2 w-2 rounded-full bg-[color:var(--brand-color)] animate-ping"></span>
             <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Servizio Attivo</span>
           </div>
         </div>
       </header>
 
-      {/* HERO SECTION SPLIT LAYOUT */}
       <section className="max-w-6xl mx-auto px-6 pt-24 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-        
         <div className="lg:col-span-7 space-y-8 text-left">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -217,10 +209,8 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
             className="w-full h-[400px] object-cover rounded-3xl border border-white/10 shadow-2xl relative z-10"
           />
         </div>
-
       </section>
 
-      {/* SOCIAL PROOF */}
       <section className="bg-zinc-950 border-y border-zinc-900 py-12 px-6 relative z-10">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 text-center sm:text-left">
           <Star className="h-8 w-8 text-[color:var(--brand-color)] fill-[color:var(--brand-color)] shrink-0" />
@@ -230,11 +220,10 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
         </div>
       </section>
 
-      {/* GRID SERVIZI */}
       <section id="servizi" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
         <h2 className="text-3xl font-extrabold text-center mb-16 uppercase tracking-wider">Servizi Dedicati</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {servizi.map((servizio, idx) => (
+          {servizi.map((servizio: any, idx: number) => (
             <div 
               key={idx}
               className="bg-zinc-950 border border-zinc-900 hover:border-[color:var(--brand-color-strong)] p-8 rounded-2xl transition-all duration-300"
@@ -246,7 +235,6 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
         </div>
       </section>
 
-      {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-900 relative z-10">
         <h2 className="text-3xl font-extrabold text-center mb-12 uppercase tracking-wide">Domande Frequenti</h2>
         <div className="space-y-4">
@@ -283,7 +271,6 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
         </div>
       </section>
 
-      {/* MODULO CONTATTI */}
       <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-zinc-900">
         <div className="bg-zinc-950 border border-zinc-900 p-8 rounded-3xl shadow-2xl backdrop-blur-md">
           {inviato ? (
@@ -335,7 +322,6 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-16 px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="space-y-4 text-left">
@@ -346,8 +332,8 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
           </div>
 
           <div className="space-y-4 text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Contatti Diretti</h4>
-            <ul className="space-y-3 text-xs text-zinc-500 font-light">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Contatti Diretti</h4>
+            <ul className="space-y-3 text-xs text-stone-500 font-light">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-[color:var(--brand-color)]" />
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-white transition-colors">{fallbackEmail}</a>
@@ -360,7 +346,7 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
           </div>
 
           <div className="space-y-4 text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Seguici</h4>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
             <div className="flex items-center space-x-3">
               <a href={fallbackFb} target="_blank" className="p-3 bg-white/[0.02] rounded-full border border-white/5 hover:border-[color:var(--brand-color-strong)] text-stone-400 hover:text-white transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -402,7 +388,7 @@ export default function TemplateHeroImage({ data, nomeCliente }: TemplateHeroIma
             exit={{ opacity: 0, y: 100 }}
             className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4"
           >
-            <p className="text-xs text-zinc-450 leading-relaxed font-light text-left">
+            <p className="text-xs text-stone-450 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
