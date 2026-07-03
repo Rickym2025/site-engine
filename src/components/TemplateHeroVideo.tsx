@@ -1,9 +1,9 @@
 // src/components/TemplateHeroVideo.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Car, Wrench, Award, Phone, Calendar, ArrowRight, Star, Mail, MapPin, ChevronDown, Check, Shield } from 'lucide-react';
+import { Car, Wrench, Award, Phone, Calendar, ArrowRight, Star, Mail, MapPin, ChevronDown, Check } from 'lucide-react';
 import React from 'react';
 
 interface TemplateHeroVideoProps {
@@ -35,8 +35,79 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showCookies, setShowCookies] = useState(false);
   const [inviato, setInviato] = useState(false);
+  
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Mostra il cookie banner dopo 1 secondo
+  // 1. TRACCIAMENTO DEL MOUSE PER IL FARO DI LUCE (SPOTLIGHT EFFECT)
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = document.documentElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // 2. CANVAS PARTICELLE ATMOSFERICHE (POLVERE FLUTTUANTE INTERATTIVA)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let particles: Array<{ x: number; y: number; size: number; speedX: number; speedY: number; alpha: number }> = [];
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Inizializza 25 particelle fluttuanti di polvere luminosa
+    for (let i = 0; i < 25; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.2,
+        speedY: (Math.random() - 0.5) * 0.2 - 0.1, // Fluttuazione verso l'alto
+        alpha: Math.random() * 0.5 + 0.2
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = brand_color;
+
+      particles.forEach((p) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        // Se esce dallo schermo, riposizionalo
+        if (p.y < 0) p.y = canvas.height;
+        if (p.x < 0 || p.x > canvas.width) p.x = Math.random() * canvas.width;
+
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [brand_color]);
+
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
     if (!consent) {
@@ -57,84 +128,73 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
 
   const icons = [Wrench, Car, Award];
 
-  // Configurazione dei colori e dei BAGLIORI (GLOW) potenziati rispetto a prima
+  // Configurazione dei colori e dei BAGLIORI (GLOW) ad altissimo contrasto
   const customStyles = {
     '--brand-color': brand_color,
-    '--brand-color-glow': `${brand_color}33`, // 20% opacità per aurore visibili
-    '--brand-color-strong': `${brand_color}66`, // 40% opacità per i contorni al passaggio del mouse
-    '--brand-color-light': `${brand_color}aa`, // 66% per i bagliori attivi dei pulsanti
+    '--brand-color-glow': `${brand_color}25`, // 15% opacità per l'orbita del mouse
+    '--brand-color-strong': `${brand_color}55`, // 33% per i contorni attivi
+    '--brand-color-light': `${brand_color}aa`, // 66% per i bagliori dei bottoni
   } as React.CSSProperties;
 
-  // Video loop di default ultra-leggero e veloce (fari e curve di notte)
+  // Immagini di fallback professionali
+  const imgFallbackLeft = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600"; // Foto auto sportiva di profilo
+  const imgFallbackRight = "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600"; // Foto dettagli carrozzeria/fari
+
   const defaultVideo = "https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-tunnel-at-night-42220-large.mp4";
 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#080808] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
+      className="min-h-screen bg-[#030303] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
     >
       
       {/* ========================================================================= */}
-      {/* SFONDO CROMATICO STRUTTURATO (PROFONDITÀ ED EFFETTO AURORA POTENZIATI) */}
+      {/* SFONDO DINAMICO INTERATTIVO (GRIGLIA, PARTICELLE FLUTTUANTI E MOUSE SPOTLIGHT) */}
       {/* ========================================================================= */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
-        {/* 1. Vignetta Cromatica di base molto più chiara e luminosa al centro */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--brand-color-glow)_0%,#050505_80%)] opacity-100" />
+        {/* 1. Vignetta Cromatica di base molto scura */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,#030303_100%)] z-1" />
 
-        {/* 2. Grandi Bolle Aurora Danzanti più dense e visibili */}
-        <motion.div
-          animate={{
-            x: [0, 100, -50, 0],
-            y: [0, -80, 50, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-10 left-1/4 w-[450px] h-[400px] rounded-full bg-[color:var(--brand-color)]/10 blur-[130px]"
-        />
+        {/* 2. IL FARO DI LUCE CHE SEGUE IL MOUSE (MOUSE SPOTLIGHT - STILE REFERO) */}
+        <div className="absolute inset-0 bg-[radial-gradient(600px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
 
-        <motion.div
-          animate={{
-            x: [0, -80, 100, 0],
-            y: [0, 50, -80, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-20 right-1/4 w-[400px] h-[350px] rounded-full bg-[color:var(--brand-color)]/8 blur-[130px]"
-        />
+        {/* 3. CANVAS DELLE PARTICELLE FLUTTUANTI (ATMO-DUST) */}
+        <canvas ref={canvasRef} className="absolute inset-0 z-1 opacity-70" />
 
-        {/* 3. Griglia Geometrica più visibile rispetto a prima */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]" />
+        {/* 4. Griglia Geometrica fine a maschera radiale */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_90%)] z-1" />
 
-        {/* 4. Player Video di Sfondo ottimizzato */}
-        <div className="absolute inset-0 h-[90vh] opacity-40 mix-blend-screen">
+        {/* 5. Player Video di Sfondo leggero */}
+        <div className="absolute inset-0 h-[85vh] opacity-30 mix-blend-screen z-0">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover filter brightness-[0.4] contrast-[1.2]"
+            className="w-full h-full object-cover filter brightness-[0.35] contrast-[1.2]"
             src={video_bg_url || defaultVideo}
           />
-          <div className="absolute inset-0 bg-[#080808]/50" />
         </div>
 
         {/* Sfumatura finale verso il fondo scuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080808] h-[95vh]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030303] h-[90vh] z-1" />
       </div>
       {/* ========================================================================= */}
 
       {/* NAVBAR GLASSMORPHISM */}
-      <header className="border-b border-white/5 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
+      <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Car className="h-8 w-8 text-[color:var(--brand-color)] drop-shadow-[0_0_12px_var(--brand-color)]" />
-            <span className="font-black text-lg tracking-widest uppercase bg-gradient-to-r from-white to-stone-400 bg-clip-text text-transparent">
+            <span className="font-black text-lg tracking-widest uppercase bg-gradient-to-r from-white to-stone-450 bg-clip-text text-transparent">
               {nomeCliente}
             </span>
           </div>
           
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[color:var(--brand-color)] animate-ping" />
-            <span className="text-[10px] font-mono text-stone-300 uppercase tracking-widest">Atelier Digitale</span>
+            <span className="text-[10px] font-mono text-stone-300 uppercase tracking-widest">Atelier Attivo</span>
           </div>
         </div>
       </header>
@@ -147,7 +207,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           animate={{ opacity: 1, scale: 1 }}
           className="inline-flex items-center space-x-2 bg-black/60 border border-[color:var(--brand-color-strong)] px-4 py-1.5 rounded-full mb-8 shadow-[0_0_20px_var(--brand-color-glow)] backdrop-blur-md"
         >
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold">Standard di Prestigio</span>
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-bold">Standard d'Eccellenza</span>
         </motion.div>
 
         <motion.h1
@@ -158,11 +218,11 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
           {hero.headline}
         </motion.h1>
 
-        <p className="text-lg md:text-2xl text-stone-300 max-w-3xl mx-auto font-light leading-relaxed mb-14 drop-shadow-md">
+        <p className="text-lg md:text-2xl text-stone-350 max-w-3xl mx-auto font-light leading-relaxed mb-14 drop-shadow-md">
           {hero.subheadline}
         </p>
 
-        {/* DOUBLE CTA CON BAGLIORI NEON POTENZIATI */}
+        {/* DOUBLE CTA */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 max-w-lg mx-auto">
           <a
             href="#contatto"
@@ -182,7 +242,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* RECENSIONI SOPRA LA PIEGA (SOCIAL PROOF CON GLOW DI CONTORNO) */}
+      {/* RECENSIONI SOPRA LA PIEGA */}
       <section className="relative z-10 px-6 mb-24 max-w-5xl mx-auto">
         <div className="bg-white/[0.01] border border-white/5 backdrop-blur-xl p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative">
           <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--brand-color-glow)] to-transparent rounded-3xl pointer-events-none" />
@@ -197,8 +257,60 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* SEZIONE SERVIZI (HOVER CON EFFETTO VETRO SULLA GRIGLIA) */}
-      <section id="servizi" className="py-12 px-6 max-w-6xl mx-auto relative z-10">
+      {/* ========================================================================= */}
+      {/* SEZIONE COMPLEMENTARE 1: ALTERNATA - IMMAGINE A SX, TESTO A DX */}
+      {/* ========================================================================= */}
+      <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px]"
+        >
+          {/* Un gradiente di riflesso luminoso sull'immagine */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
+          <img src={imgFallbackLeft} alt="Precisione Artigianale" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+        </motion.div>
+        
+        <div className="space-y-6 text-left">
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Standard Artigianali</span>
+          <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
+            Ripristino Totale e Cura dei Dettagli
+          </h2>
+          <p className="text-lg text-stone-400 font-light leading-relaxed">
+            Ogni progetto viene approcciato analizzandone l'originalità e la conservazione storica. Smontiamo completamente ogni componente per eseguire trattamenti dedicati di altissimo livello.
+          </p>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SEZIONE COMPLEMENTARE 2: ALTERNATA - TESTO A SX, IMMAGINE A DX */}
+      {/* ========================================================================= */}
+      <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
+        <div className="space-y-6 text-left order-2 md:order-1">
+          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Unicità Garantita</span>
+          <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
+            Una Storia che Merita di essere Tramandata
+          </h2>
+          <p className="text-lg text-stone-400 font-light leading-relaxed">
+            Salvaguardiamo il valore storico e collezionistico della tua vettura, effettuando ricerche certosine dei ricambi originali d'epoca nei canali più esclusivi a livello europeo.
+          </p>
+        </div>
+
+        <motion.div 
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px] order-1 md:order-2"
+        >
+          <div className="absolute inset-0 bg-gradient-to-tl from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
+          <img src={imgFallbackRight} alt="Materiali e Finiture" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+        </motion.div>
+      </section>
+      {/* ========================================================================= */}
+
+      {/* SEZIONE SERVIZI */}
+      <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto relative z-10 border-t border-white/5">
         <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-stone-200">
           I Nostri Standard Operativi
         </h2>
@@ -231,15 +343,15 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* ACCORDION FAQ INTEGRATE (OBBLIGATORIE PER LA SEO) */}
+      {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-white/5 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide">Domande Frequenti</h2>
         
         <div className="space-y-4">
           {[
-            { q: "Quali sono le tempistiche d'intervento?", a: "Tutti i nostri protocolli vengono avviati entro 24/48 ore dalla firma del contratto o dalla consulenza preliminare." },
-            { q: "I servizi sono personalizzabili in base al budget?", a: "Assolutamente sì. Ogni preventivo viene cucito su misura analizzando le reali necessità operative ed economiche del cliente." },
-            { q: "Fornite assistenza post-consegna?", a: "Sì, garantiamo un supporto di assistenza dedicato e continuativo per monitorare i risultati nel tempo." }
+            { q: "Quali sono le tempistiche d'intervento?", a: "Ogni progetto viene pianificato meticolosamente. Le tempistiche variano in base al tipo di restauro, ma sarai costantemente aggiornato con report fotografici settimanali." },
+            { q: "Fornite certificati di originalità?", a: "Sì, ogni nostra perizia ed ogni nostro restauro storico viene corredato da un book fotografico completo e da certificato ufficiale di conformità storica." },
+            { q: "Posso concordare un ritiro con carroattrezzi protetto?", a: "Assolutamente sì. Disponiamo di mezzi di trasporto coperti e protetti per il ritiro e la consegna della vettura in totale sicurezza ovunque in Europa." }
           ].map((faq, idx) => (
             <div key={idx} className="border-b border-white/5 pb-4">
               <button 
@@ -269,7 +381,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* MODULO DI CONTATTO INTEGRATO (THE CONVERSION ESCAPE) */}
+      {/* MODULO DI CONTATTO */}
       <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-white/5">
         <div className="bg-black/40 border border-white/5 p-8 rounded-3xl shadow-2xl backdrop-blur-md">
           {inviato ? (
@@ -321,7 +433,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
         </div>
       </section>
 
-      {/* FOOTER SEMANTICO COMPLETO (SITEMAP, CONTATTI, DATI LEGALI, SOCIAL) */}
+      {/* FOOTER SEMANTICO */}
       <footer className="border-t border-white/5 bg-black py-16 px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
           
@@ -352,7 +464,7 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
             </ul>
           </div>
 
-          {/* Canali Social Reali */}
+          {/* Canali Social */}
           <div className="space-y-4 text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
             <div className="flex items-center space-x-3">
@@ -375,9 +487,9 @@ export default function TemplateHeroVideo({ data, nomeCliente }: TemplateHeroVid
             </div>
           </div>
 
-          {/* Trasparenza Legale */}
+          {/* Trasparenza */}
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza</h4>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
             <p>P.IVA: IT01234567890</p>
             <div className="flex flex-col space-y-2">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
