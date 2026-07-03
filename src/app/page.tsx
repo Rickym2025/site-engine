@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft, ArrowLeftCircle } from 'lucide-react';
+import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, Layout, ExternalLink, ArrowLeft, Play, FileText, Check } from 'lucide-react';
 
 // IMPORTIAMO I 4 TEMPLATE REALI
 import TemplateHeroImage from '@/components/TemplateHeroImage';
@@ -10,7 +10,7 @@ import TemplateHeroVideo from '@/components/TemplateHeroVideo';
 import TemplateBooking from '@/components/TemplateBooking';
 import TemplateSEO from '@/components/TemplateSEO';
 
-// DATI DI ESEMPIO GENERICI PER LE DEMO PRE-GENERAZIONE (NEUROMARKETING MOCK)
+// DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
   hero: {
     headline: "Soluzioni Professionali Ottimizzate per il Tuo Business",
@@ -24,7 +24,7 @@ const mockDemoData = {
     { titolo: "Monitoraggio e Supporto", descrizione: "Garantiamo continuità e controllo operativo costante con assistenza dedicata." }
   ],
   social_proof: "Già scelto da oltre 450 aziende leader nel settore in tutta Italia.",
-  brand_color: "#06B6D4", // Colore ciano neon di default
+  brand_color: "#06B6D4",
   logo_url: "",
   email: "info@azienda-demo.it",
   indirizzo: "Via dell'Innovazione 42, Milano (MI)",
@@ -40,7 +40,7 @@ export default function GeneratorHome() {
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [previewData, setPreviewData] = useState<any>(null);
   const [activeTemplateId, setActiveTemplateId] = useState(1);
-  const [isDemoMode, setIsDemoMode] = useState(false); // Traccia se sta guardando una demo fittizia
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   // STATI DEL FORM
   const [slug, setSlug] = useState('');
@@ -54,17 +54,15 @@ export default function GeneratorHome() {
   const [socialFb, setSocialFb] = useState('');
   const [socialIg, setSocialIg] = useState('');
 
-  // AVVIA LA PREVIEW DI UN TEMPLATE CON I DATI DI ESEMPIO
   const handleViewDemo = (tId: number) => {
-    // Configura i colori specifici per rendere le demo stupende
-    let demoColor = '#06B6D4'; // T1: Ciano
+    let demoColor = '#06B6D4';
     let demoVideo = '';
     if (tId === 2) {
-      demoColor = '#D97706'; // T2: Oro caldo
+      demoColor = '#D97706';
       demoVideo = 'https://assets.mixkit.co/videos/preview/mixkit-sports-car-drifting-at-night-42217-large.mp4';
     }
-    if (tId === 3) demoColor = '#2563EB'; // T3: Blu medico/professionale
-    if (tId === 4) demoColor = '#10B981'; // T4: Smeraldo SEO
+    if (tId === 3) demoColor = '#2563EB';
+    if (tId === 4) demoColor = '#10B981';
 
     const customMockData = {
       ...mockDemoData,
@@ -78,7 +76,6 @@ export default function GeneratorHome() {
     setIsPreviewing(true);
   };
 
-  // QUANDO L'UTENTE SELEZIONA IL TEMPLATE DALLA PREVIEW
   const handleSelectTemplateFromPreview = (tId: number) => {
     setTemplateId(tId);
     setIsPreviewing(false);
@@ -124,7 +121,7 @@ export default function GeneratorHome() {
 
       setPreviewData(siteData);
       setActiveTemplateId(templateId);
-      setIsDemoMode(false); // Questa è una preview REALE con i suoi dati
+      setIsDemoMode(false);
       setIsPreviewing(true);
       setLoading(false);
     } catch (err: any) {
@@ -162,10 +159,10 @@ export default function GeneratorHome() {
           {/* SELETTORE LIVE DEI 4 TEMPLATE */}
           <div className="flex items-center bg-black border border-zinc-900 p-1.5 rounded-2xl gap-1">
             {[
-              { id: 1, label: 'T1: Hero Image' },
-              { id: 2, label: 'T2: Hero Video' },
-              { id: 3, label: 'T3: Direct Lead' },
-              { id: 4, label: 'T4: SEO Approved' },
+              { id: 1, label: 'The Guardian' },
+              { id: 2, label: 'The Atelier' },
+              { id: 3, label: 'The Surgeon' },
+              { id: 4, label: 'The Authority' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -401,121 +398,191 @@ export default function GeneratorHome() {
               </div>
             </div>
 
-            {/* SELEZIONE TEMPLATE CON PREVIEW "GUARDA DEMO" (MODULARE PRO) */}
+            {/* SELEZIONE TEMPLATE CON MINI-FINESTRE GRAPHIC 3:4 (ZERO ATTRITO) */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
-              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">Seleziona Scheletro Layout Iniziale</label>
+              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">Seleziona Scheletro Layout</label>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 
-                {/* TEMPLATE 1 */}
-                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
-                  templateId === 1 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
-                }`}>
-                  <h4 className="font-extrabold text-sm mb-1">T1: Hero Image</h4>
-                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
-                    Layout con una grande immagine d'impatto affiancata al testo. Perfetto per catturare l'attenzione in settori commerciali tradizionali.
-                  </p>
-                  <div className="flex items-center gap-3">
+                {/* TEMPLATE 1: THE GUARDIAN */}
+                <div 
+                  onClick={() => setTemplateId(1)}
+                  className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                    templateId === 1 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                  }`}
+                >
+                  <div className="space-y-2 flex-grow text-left">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-lg text-white">"The Guardian"</h4>
+                      {templateId === 1 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                    </div>
+                    <p className="text-sm font-bold text-cyan-400">Ideale per: Vigilanza, Sicurezza, Cantieri, Investigazioni</p>
+                    <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                      Impaginazione autoritaria. Spazio imponente a sinistra per headlines di impatto e immagine di forza a destra. Comunica protezione e controllo immediato.
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setTemplateId(1)}
-                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
-                        templateId === 1 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
-                      }`}
+                      onClick={(e) => { e.stopPropagation(); handleViewDemo(1); }}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
                     >
-                      {templateId === 1 ? 'Selezionato' : 'Seleziona'}
+                      <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleViewDemo(1)}
-                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
-                    >
-                      <Eye className="h-4 w-4" /> Guarda Demo
-                    </button>
+                  </div>
+
+                  {/* MINI FINESTRA 3:4 VISIVA */}
+                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
+                    <div className="flex items-center justify-between border-b border-zinc-900 pb-1">
+                      <div className="h-1.5 w-6 bg-cyan-500 rounded"></div>
+                      <div className="h-1.5 w-1.5 bg-zinc-800 rounded-full"></div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1 flex-grow items-center py-2">
+                      <div className="space-y-1">
+                        <div className="h-1 w-8 bg-zinc-700 rounded"></div>
+                        <div className="h-1 w-6 bg-zinc-800 rounded"></div>
+                        <div className="h-2 w-7 bg-cyan-500 rounded-sm mt-1"></div>
+                      </div>
+                      <div className="h-12 bg-zinc-900 rounded-md border border-zinc-800"></div>
+                    </div>
+                    <div className="h-1.5 bg-zinc-950 rounded"></div>
                   </div>
                 </div>
 
-                {/* TEMPLATE 2 */}
-                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
-                  templateId === 2 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
-                }`}>
-                  <h4 className="font-extrabold text-sm mb-1">T2: Hero Video</h4>
-                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
-                    Layout d'atmosfera con video di sfondo in loop coperto da una griglia pixelata. Massima emozione visiva per automotive o lusso.
-                  </p>
-                  <div className="flex items-center gap-3">
+                {/* TEMPLATE 2: THE ATELIER */}
+                <div 
+                  onClick={() => setTemplateId(2)}
+                  className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                    templateId === 2 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                  }`}
+                >
+                  <div className="space-y-2 flex-grow text-left">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-lg text-white">"The Atelier"</h4>
+                      {templateId === 2 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                    </div>
+                    <p className="text-sm font-bold text-amber-500">Ideale per: Officine di Lusso, Yacht, Immobiliari, Moda</p>
+                    <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                      Fascino cinematico. Sfondo video oscurato coperto da texture pixelata. Comunica artigianalità ad alto margine, prestigio e attenzione maniacale ai dettagli.
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setTemplateId(2)}
-                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
-                        templateId === 2 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
-                      }`}
+                      onClick={(e) => { e.stopPropagation(); handleViewDemo(2); }}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
                     >
-                      {templateId === 2 ? 'Selezionato' : 'Seleziona'}
+                      <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleViewDemo(2)}
-                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
-                    >
-                      <Eye className="h-4 w-4" /> Guarda Demo
-                    </button>
+                  </div>
+
+                  {/* MINI FINESTRA 3:4 VISIVA */}
+                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
+                    {/* Rappresentazione dello sfondo video */}
+                    <div className="absolute inset-0 bg-amber-500/5 flex items-center justify-center">
+                      <Play className="h-3 w-3 text-amber-500 opacity-40" />
+                    </div>
+                    <div className="flex items-center justify-between border-b border-zinc-900 pb-1 relative z-10">
+                      <div className="h-1.5 w-6 bg-amber-500 rounded"></div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center flex-grow py-2 space-y-1 relative z-10">
+                      <div className="h-1 w-10 bg-zinc-400 rounded"></div>
+                      <div className="h-1 w-8 bg-zinc-500 rounded"></div>
+                      <div className="h-2 w-6 bg-amber-500 rounded-sm mt-1"></div>
+                    </div>
+                    <div className="h-1.5 bg-zinc-950 rounded relative z-10"></div>
                   </div>
                 </div>
 
-                {/* TEMPLATE 3 */}
-                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
-                  templateId === 3 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
-                }`}>
-                  <h4 className="font-extrabold text-sm mb-1">T3: Direct Lead Capture</h4>
-                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
-                    Mette in evidenza un modulo interattivo direttamente sopra la piega. Massimizza le conversioni per servizi d'urgenza o studi medici.
-                  </p>
-                  <div className="flex items-center gap-3">
+                {/* TEMPLATE 3: THE SURGEON */}
+                <div 
+                  onClick={() => setTemplateId(3)}
+                  className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                    templateId === 3 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                  }`}
+                >
+                  <div className="space-y-2 flex-grow text-left">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-lg text-white">"The Surgeon"</h4>
+                      {templateId === 3 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                    </div>
+                    <p className="text-sm font-bold text-blue-500">Ideale per: Studi Medici, Pronto Intervento, Avvocati d'Urgenza</p>
+                    <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                      Focus sulla risoluzione. Riduce l'attrito decisionale posizionando il modulo di contatto interattivo sopra la piega. Ideale per chi deve convertire traffico di fretta.
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setTemplateId(3)}
-                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
-                        templateId === 3 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
-                      }`}
+                      onClick={(e) => { e.stopPropagation(); handleViewDemo(3); }}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
                     >
-                      {templateId === 3 ? 'Selezionato' : 'Seleziona'}
+                      <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleViewDemo(3)}
-                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
-                    >
-                      <Eye className="h-4 w-4" /> Guarda Demo
-                    </button>
+                  </div>
+
+                  {/* MINI FINESTRA 3:4 VISIVA */}
+                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg">
+                    <div className="flex items-center justify-between border-b border-zinc-900 pb-1">
+                      <div className="h-1.5 w-6 bg-blue-500 rounded"></div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1 flex-grow items-center py-2">
+                      <div className="space-y-1">
+                        <div className="h-1.5 w-8 bg-zinc-700 rounded"></div>
+                        <div className="h-1 w-6 bg-zinc-800 rounded"></div>
+                      </div>
+                      <div className="h-14 bg-zinc-950 border border-zinc-800 rounded p-1 space-y-1 flex flex-col justify-center">
+                        <div className="h-1 bg-zinc-800 rounded"></div>
+                        <div className="h-1 bg-zinc-800 rounded"></div>
+                        <div className="h-1.5 bg-blue-500 rounded-sm"></div>
+                      </div>
+                    </div>
+                    <div className="h-1.5 bg-zinc-950 rounded"></div>
                   </div>
                 </div>
 
-                {/* TEMPLATE 4 */}
-                <div className={`border-2 p-6 rounded-2xl relative transition-all ${
-                  templateId === 4 ? 'border-cyan-400 bg-cyan-950/5' : 'border-zinc-900 bg-zinc-900/40 hover:border-zinc-800'
-                }`}>
-                  <h4 className="font-extrabold text-sm mb-1">T4: Google-Approved Layout</h4>
-                  <p className="text-xs text-zinc-450 leading-relaxed mb-6">
-                    Struttura ad alta indicizzazione con recensioni sopra la piega, sezioni a scorrimento alternato e fisarmonica FAQ.
-                  </p>
-                  <div className="flex items-center gap-3">
+                {/* TEMPLATE 4: THE AUTHORITY */}
+                <div 
+                  onClick={() => setTemplateId(4)}
+                  className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                    templateId === 4 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                  }`}
+                >
+                  <div className="space-y-2 flex-grow text-left">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-lg text-white">"The Authority"</h4>
+                      {templateId === 4 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                    </div>
+                    <p className="text-sm font-bold text-emerald-500">Ideale per: Consulenti, Agenzie, Scuole, Studi Legali Strutturati</p>
+                    <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                      La struttura amata da Google. Combina recensioni affiancate sopra la piega, blocchi di descrizione alternati per la SEO semantica, e una sezione FAQ accordion.
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setTemplateId(4)}
-                      className={`text-xs font-bold px-4 py-2.5 rounded-xl transition-all ${
-                        templateId === 4 ? 'bg-cyan-500 text-black font-black' : 'bg-zinc-900 hover:bg-zinc-850 text-white'
-                      }`}
+                      onClick={(e) => { e.stopPropagation(); handleViewDemo(4); }}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
                     >
-                      {templateId === 4 ? 'Selezionato' : 'Seleziona'}
+                      <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleViewDemo(4)}
-                      className="text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 flex items-center gap-1.5 transition-all"
-                    >
-                      <Eye className="h-4 w-4" /> Guarda Demo
-                    </button>
+                  </div>
+
+                  {/* MINI FINESTRA 3:4 VISIVA */}
+                  <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-black border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg space-y-1">
+                    <div className="border-b border-zinc-900 pb-1">
+                      <div className="h-1.5 w-6 bg-emerald-500 rounded"></div>
+                    </div>
+                    {/* Blocchi recensioni */}
+                    <div className="grid grid-cols-3 gap-0.5 py-0.5">
+                      <div className="h-3 bg-zinc-900 rounded-sm"></div>
+                      <div className="h-3 bg-zinc-900 rounded-sm"></div>
+                      <div className="h-3 bg-zinc-900 rounded-sm"></div>
+                    </div>
+                    {/* Sezioni alternate */}
+                    <div className="space-y-1 flex-grow">
+                      <div className="flex gap-1 items-center">
+                        <div className="h-3 w-5 bg-zinc-800 rounded-sm"></div>
+                        <div className="h-1 w-6 bg-zinc-700 rounded-sm"></div>
+                      </div>
+                      <div className="flex gap-1 items-center justify-end">
+                        <div className="h-1 w-6 bg-zinc-700 rounded-sm"></div>
+                        <div className="h-3 w-5 bg-zinc-800 rounded-sm"></div>
+                      </div>
+                    </div>
+                    <div className="h-1.5 bg-zinc-950 rounded"></div>
                   </div>
                 </div>
 
