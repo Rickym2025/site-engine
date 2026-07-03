@@ -145,7 +145,8 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
     '--brand-color-light': `${brand_color}bb`,
   } as React.CSSProperties;
 
-  const defaultVideo = "https://assets.mixkit.co/videos/preview/mixkit-fast-driving-in-a-tunnel-at-night-42220-large.mp4";
+  // SORGENTE VIDEO COMPATIBILE AL 100% E PRIVA DI BLOCCHI DI RETE (W3SCHOOLS COLD REPOSITORY)
+  const defaultVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
 
   return (
     <div 
@@ -153,35 +154,45 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
       className="min-h-screen bg-[#060606] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
     >
       
+      {/* PARTICELLE FIXED SU TUTTO IL SITO */}
       <canvas ref={canvasRef} className="fixed inset-0 z-40 opacity-80 pointer-events-none" />
 
+      {/* SFONDO CROMATICO STRUTTURATO (LUMINOSITÀ ED EFFETTI RADIANTI AUMENTATI) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_50%)] z-1" />
-        <div className="absolute inset-0 bg-[radial-gradient(700px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_90%)] z-1" />
+        
+        {/* Punti luce ambientali grandi e molto più visibili del 50% rispetto a prima */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_65%)] z-1 opacity-100" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_55%)] z-1 opacity-100" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_55%)] z-1 opacity-100" />
 
-        <div className="absolute inset-0 h-[85vh] opacity-35 mix-blend-screen z-0">
+        {/* IL FARO DI LUCE CHE SEGUE IL MOUSE */}
+        <div className="absolute inset-0 bg-[radial-gradient(700px_at_var(--mouse-x)_var(--mouse-y),var(--brand-color-glow),transparent_50%)] z-1" />
+
+        {/* Griglia Geometrica fine ad alta visibilità */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_90%)] z-1" />
+
+        {/* Player Video di Sfondo leggero (OPACITÀ E BRIGHTNESS POTENZIATE) */}
+        <div className="absolute inset-0 h-[85vh] opacity-80 mix-blend-screen z-0">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover filter brightness-[0.35] contrast-[1.2]"
+            className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.2]"
             src={video_bg_url || defaultVideo}
           />
         </div>
 
+        {/* Sfumatura finale verso il fondo scuro */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060606] h-[90vh] z-1" />
       </div>
 
-      {/* NAVBAR CON ANCORAGGI */}
+      {/* NAVBAR GLASSMORPHISM */}
       <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Car className="h-8 w-8 text-[color:var(--brand-color)] drop-shadow-[0_0_12px_var(--brand-color)]" />
-            <span className="font-black text-lg tracking-widest uppercase bg-gradient-to-r from-white to-stone-455 bg-clip-text text-transparent">
+            <span className="font-black text-lg tracking-widest uppercase bg-gradient-to-r from-white to-stone-450 bg-clip-text text-transparent">
               {nomeCliente}
             </span>
           </div>
@@ -256,7 +267,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 1 */}
+      {/* SEZIONE ALTERNATA 1 (FOTO REALI LUMINOSE) */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -265,7 +276,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
           className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px]"
         >
           <div className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
-          <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600" alt="Precisione Artigianale" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+          <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600" alt="Precisione Artigianale" className="w-full h-full object-cover filter brightness-[0.95] hover:scale-105 transition-transform duration-700" />
         </motion.div>
         
         <div className="space-y-6 text-left">
@@ -273,13 +284,13 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
           <h2 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
             Ripristino Totale e Cura dei Dettagli
           </h2>
-          <p className="text-lg text-stone-450 font-light leading-relaxed">
+          <p className="text-lg text-stone-400 font-light leading-relaxed">
             Ogni progetto viene approcciato analizzandone l'originalità e la conservazione storica. Smontiamo completamente ogni componente per eseguire trattamenti dedicati di altissimo livello.
           </p>
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 2 */}
+      {/* SEZIONE ALTERNATA 2 (FOTO REALI LUMINOSE) */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
         <div className="space-y-6 text-left order-2 md:order-1">
           <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Unicità Garantita</span>
@@ -298,7 +309,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
           className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative h-[380px] order-1 md:order-2"
         >
           <div className="absolute inset-0 bg-gradient-to-tl from-[color:var(--brand-color-glow)] via-transparent to-transparent pointer-events-none z-1" />
-          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" alt="Materiali e Finiture" className="w-full h-full object-cover filter brightness-[0.8] hover:scale-105 transition-transform duration-700" />
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600" alt="Materiali e Finiture" className="w-full h-full object-cover filter brightness-[0.95] hover:scale-105 transition-transform duration-700" />
         </motion.div>
       </section>
 
@@ -338,7 +349,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
 
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-white/5 relative z-10">
-        <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide">Domande Frequenti</h2>
+        <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-white">Domande Frequenti</h2>
         
         <div className="space-y-4">
           {[
@@ -384,7 +395,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
               </div>
               <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
               <p className="text-stone-400 text-sm max-w-xs mx-auto">
-                Ti ricontatteremo entro i primi 15 minuti.
+                Ti ricontatteremo entro i prossimi 15 minuti.
               </p>
             </div>
           ) : (
@@ -470,7 +481,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
           </div>
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza</h4>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Trasparenza</h4>
             <p>P.IVA: IT01234567890</p>
             <div className="flex flex-col space-y-2">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
