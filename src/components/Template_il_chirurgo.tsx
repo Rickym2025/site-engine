@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown } from 'lucide-react';
+import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown, ShieldCheck } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
@@ -26,13 +26,14 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    piva?: string;
   };
   nomeCliente: string;
   slug: string;
 }
 
-export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#3B82F6', email, indirizzo, social_fb, social_ig } = data;
+export default function Template_il_chirurgo({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#3B82F6', email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -44,6 +45,7 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
   const fallbackIndirizzo = indirizzo || "Viale della Costituzione 40, Centro Medico (VE)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -117,6 +119,7 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
             <a href="#contatto" className="hover:text-zinc-950 transition-colors">Prenota</a>
             <a href="#servizi" className="hover:text-zinc-950 transition-colors">Trattamenti</a>
             <a href="#recensioni" className="hover:text-zinc-950 transition-colors">Testimonianze</a>
+            <a href="#studio" className="hover:text-zinc-950 transition-colors">Sede</a>
             <a href="#faq" className="hover:text-zinc-950 transition-colors">FAQ</a>
           </nav>
           
@@ -127,7 +130,7 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
         </div>
       </header>
 
-      {/* HERO SECTION CON MODULO CHIRURGICO INTEGRATO */}
+      {/* HERO SECTION CON MODULO INTEGRATO */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         
         {/* Sinistra: Copy Clinico ad altissima leggibilità (H1 enorme, testi 18px) */}
@@ -267,6 +270,33 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE (Elegante e bilanciata sopra il footer) */}
+      {/* ========================================================================= */}
+      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-zinc-200/60 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Dove Riceviamo</span>
+            <h2 className="text-3xl md:text-4xl font-black text-zinc-900 tracking-tight">Lo Studio Professionale</h2>
+            <p className="text-sm text-zinc-500 font-light leading-relaxed">
+              Riceviamo i pazienti su appuntamento all'interno di una struttura medica moderna, protetta e completamente compliant con le norme di sicurezza igienico-sanitaria vigenti.
+            </p>
+            <div className="space-y-4 pt-4 text-xs font-bold text-zinc-600">
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-zinc-400" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-5 w-5 text-zinc-400 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            {/* Componente mappa nativo e dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200/60 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-zinc-900">Domande Frequenti</h2>
@@ -317,7 +347,6 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
           </div>
 
           <div className="space-y-4 text-left">
-            <GoogleMap address={indirizzo} />
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Contatti Diretti</h4>
             <ul className="space-y-3 text-xs text-zinc-500 font-light">
               <li className="flex items-center space-x-2">
@@ -351,9 +380,9 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
 
           <div className="space-y-4 text-xs text-zinc-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
-            <p>P.IVA: IT01234567890</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <Link href={`/${data.slug || nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}/privacy`} className="hover:text-stone-950 transition-colors">
+              <Link href={`/${slug}/privacy`} className="hover:text-zinc-950 transition-colors">
                 Privacy Policy
               </Link>
               <a href="#" className="hover:text-zinc-950 transition-colors">Cookie Policy</a>
@@ -374,7 +403,7 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
           >
             <p className="text-xs text-zinc-600 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
