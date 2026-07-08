@@ -3,9 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Milestone, Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, ArrowDown, Shield } from 'lucide-react';
+import { Milestone, Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, ArrowDown, Shield, ShieldCheck } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,12 +27,14 @@ interface TemplateProps {
     social_fb?: string;
     social_ig?: string;
     immagine_hero?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_il_sentiero({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, immagine_hero } = data;
+export default function Template_il_sentiero({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, immagine_hero, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -46,6 +49,7 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
   const fallbackIndirizzo = indirizzo || "Via dei Pioppi 24, Presso Centro Olistico (RO)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -171,7 +175,7 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
         </div>
       </section>
 
-      {/* 🚀 LE TRE TAPPE DEL SENTIERO (TIMELINE VERTICALE DI CONVERSIONE) */}
+      {/* 🚀 LE TRE TAPPE DEL SENTIERO (TIMELINE VERTICALE) */}
       <section id="tappe" className="py-24 bg-white border-y border-stone-200/50 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           
@@ -258,6 +262,33 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
           ))}
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE (Visualizzazione organica sopra le prenotazioni) */}
+      {/* ========================================================================= */}
+      <section id="studio" className="py-24 px-6 max-w-6xl mx-auto border-t border-stone-200/50 relative z-10 animate-none">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-black">La Sede</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-stone-900 tracking-tight">Lo Studio Clinico</h2>
+            <p className="text-sm text-stone-500 font-light leading-relaxed">
+              Le sedute in presenza si svolgono in un ambiente accogliente, silenzioso e strutturato per garantirti la massima serenità e il totale rispetto del segreto professionale e terapeutico.
+            </p>
+            <div className="space-y-4 pt-2 text-xs font-bold text-stone-600">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[var(--brand-color)]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            {/* Componente mappa responsive nativo */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
 
       {/* MODULO PRENOTAZIONI CON DETTAGLI CLINICI ED ETICI */}
       <section id="prenota" className="max-w-4xl mx-auto px-6 pb-24 relative z-10">
@@ -362,7 +393,7 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
                 className="w-full flex items-center justify-between text-left font-serif font-bold text-lg py-3 hover:text-zinc-950 transition-colors"
               >
                 <span>{faq.q}</span>
-                <ChevronDown className={`h-4 w-4 text-stone-400 transition-transform ${activeFaq === idx ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-5 w-5 text-stone-400 transition-transform ${activeFaq === idx ? 'rotate-180' : ''}`} />
               </button>
               
               <AnimatePresence>
@@ -429,9 +460,11 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
 
           <div className="space-y-4 text-xs text-stone-400 font-light">
             <h4 className="font-bold text-[10px] text-white uppercase tracking-wider">Trasparenza Fiscale</h4>
-            <p>Iscrizione Ordine Nazionale Psicologi N. [Numero]</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-1">
-              <a href="#" className="hover:text-white transition-colors">Normativa Privacy GDPR</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
+                Normativa Privacy GDPR
+              </Link>
               <a href="#" className="hover:text-white transition-colors">Consenso Informato Sanitario</a>
             </div>
           </div>
@@ -449,7 +482,7 @@ export default function Template_il_sentiero({ data, nomeCliente }: TemplateProp
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-xs bg-[#0E1F11]/95 border border-white/10 p-6 rounded-2xl shadow-xl z-100 backdrop-blur-xl flex flex-col gap-4 text-stone-200"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-xs bg-[#0E1F11]/95 border border-white/10 p-6 rounded-2xl shadow-xl z-100 backdrop-blur-xl flex flex-col gap-4 text-stone-200 animate-none"
           >
             <p className="text-[11px] text-stone-300 leading-relaxed font-light text-left">
               Ospitiamo solo cookie tecnici per permettere la navigazione fluida e proteggere l'invio dei moduli sanitarie.
