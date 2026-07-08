@@ -84,8 +84,8 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#bento" className="hover:text-zinc-900 transition-colors">Il Progetto</a>
             <a href="#recensioni" className="hover:text-zinc-900 transition-colors">Dicono di noi</a>
-            <a href="#contatto" className="hover:text-zinc-900 transition-colors">Sede & Contatti</a>
             <a href="#faq" className="hover:text-zinc-900 transition-colors">FAQ</a>
+            <a href="#contatto" className="hover:text-zinc-900 transition-colors">Contatti</a>
           </nav>
 
           <div className="flex items-center space-x-2 bg-zinc-900/5 border border-zinc-900/10 px-4 py-2 rounded-full">
@@ -122,7 +122,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
         <div className="flex justify-center">
           <a
             href="#contatto"
-            className="bg-[#5F6F52] hover:bg-[#4a583e] text-white font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-md"
+            className="bg-[#5F6F52] hover:bg-[#4a583e] text-white font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-md animate-none"
           >
             <Phone className="h-5 w-5" />
             <span>{hero.cta1}</span>
@@ -131,7 +131,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
       </section>
 
       {/* ========================================================================= */}
-      {/* THE BENTO GRID SECTION (ASIMMETRIA MOZZAFIATO) */}
+      {/* 2. THE BENTO GRID SECTION (ASIMMETRIA MOZZAFIATO) */}
       {/* ========================================================================= */}
       <section id="bento" className="py-12 px-6 max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[220px]">
@@ -165,7 +165,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
             <p className="text-zinc-600 text-sm italic font-light">
               "{social_proof}"
             </p>
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Collaboratore</span>
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Recensione</span>
           </div>
 
           {/* Card 3: Servizio 2 (1 Colonna, 1 Riga) */}
@@ -216,83 +216,6 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
       </section>
       {/* ========================================================================= */}
 
-      {/* ========================================================================= */}
-      {/* 📍 SEZIONE CONTATTO EDITORIALE CON MAPPA DI GOOGLE SULLA SINISTRA */}
-      {/* ========================================================================= */}
-      <section id="contatto" className="py-24 px-6 max-w-5xl mx-auto relative z-10 border-t border-zinc-200">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Colonna di Sinistra: Dove Siamo, Informazioni e Mappa */}
-          <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="text-xs font-mono text-[#5F6F52] uppercase tracking-widest font-bold">Atelier & Studio</span>
-            <h3 className="text-3xl font-light tracking-tight text-zinc-900 font-serif italic">Il Nostro Spazio</h3>
-            <p className="text-sm text-zinc-600 font-light leading-relaxed">
-              Riceviamo esclusivamente su appuntamento. Ti aspettiamo nel nostro studio per analizzare le tue necessità e sviluppare soluzioni d'eccellenza.
-            </p>
-            
-            {/* Componente Mappa integrato a risoluzione ideale */}
-            <GoogleMap address={indirizzo || fallbackIndirizzo} />
-
-            <div className="space-y-3 pt-2 text-xs font-bold text-zinc-650">
-              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[#5F6F52]" /> {fallbackEmail}</p>
-              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
-            </div>
-          </div>
-
-          {/* Colonna di Destra: Modulo di Contatto Elegante */}
-          <div className="lg:col-span-7 bg-white border border-zinc-200 p-8 md:p-10 rounded-3xl shadow-xl">
-            {inviato ? (
-              <div className="py-12 text-center space-y-4">
-                <div className="h-16 w-16 bg-[#5F6F52]/10 border border-[#5F6F52]/30 rounded-full flex items-center justify-center mx-auto">
-                  <Check className="h-8 w-8 text-[#5F6F52]" />
-                </div>
-                <h3 className="text-2xl font-bold font-serif italic text-zinc-900">Richiesta Ricevuta!</h3>
-                <p className="text-zinc-550 text-sm max-w-xs mx-auto">
-                  Ti risponderemo personalmente via mail o telefono entro le prossime 24 ore.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold font-serif italic text-zinc-900 mb-1">Mettiti in Contatto</h3>
-                  <p className="text-xs text-zinc-500 font-mono">Inizia il tuo percorso d'autore</p>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Nome e Cognome</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Es: Mario Rossi"
-                    className="w-full bg-[#F4F3EF]/50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Telefono o Email</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Es: info@mio-sito.it"
-                    className="w-full bg-[#F4F3EF]/50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
-                >
-                  <span>Invia Messaggio</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </form>
-            )}
-          </div>
-
-        </div>
-      </section>
-      {/* ========================================================================= */}
-
       {/* ACCORDION FAQ CHIARO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200 relative z-10">
         <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-zinc-900">Domande Frequenti</h2>
@@ -330,6 +253,83 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
           ))}
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* 📍 SEZIONE CONTATTO EDITORIALE CON MAPPA SPLIT-SCREEN COERENTE */}
+      {/* ========================================================================= */}
+      <section id="contatto" className="py-24 px-6 max-w-6xl mx-auto relative z-10 border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Colonna Sinistra: Mappa ed Indirizzi ad alto contrasto */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <span className="text-xs font-mono text-[#5F6F52] uppercase tracking-widest font-bold">La nostra posizione</span>
+            <h3 className="text-3xl md:text-4xl font-light font-serif italic text-zinc-900 leading-none">Vieni a trovarci in Atelier</h3>
+            <p className="text-sm text-zinc-600 font-light leading-relaxed">
+              Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l'integrità e la riservatezza delle consulenze e delle opere in esposizione.
+            </p>
+            
+            {/* Componente Mappa dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+
+            <div className="space-y-3 text-xs font-mono text-zinc-500 uppercase tracking-wider pt-2">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[#5F6F52]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          {/* Colonna Destra: Modulo Contatto raffinato */}
+          <div className="lg:col-span-6 bg-white border border-zinc-200 p-8 rounded-3xl shadow-xl w-full">
+            {inviato ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="h-16 w-16 bg-[#5F6F52]/10 border border-[#5F6F52]/30 rounded-full flex items-center justify-center mx-auto">
+                  <Check className="h-8 w-8 text-[#5F6F52]" />
+                </div>
+                <h3 className="text-2xl font-bold font-serif italic text-zinc-900">Richiesta Ricevuta!</h3>
+                <p className="text-zinc-500 text-sm max-w-xs mx-auto">
+                  Ti risponderemo personalmente via mail o recapito telefonico entro le prossime 24 ore.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold font-serif italic text-zinc-900 mb-1">Mettiti in Contatto</h3>
+                  <p className="text-xs text-zinc-500 font-mono">Inizia il tuo percorso creativo</p>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Nome e Cognome</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: Mario Rossi"
+                    className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Telefono o Email</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: info@mio-sito.it"
+                    className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
+                >
+                  <span>Invia Messaggio</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
 
       {/* FOOTER ORGANICO */}
       <footer className="border-t border-zinc-200 bg-white py-16 px-6 relative z-10">
