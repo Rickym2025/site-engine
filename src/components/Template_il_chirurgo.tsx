@@ -315,6 +315,7 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
           </div>
 
           <div className="space-y-4 text-left">
+            <GoogleMap address={indirizzo} />
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Contatti Diretti</h4>
             <ul className="space-y-3 text-xs text-zinc-500 font-light">
               <li className="flex items-center space-x-2">
