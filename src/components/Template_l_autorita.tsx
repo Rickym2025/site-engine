@@ -3,9 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Star, Phone, Mail, MapPin, ChevronDown, Check } from 'lucide-react';
+import { Shield, Star, Phone, Mail, MapPin, ChevronDown, Check, Send } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,16 +27,19 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_l_autorita({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#6366F1', logo_url, email, indirizzo, social_fb, social_ig } = data;
+export default function Template_l_autorita({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#6366F1', logo_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showCookies, setShowCookies] = useState(false);
+  const [inviato, setInviato] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -48,6 +52,11 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
   const acceptCookies = () => {
     localStorage.setItem('cookie-consent', 'accepted');
     setShowCookies(false);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setInviato(true);
   };
 
   const customStyles = {
@@ -63,11 +72,12 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
   const fallbackIndirizzo = indirizzo || "Via dei Professionisti 42, Milano (MI)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#030308] text-zinc-150 selection:bg-[var(--brand-color)] selection:text-white font-sans antialiased relative"
+      className="min-h-screen bg-[#030308] text-zinc-150 selection:bg-[var(--brand-color)] selection:text-white font-sans antialiased relative overflow-x-hidden"
     >
       {/* 1. Stile di animazione CSS per l'effetto di Shimmer Metallico del testo */}
       <style jsx global>{`
@@ -105,8 +115,8 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
           <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-zinc-450">
             <a href="#recensioni" className="hover:text-white transition-colors">Dicono di noi</a>
             <a href="#servizi" className="hover:text-white transition-colors">Competenze</a>
-            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
             <a href="#contatto" className="hover:text-white transition-colors">Ufficio</a>
+            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </nav>
         </div>
       </header>
@@ -121,8 +131,9 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
         </p>
         
         <div className="flex justify-center">
+          {/* Sostituito il link telefonico hardcoded con l'ancoraggio dinamico al modulo contatti */}
           <a
-            href="tel:+3904251675950"
+            href="#contatto"
             className="bg-[color:var(--brand-color)] text-white font-extrabold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 shadow-[0_0_30px_var(--brand-color-glow)] hover:brightness-110 transition-all transform hover:scale-[1.02]"
           >
             <Phone className="h-5 w-5" />
@@ -179,6 +190,82 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
           <img src={imageRight} alt="Descrizione Dettagli" className="w-full h-full object-cover filter brightness-[0.8]" />
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* 📍 SEZIONE CONTATTO / UFFICIO CON MAPPA DI GOOGLE INTEGRATA (Sblocca link navbar) */}
+      {/* ========================================================================= */}
+      <section id="contatto" className="py-24 px-6 max-w-6xl mx-auto border-t border-zinc-900/50 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Colonna Sinistra: Dove Siamo e Mappa */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Ufficio Centrale</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-none">La Sede Operativa</h2>
+            <p className="text-sm text-zinc-450 font-light leading-relaxed">
+              Pianifichiamo ogni consulenza nei minimi dettagli per garantirti il massimo rendimento. Ti aspettiamo nel nostro ufficio per definire la strategia ideale per il tuo business.
+            </p>
+            
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+
+            <div className="space-y-4 pt-2 text-xs font-bold text-zinc-300">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[color:var(--brand-color)]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          {/* Colonna Destra: Form di Contatto in vetro satinato */}
+          <div className="lg:col-span-7 bg-zinc-900/40 border border-zinc-900 p-8 md:p-10 rounded-3xl shadow-2xl backdrop-blur-md">
+            {inviato ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-500">
+                  <Check className="h-8 w-8" />
+                </div>
+                <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
+                <p className="text-zinc-400 text-sm max-w-xs mx-auto">
+                  Ti ricontatteremo personalmente entro i prossimi 15 minuti.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-white mb-1">Mettiti in Contatto</h3>
+                  <p className="text-xs text-zinc-550 font-mono">Consulenza preliminare senza impegno</p>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-450 uppercase tracking-wider mb-2">Nome e Cognome</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: Mario Rossi"
+                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-600 transition-all outline-none text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-450 uppercase tracking-wider mb-2">Telefono o Email</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: info@mio-sito.it"
+                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-600 transition-all outline-none text-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[color:var(--brand-color)] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
+                >
+                  <span>Invia Richiesta</span>
+                  <Send className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
 
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-900/50 relative z-10">
@@ -261,9 +348,11 @@ export default function Template_l_autorita({ data, nomeCliente }: TemplateProps
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Trasparenza</h4>
-            <p>P.IVA: IT01234567890</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
             </div>
