@@ -3,9 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, Eye, ArrowRight, User } from 'lucide-react';
+import { Compass, Check, Send, Mail, MapPin, ChevronDown, ArrowRight } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,12 +27,14 @@ interface TemplateProps {
     social_fb?: string;
     social_ig?: string;
     foto_profilo?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_la_sorgente({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, social_fb, social_ig, foto_profilo } = data;
+export default function Template_la_sorgente({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -49,6 +52,7 @@ export default function Template_la_sorgente({ data, nomeCliente }: TemplateProp
   const fallbackIndirizzo = indirizzo || "Viale Europa 8, Studio di Psicologia Clinica (RO)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -85,7 +89,7 @@ export default function Template_la_sorgente({ data, nomeCliente }: TemplateProp
         {/* Griglia a linee ortogonali finissime */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-35" />
         
-        {/* Cerchio di luce fredda azzurra soffusa sullo sfondo */}
+        {/* Cerchio di luce fredda azzurra sullo sfondo */}
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-sky-200/20 blur-[150px]" />
       </div>
 
@@ -167,7 +171,7 @@ export default function Template_la_sorgente({ data, nomeCliente }: TemplateProp
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
-            {/* Selettore dei Focus a Sinistra */}
+            {/* Selettore dei Focus a Sinistar */}
             <div className="lg:col-span-5 space-y-3">
               {servizi.map((s: any, idx: number) => (
                 <button
@@ -204,6 +208,30 @@ export default function Template_la_sorgente({ data, nomeCliente }: TemplateProp
               </div>
             </div>
 
+          </div>
+
+        </div>
+      </section>
+
+      {/* 📍 SEZIONE STUDIO CLINICO & MAPPA DI GOOGLE (Oltre a connettere l'ancora, posiziona perfettamente la mappa) */}
+      <section id="studio" className="py-24 bg-white border-b border-gray-200/50 px-6 relative z-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-[10px] font-bold text-sky-500 uppercase tracking-widest">La Sede</span>
+            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Lo Studio Professionale</h2>
+            <p className="text-slate-550 font-light leading-relaxed text-sm">
+              L'attività clinica si svolge in uno spazio confortevole e accogliente, strutturato per proteggere la massima privacy e riservatezza del paziente in linea con il codice deontologico.
+            </p>
+            <div className="space-y-3 pt-2 text-xs font-semibold text-slate-600">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-slate-400" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            {/* Componente mappa nativo e dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
           </div>
 
         </div>
@@ -366,9 +394,11 @@ export default function Template_la_sorgente({ data, nomeCliente }: TemplateProp
 
           <div className="space-y-4 text-xs text-slate-450 font-light text-left">
             <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-450">Riferimenti Fiscali</h4>
-            <p>P.IVA: IT01234567890 • Albo F.V.G. N. [Inserire]</p>
+            <p>P.IVA: {fallbackPiva} • Albo F.V.G. N. [Inserire]</p>
             <div className="flex flex-col space-y-1">
-              <a href="#" className="hover:text-slate-950 transition-colors">Privacy & Trattamento Dati</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-slate-950 transition-colors">
+                Privacy & Trattamento Dati (GDPR)
+              </Link>
               <a href="#" className="hover:text-slate-950 transition-colors">Note Legali Deontologiche</a>
             </div>
           </div>
