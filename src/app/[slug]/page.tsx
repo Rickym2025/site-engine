@@ -41,6 +41,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_guardiano 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -50,6 +51,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_l_atelier 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -59,6 +61,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_chirurgo 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -68,6 +71,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_l_autorita 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -77,6 +81,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_creativo 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -86,6 +91,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_regista 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -95,6 +101,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_l_empatico 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -104,6 +111,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_la_sorgente 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -112,7 +120,8 @@ export default async function SitePage({ params }: PageProps) {
     return (
       <Template_il_sentiero 
         data={siteData} 
-        nomeCliente={site.nome_cliente} 
+        nomeCliente={site.nome_cliente}
+        slug={site.slug}
       />
     );
   }
