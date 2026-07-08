@@ -28,6 +28,7 @@ interface TemplateProps {
     social_ig?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
 export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProps) {
