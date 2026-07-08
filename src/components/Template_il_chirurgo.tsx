@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -351,7 +352,9 @@ export default function Template_il_chirurgo({ data, nomeCliente }: TemplateProp
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
             <p>P.IVA: IT01234567890</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-zinc-950 transition-colors">Privacy Policy</a>
+              <Link href={`/${data.slug || nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}/privacy`} className="hover:text-stone-950 transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-zinc-950 transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-zinc-950 transition-colors">Termini e Condizioni</a>
             </div>
