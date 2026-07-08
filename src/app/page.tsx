@@ -216,15 +216,15 @@ export default function GeneratorHome() {
 
         {/* CONTAINER DINAMICO */}
         <div className="flex-grow">
-          {activeTemplateId === 1 && <Template_il_guardiano data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 2 && <Template_l_atelier data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 3 && <Template_il_chirurgo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 4 && <Template_l_autorita data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 5 && <Template_il_creativo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 7 && <Template_l_empatico data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 8 && <Template_la_sorgente data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
-          {activeTemplateId === 9 && <Template_il_sentiero data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 1 && <Template_il_guardiano data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 2 && <Template_l_atelier data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 3 && <Template_il_chirurgo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 4 && <Template_l_autorita data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 5 && <Template_il_creativo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 7 && <Template_l_empatico data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 8 && <Template_la_sorgente data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
+          {activeTemplateId === 9 && <Template_il_sentiero data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} slug={isDemoMode ? "azienda-demo" : (slug || "anteprima")} />}
         </div>
 
       </div>
