@@ -9,6 +9,7 @@ import Template_il_chirurgo from '@/components/Template_il_chirurgo';   // Templ
 import Template_l_autorita from '@/components/Template_l_autorita';     // Template 4 (Google-Approved)
 import Template_il_creativo from '@/components/Template_il_creativo';   // Template 5
 import Template_il_regista from '@/components/Template_il_regista';     // Template 6 (Showcase Video)
+import Template_l_empatico from '@/components/Template_l_empatico';     // Template 7
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -81,6 +82,15 @@ export default async function SitePage({ params }: PageProps) {
   if (site.template_id === 6) {
     return (
       <Template_il_regista 
+        data={siteData} 
+        nomeCliente={site.nome_cliente} 
+      />
+    );
+  }
+
+  if (site.template_id === 7) {
+    return (
+      <Template_l_empatico 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
