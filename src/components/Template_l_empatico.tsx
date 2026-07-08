@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Calendar, Smile, ShieldAlert } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,12 +27,14 @@ interface TemplateProps {
     social_fb?: string;
     social_ig?: string;
     foto_profilo?: string; // Nuova chiave opzionale per la foto dello psicologo
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_l_empatico({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo } = data;
+export default function Template_l_empatico({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -46,6 +49,7 @@ export default function Template_l_empatico({ data, nomeCliente }: TemplateProps
   const fallbackIndirizzo = indirizzo || "Via della Pace 15, Studio Professionale (RO)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -204,9 +208,13 @@ export default function Template_l_empatico({ data, nomeCliente }: TemplateProps
       <section id="contatto" className="max-w-5xl mx-auto px-6 pb-24 relative z-10">
         <div className="bg-[#FAF9F5] border border-stone-200 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {/* Sinistra: Rassicurazioni ed Etica */}
+          {/* Sinistra: Rassicurazioni, Etica e MAPPA DI GOOGLE */}
           <div className="lg:col-span-5 space-y-6 text-left">
             <h3 className="text-2xl md:text-3xl font-serif font-black text-stone-900 leading-tight">Fai il primo passo nel totale rispetto dei tuoi tempi</h3>
+            
+            {/* 📍 Google Map perfettamente integrata a dimensione ideale */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+
             <p className="text-sm text-stone-500 font-light leading-relaxed">
               Il primo colloquio conoscitivo serve ad inquadrare la tua situazione, definire i tuoi obiettivi e capire se la mia metodologia di lavoro si adatta alle tue necessità.
             </p>
@@ -281,7 +289,7 @@ export default function Template_l_empatico({ data, nomeCliente }: TemplateProps
         </div>
       </section>
 
-      {/* ACCORDION FAQ E DETRAIBILITÀ FISCALE (TRIGGER DI CONVERSIONE FONDAMENTALE) */}
+      {/* ACCORDION FAQ E DETRAIBILITÀ FISCALE */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-stone-200/50 relative z-10">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
           <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-black">Informazioni pratiche</span>
@@ -368,8 +376,11 @@ export default function Template_l_empatico({ data, nomeCliente }: TemplateProps
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Normative</h4>
             <p>Iscrizione Albo Psicologi N. [Inserire Numero]</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-stone-950 transition-colors">Privacy Policy</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-stone-950 transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-stone-950 transition-colors">Deontologia Sanitaria</a>
             </div>
           </div>
@@ -387,7 +398,7 @@ export default function Template_l_empatico({ data, nomeCliente }: TemplateProps
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-stone-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-stone-800 animate-none"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-stone-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
           >
             <p className="text-xs text-stone-600 leading-relaxed font-light text-left">
               Questo sito web utilizza solo cookie tecnici necessari per il corretto funzionamento. Cliccando su "Accetto", acconsenti al loro utilizzo.
