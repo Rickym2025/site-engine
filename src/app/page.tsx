@@ -12,6 +12,7 @@ import Template_l_autorita from '@/components/Template_l_autorita';
 import Template_il_creativo from '@/components/Template_il_creativo';
 import Template_il_regista from '@/components/Template_il_regista';
 import Template_l_empatico from '@/components/Template_l_empatico';
+import Template_la_sorgente from '@/components/Template_la_sorgente';
 
 // DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
@@ -169,6 +170,7 @@ export default function GeneratorHome() {
               { id: 5, label: 'Il Creativo' },
               { id: 6, label: 'Il Regista' },
               { id: 7, label: 'L\'Empatico' },
+              { id: 8, label: 'La Sorgente' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -219,6 +221,7 @@ export default function GeneratorHome() {
           {activeTemplateId === 5 && <Template_il_creativo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 7 && <Template_l_empatico data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 8 && <Template_la_sorgente data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -703,6 +706,48 @@ export default function GeneratorHome() {
                           <div className="h-1 w-6 bg-zinc-400 rounded"></div>
                         </div>
                         <div className="h-12 bg-zinc-200/50 rounded-md border border-zinc-150"></div>
+                      </div>
+                      <div className="h-1.5 bg-zinc-150 rounded"></div>
+                    </div>
+                  </div>
+
+
+                {/* TEMPLATE 8: LA SORGENTE */}
+                  <div 
+                    onClick={() => setTemplateId(8)}
+                    className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                      templateId === 8 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                    }`}
+                  >
+                    <div className="space-y-2 flex-grow text-left">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-extrabold text-lg text-white">"La Sorgente"</h4>
+                        {templateId === 8 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full">Selezionato</span>}
+                      </div>
+                      <p className="text-sm font-bold text-[#7DD3FC]">Ideale per: Studi Medici Strutturati, Psicologi ad alto posizionamento, Centri di Ricerca</p>
+                      <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                        Stile Nordic Zen con spaziatura molto ampia per dare "respiro". Struttura a schermo diviso (Split-Screen) ad alto impatto grafico e un modulo di autovalutazione del paziente interattivo integrato nella pagina.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleViewDemo(8); }}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
+                      >
+                        <Eye className="h-4 w-4" /> Esplora Anteprima Live
+                      </button>
+                    </div>
+                  
+                    {/* MINI FINESTRA 3:4 VISIVA SPLIT */}
+                    <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-[#F8F9FA] border border-zinc-200 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
+                      <div className="border-b border-zinc-150 pb-0.5">
+                        <div className="h-1.5 w-6 bg-slate-900 rounded"></div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-1 flex-grow items-stretch py-1">
+                        <div className="space-y-1 flex flex-col justify-center">
+                          <div className="h-1 w-8 bg-slate-400 rounded"></div>
+                          <div className="h-1.5 w-7 bg-slate-900 rounded-sm"></div>
+                        </div>
+                        <div className="bg-slate-300 rounded-md border border-zinc-200"></div>
                       </div>
                       <div className="h-1.5 bg-zinc-150 rounded"></div>
                     </div>
