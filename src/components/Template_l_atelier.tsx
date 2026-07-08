@@ -3,9 +3,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Car, Wrench, Award, Phone, Calendar, ArrowRight, Star, Mail, MapPin, ChevronDown, Check } from 'lucide-react';
+import { Car, Wrench, Award, Phone, Calendar, ArrowRight, Star, Mail, MapPin, ChevronDown, Check, ShieldCheck } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,12 +27,14 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_l_atelier({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#F59E0B', video_bg_url, email, indirizzo, social_fb, social_ig } = data;
+export default function Template_l_atelier({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#F59E0B', video_bg_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -44,6 +47,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
   const fallbackIndirizzo = indirizzo || "Via dell'Artigianato 15, Zona Industriale (VE)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -146,22 +150,19 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
     '--brand-color-light': `${brand_color}bb`,
   } as React.CSSProperties;
 
-  // SORGENTE VIDEO COMPATIBILE AL 100% E PRIVA DI BLOCCHI DI RETE (W3SCHOOLS COLD REPOSITORY)
-  const defaultVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
-
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#060606] text-stone-100 selection:bg-[var(--brand-color)] selection:text-black font-sans overflow-x-hidden relative"
+      className="min-h-screen bg-[#030308] text-zinc-100 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden"
     >
       
-      {/* PARTICELLE FIXED SU TUTTO IL SITO */}
-      <canvas ref={canvasRef} className="fixed inset-0 z-40 opacity-80 pointer-events-none" />
+      {/* EFFETTO PELLICOLA SATINATA */}
+      <div className="fixed inset-0 z-40 opacity-[0.015] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4xNSIvPgo8L3N2Zz4=')] bg-repeat" />
 
-      {/* SFONDO CROMATICO STRUTTURATO (LUMINOSITÀ ED EFFETTI RADIANTI AUMENTATI) */}
+      {/* SFONDO CROMATICO STRUTTURATO */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
-        {/* Punti luce ambientali grandi e molto più visibili del 50% rispetto a prima */}
+        {/* Punti luce ambientali grandi */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_65%)] z-1 opacity-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_55%)] z-1 opacity-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_55%)] z-1 opacity-100" />
@@ -172,20 +173,8 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
         {/* Griglia Geometrica fine ad alta visibilità */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:45px_45px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_90%)] z-1" />
 
-        {/* Player Video di Sfondo leggero (OPACITÀ E BRIGHTNESS POTENZIATE) */}
-        <div className="absolute inset-0 h-[85vh] opacity-80 mix-blend-screen z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.2]"
-            src={video_bg_url || defaultVideo}
-          />
-        </div>
-
         {/* Sfumatura finale verso il fondo scuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#060606] h-[90vh] z-1" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030308] h-[90vh] z-1" />
       </div>
 
       {/* NAVBAR GLASSMORPHISM */}
@@ -201,8 +190,8 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
           <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-stone-400">
             <a href="#servizi" className="hover:text-white transition-colors">Standard</a>
             <a href="#recensioni" className="hover:text-white transition-colors">Dicono di noi</a>
+            <a href="#contatto" className="hover:text-white transition-colors">Sede e Contatti</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <a href="#contatto" className="hover:text-white transition-colors">Contatto</a>
           </nav>
           
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
@@ -268,7 +257,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 1 (FOTO REALI LUMINOSE) */}
+      {/* SEZIONE ALTERNATA 1 */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -291,7 +280,7 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
         </div>
       </section>
 
-      {/* SEZIONE ALTERNATA 2 (FOTO REALI LUMINOSE) */}
+      {/* SEZIONE ALTERNATA 2 */}
       <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-white/5">
         <div className="space-y-6 text-left order-2 md:order-1">
           <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Unicità Garantita</span>
@@ -348,13 +337,90 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 📍 SEZIONE CONTATTO EDITORIALE CON MAPPA DI GOOGLE INTEGRATA A SINISTRA */}
+      {/* ========================================================================= */}
+      <section id="contatto" className="py-24 px-6 max-w-5xl mx-auto relative z-10 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Colonna Sinistra: Descrizione fisica, dettagli e Mappa di Google */}
+          <div className="lg:col-span-5 space-y-6 text-left animate-none">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">L'Atelier d'Arte</span>
+            <h2 className="text-3xl font-black text-white tracking-tight leading-none">La Nostra Sede</h2>
+            <p className="text-sm text-stone-400 font-light leading-relaxed">
+              Riceviamo ed operiamo all'interno di uno spazio d'eccellenza dedicato, studiato per preservare il valore storico delle opere d'arte in totale riservatezza e conformità normativa.
+            </p>
+            
+            {/* Componente mappa responsive integrato nativamente */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+
+            <div className="space-y-3 pt-2 text-xs font-bold text-zinc-300">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[color:var(--brand-color)]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          {/* Colonna Destra: Modulo di Contatto Elegante */}
+          <div className="lg:col-span-7 bg-black/40 border border-white/5 p-8 md:p-10 rounded-3xl shadow-2xl backdrop-blur-md">
+            {inviato ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-500">
+                  <Check className="h-8 w-8" />
+                </div>
+                <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
+                <p className="text-zinc-400 text-sm max-w-xs mx-auto">
+                  Ti ricontatteremo personalmente entro i prossimi 15 minuti.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold mb-1">Entra in Contatto</h3>
+                  <p className="text-xs text-stone-500 font-mono">Inizia il tuo percorso conoscitivo</p>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-stone-450 uppercase tracking-wider mb-2">Nome e Cognome</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: Mario Rossi"
+                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-stone-600 transition-all outline-none text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-stone-450 uppercase tracking-wider mb-2">Telefono o Email</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: info@mio-sito.it"
+                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-stone-600 transition-all outline-none text-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[color:var(--brand-color)] text-black font-black text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 shadow-[0_0_20px_var(--brand-color-glow)] hover:brightness-110 transition-all"
+                >
+                  <span>Invia Richiesta</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-white/5 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-white">Domande Frequenti</h2>
         
         <div className="space-y-4">
           {[
-            { q: "Quali sono le tempistiche d'intervento?", a: "Ogni progetto viene pianificato meticolosamente. Le tempistiche variano in base al tipo di restauro, ma sarai costantemente aggiornato con report fotografici settimanali." },
+            { q: "Quali sono le tempistiche d'intervento?", a: "Ogni progetto viene pianificato meticolosamente. Le tempistiche variano in base alla natura e alla complessità dell'intervento, ma sarai costantemente aggiornato con report fotografici settimanali." },
             { q: "Fornite certificati di originalità?", a: "Sì, ogni nostra perizia ed ogni nostro restauro storico viene corredato da un book fotografico completo e da certificato ufficiale di conformità storica." },
             { q: "Posso concordare un ritiro con carroattrezzi protetto?", a: "Assolutamente sì. Disponiamo di mezzi di trasporto coperti e protetti per il ritiro e la consegna della vettura in totale sicurezza ovunque in Europa." }
           ].map((faq, idx) => (
@@ -383,58 +449,6 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
               </AnimatePresence>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* MODULO DI CONTATTO */}
-      <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-white/5">
-        <div className="bg-black/40 border border-white/5 p-8 rounded-3xl shadow-2xl backdrop-blur-md">
-          {inviato ? (
-            <div className="py-12 text-center space-y-4">
-              <div className="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto">
-                <Check className="h-8 w-8 text-emerald-500" />
-              </div>
-              <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
-              <p className="text-stone-400 text-sm max-w-xs mx-auto">
-                Ti ricontatteremo entro i prossimi 15 minuti.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleFormSubmit} className="space-y-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-1">Mettiti in Contatto</h3>
-                <p className="text-xs text-stone-500 font-mono">Consulenza preliminare senza impegno</p>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-mono text-stone-450 uppercase tracking-wider mb-2">Nome e Cognome</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Es: Mario Rossi"
-                  className="w-full bg-white/[0.02] border border-white/10 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-stone-600 transition-all outline-none text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-mono text-stone-450 uppercase tracking-wider mb-2">Telefono o Email</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Es: info@mio-sito.it"
-                  className="w-full bg-white/[0.02] border border-white/10 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-stone-600 transition-all outline-none text-sm"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[color:var(--brand-color)] text-black font-black text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 shadow-[0_0_20px_var(--brand-color-glow)] hover:brightness-110 transition-all"
-              >
-                <span>Invia Messaggio</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-          )}
         </div>
       </section>
 
@@ -483,9 +497,11 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Trasparenza</h4>
-            <p>P.IVA: IT01234567890</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
             </div>
@@ -504,13 +520,13 @@ export default function Template_l_atelier({ data, nomeCliente }: TemplateProps)
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-100 animate-none"
           >
             <p className="text-xs text-stone-450 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
-              <a href="#" className="text-[10px] font-mono text-stone-500 hover:text-stone-400 underline transition-colors">Maggiori info</a>
+              <a href="#" className="text-[10px] font-mono text-stone-450 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
                 className="bg-[color:var(--brand-color)] text-black text-xs font-bold px-4 py-2.5 rounded-xl hover:brightness-110 transition-all flex items-center space-x-2"
