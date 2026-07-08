@@ -141,7 +141,7 @@ export default function GeneratorHome() {
   // SCHERMATA SANDBOX (ANTEPRIMA REALE O DEMO)
   if (isPreviewing && previewData) {
     return (
-      <div className="min-h-screen bg-[#FAF9F6] flex flex-col">
+      <div className="min-h-screen bg-[#0d0f17] flex flex-col">
         
         {/* BARRA DI CONTROLLO SANDBOX LIGHT CON BACKDROP BLUR ELEGANTE */}
         <div className="bg-white/90 border-b border-stone-200/80 px-6 py-4 flex flex-col xl:flex-row items-center justify-between gap-4 sticky top-0 z-50 backdrop-blur-md">
@@ -235,7 +235,7 @@ export default function GeneratorHome() {
 
   // SCHERMATA DEL FORM GENERATORE TRADIZIONALE
   return (
-    <main className="min-h-screen bg-[#FAF9F6] text-stone-800 font-sans flex flex-col justify-between selection:bg-stone-900 selection:text-white relative overflow-x-hidden">
+    <main className="min-h-screen bg-[#0d0f17] text-zinc-100 font-sans flex flex-col justify-between selection:bg-stone-900 selection:text-white relative overflow-x-hidden">
       
       {/* 🌈 AURORE GRADIENTI LUMINOSE FLUTTUANTI DI SFONDO (SaaS-Sleek e Allegro) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -273,7 +273,7 @@ export default function GeneratorHome() {
         </div>
 
         {/* CONTENITORE FORM PRINCIPALE GLASSMORPHISM CHIARO */}
-        <div className="bg-white/80 border border-stone-200 p-8 md:p-12 rounded-[40px] shadow-xl backdrop-blur-xl relative">
+        <div className="bg-[#131622]/90 border border-zinc-800/80 p-8 md:p-12 rounded-[40px] shadow-xl backdrop-blur-xl relative">
           
           {loading && (
             <div className="absolute inset-0 bg-white/95 rounded-[40px] z-50 flex flex-col items-center justify-center p-6 text-center">
