@@ -131,6 +131,6 @@ export default async function SitePage({ params }: PageProps) {
     <Template_l_autorita 
       data={siteData} 
       nomeCliente={site.nome_cliente} 
+      slug={site.slug}
     />
   );
-}
