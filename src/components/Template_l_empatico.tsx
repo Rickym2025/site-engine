@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Calendar, Smile, ShieldAlert } from 'lucide-react';
 import React from 'react';
+import GoogleMap from './GoogleMap';
 
 interface TemplateProps {
   data: {
