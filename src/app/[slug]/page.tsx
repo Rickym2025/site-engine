@@ -35,12 +35,13 @@ export default async function SitePage({ params }: PageProps) {
 
   const siteData = site.site_data;
 
-  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO
+  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO (Tutti con passaggio dello slug abilitato)
   if (site.template_id === 1) {
     return (
       <Template_il_guardiano 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -50,6 +51,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_l_atelier 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
@@ -89,6 +91,7 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_regista 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
+        slug={site.slug}
       />
     );
   }
