@@ -11,6 +11,7 @@ import Template_il_chirurgo from '@/components/Template_il_chirurgo';
 import Template_l_autorita from '@/components/Template_l_autorita';
 import Template_il_creativo from '@/components/Template_il_creativo';
 import Template_il_regista from '@/components/Template_il_regista';
+import Template_l_empatico from '@/components/Template_l_empatico';
 
 // DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
@@ -167,6 +168,7 @@ export default function GeneratorHome() {
               { id: 4, label: 'L\'Autorità' },
               { id: 5, label: 'Il Creativo' },
               { id: 6, label: 'Il Regista' },
+              { id: 7, label: 'L\'Empatico' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -216,6 +218,7 @@ export default function GeneratorHome() {
           {activeTemplateId === 4 && <Template_l_autorita data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 5 && <Template_il_creativo data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 7 && <Template_l_empatico data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -663,6 +666,48 @@ export default function GeneratorHome() {
                       <div className="h-1.5 bg-zinc-950 rounded"></div>
                     </div>
                   </div>
+
+                  {/* TEMPLATE 7: L'EMPATICO */}
+                  <div 
+                    onClick={() => setTemplateId(7)}
+                    className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                      templateId === 7 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                    }`}
+                  >
+                    <div className="space-y-2 flex-grow text-left">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-extrabold text-lg text-white">"L'Empatico"</h4>
+                        {templateId === 7 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full">Selezionato</span>}
+                      </div>
+                      <p className="text-sm font-bold text-[#8F9779]">Ideale per: Psicologi, Psicoterapeuti, Coach, Consulenti del Benessere</p>
+                      <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                        Tonalità calde terra e verde salvia. Font graziato serif che comunica ascolto, etica e accoglienza. Struttura basata sulla riduzione delle barriere d'ingresso del paziente e trigger sulla detraibilità fiscale.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleViewDemo(7); }}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
+                      >
+                        <Eye className="h-4 w-4" /> Esplora Anteprima Live
+                      </button>
+                    </div>
+                  
+                    {/* MINI FINESTRA 3:4 VISIVA */}
+                    <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-[#FAF9F5] border border-zinc-200 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
+                      <div className="border-b border-zinc-150 pb-0.5">
+                        <div className="h-1.5 w-6 bg-[#5F6F52] rounded"></div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-1 flex-grow items-center py-2">
+                        <div className="space-y-1">
+                          <div className="h-1 w-8 bg-zinc-350 rounded"></div>
+                          <div className="h-1 w-6 bg-zinc-400 rounded"></div>
+                        </div>
+                        <div className="h-12 bg-zinc-200/50 rounded-md border border-zinc-150"></div>
+                      </div>
+                      <div className="h-1.5 bg-zinc-150 rounded"></div>
+                    </div>
+                  </div>
+                
 
               </div>
             </div>
