@@ -3,9 +3,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, ArrowRight, Star, Check, Mail, MapPin, ChevronDown, Shield } from 'lucide-react';
+import { Phone, ArrowRight, Star, Check, Mail, MapPin, ChevronDown, Shield, ShieldCheck } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -26,12 +27,14 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_il_guardiano({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#06B6D4', hero_image_url, email, indirizzo, social_fb, social_ig } = data;
+export default function Template_il_guardiano({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, brand_color = '#06B6D4', hero_image_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -58,6 +61,7 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
   const fallbackIndirizzo = indirizzo || "Corso Garibaldi 280, Milano (MI)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -108,8 +112,8 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
           <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-zinc-400">
             <a href="#servizi" className="hover:text-white transition-colors">Servizi</a>
             <a href="#recensioni" className="hover:text-white transition-colors">Dicono di noi</a>
+            <a href="#contatto" className="hover:text-white transition-colors">Sede e Contatti</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <a href="#contatto" className="hover:text-white transition-colors">Contatti</a>
           </nav>
 
           <div className="flex items-center space-x-2 bg-zinc-950 border border-zinc-850 px-4 py-2 rounded-full">
@@ -204,7 +208,7 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
           {servizi.map((servizio: any, idx: number) => (
             <div 
               key={idx}
-              className="bg-zinc-950/40 border border-zinc-900 hover:border-[color:var(--brand-color-strong)] p-8 rounded-2xl transition-all duration-300"
+              className="bg-zinc-950/40 border border-zinc-900 hover:border-[color:var(--brand-color-strong)] p-8 rounded-2xl transition-all duration-300 text-left"
             >
               <h3 className="text-xl font-bold mb-4">{servizio.titolo}</h3>
               <p className="text-zinc-400 font-light leading-relaxed">{servizio.descrizione}</p>
@@ -213,10 +217,39 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 📍 LA SEDE OPERATIVA & MAPPA DI GOOGLE (Layout split ad alto livello tecnologico) */}
+      {/* ========================================================================= */}
+      <section id="studio" className="py-24 px-6 max-w-5xl mx-auto relative z-10 border-t border-zinc-900">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Informazioni fisiche e dettagliate */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Presidio Fisico</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-none">La Sede Operativa</h2>
+            <p className="text-sm text-zinc-400 font-light leading-relaxed">
+              Riceviamo ed operiamo all'interno di una sede d'eccellenza, strutturata per offrire la massima riservatezza, sicurezza strutturale e conformità con i protocolli operativi in vigore.
+            </p>
+            
+            <div className="space-y-4 pt-2 text-xs font-bold text-zinc-300">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[color:var(--brand-color)]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          {/* Componente mappa responsive integrato nativamente */}
+          <div className="lg:col-span-7">
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-900 relative z-10">
         <h2 className="text-3xl font-extrabold text-center mb-12 uppercase tracking-wide">Domande Frequenti</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           {[
             { q: "Come posso richiedere un preventivo?", a: "Puoi cliccare sul pulsante di chiamata principale o scriverci direttamente tramite email. Rispondiamo in tempi rapidissimi." },
             { q: "Il servizio è attivo anche nei giorni festivi?", a: "Sì, garantiamo operatività costante e continuità del servizio 365 giorni all'anno, festività incluse." },
@@ -346,9 +379,11 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza</h4>
-            <p>P.IVA: IT01234567890</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
             </div>
@@ -367,13 +402,13 @@ export default function Template_il_guardiano({ data, nomeCliente }: TemplatePro
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#060606]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-100 animate-none"
           >
             <p className="text-xs text-stone-450 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
-              <a href="#" className="text-[10px] font-mono text-stone-500 hover:text-stone-400 underline transition-colors">Maggiori info</a>
+              <a href="#" className="text-[10px] font-mono text-zinc-500 hover:text-stone-400 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
                 className="bg-[color:var(--brand-color)] text-black text-xs font-bold px-4 py-2.5 rounded-xl hover:brightness-110 transition-all flex items-center space-x-2"
