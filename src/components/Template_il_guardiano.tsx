@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, ArrowRight, Star, Check, Mail, MapPin, ChevronDown, Shield } from 'lucide-react';
 import React from 'react';
+import GoogleMap from './GoogleMap';
 
 interface TemplateProps {
   data: {
