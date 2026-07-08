@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown, ArrowUpRight, ArrowRight } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import Link from 'next/link';
 
 interface TemplateProps {
   data: {
@@ -25,12 +26,14 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    piva?: string;
   };
   nomeCliente: string;
+  slug: string;
 }
 
-export default function Template_il_creativo({ data, nomeCliente }: TemplateProps) {
-  const { hero, social_proof, email, indirizzo, social_fb, social_ig } = data;
+export default function Template_il_creativo({ data, nomeCliente, slug }: TemplateProps) {
+  const { hero, social_proof, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -59,6 +62,7 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
   const fallbackIndirizzo = indirizzo || "Viale dei Cipressi 8, colline Toscane (FI)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   // Foto d'atmosfera organica per le card del bento grid
   const bentoImg1 = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=600"; // Interno minimale
@@ -80,8 +84,8 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#bento" className="hover:text-zinc-900 transition-colors">Il Progetto</a>
             <a href="#recensioni" className="hover:text-zinc-900 transition-colors">Dicono di noi</a>
+            <a href="#contatto" className="hover:text-zinc-900 transition-colors">Sede & Contatti</a>
             <a href="#faq" className="hover:text-zinc-900 transition-colors">FAQ</a>
-            <a href="#contatto" className="hover:text-zinc-900 transition-colors">Contatti</a>
           </nav>
 
           <div className="flex items-center space-x-2 bg-zinc-900/5 border border-zinc-900/10 px-4 py-2 rounded-full">
@@ -127,7 +131,7 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. THE BENTO GRID SECTION (ASIMMETRIA MOZZAFIATO - STILE ACETERNITY PRO) */}
+      {/* THE BENTO GRID SECTION (ASIMMETRIA MOZZAFIATO) */}
       {/* ========================================================================= */}
       <section id="bento" className="py-12 px-6 max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[220px]">
@@ -161,7 +165,7 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
             <p className="text-zinc-600 text-sm italic font-light">
               "{social_proof}"
             </p>
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Collezionista</span>
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Collaboratore</span>
           </div>
 
           {/* Card 3: Servizio 2 (1 Colonna, 1 Riga) */}
@@ -212,6 +216,83 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
       </section>
       {/* ========================================================================= */}
 
+      {/* ========================================================================= */}
+      {/* 📍 SEZIONE CONTATTO EDITORIALE CON MAPPA DI GOOGLE SULLA SINISTRA */}
+      {/* ========================================================================= */}
+      <section id="contatto" className="py-24 px-6 max-w-5xl mx-auto relative z-10 border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Colonna di Sinistra: Dove Siamo, Informazioni e Mappa */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-xs font-mono text-[#5F6F52] uppercase tracking-widest font-bold">Atelier & Studio</span>
+            <h3 className="text-3xl font-light tracking-tight text-zinc-900 font-serif italic">Il Nostro Spazio</h3>
+            <p className="text-sm text-zinc-600 font-light leading-relaxed">
+              Riceviamo esclusivamente su appuntamento. Ti aspettiamo nel nostro studio per analizzare le tue necessità e sviluppare soluzioni d'eccellenza.
+            </p>
+            
+            {/* Componente Mappa integrato a risoluzione ideale */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+
+            <div className="space-y-3 pt-2 text-xs font-bold text-zinc-650">
+              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[#5F6F52]" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          {/* Colonna di Destra: Modulo di Contatto Elegante */}
+          <div className="lg:col-span-7 bg-white border border-zinc-200 p-8 md:p-10 rounded-3xl shadow-xl">
+            {inviato ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="h-16 w-16 bg-[#5F6F52]/10 border border-[#5F6F52]/30 rounded-full flex items-center justify-center mx-auto">
+                  <Check className="h-8 w-8 text-[#5F6F52]" />
+                </div>
+                <h3 className="text-2xl font-bold font-serif italic text-zinc-900">Richiesta Ricevuta!</h3>
+                <p className="text-zinc-550 text-sm max-w-xs mx-auto">
+                  Ti risponderemo personalmente via mail o telefono entro le prossime 24 ore.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold font-serif italic text-zinc-900 mb-1">Mettiti in Contatto</h3>
+                  <p className="text-xs text-zinc-500 font-mono">Inizia il tuo percorso d'autore</p>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Nome e Cognome</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: Mario Rossi"
+                    className="w-full bg-[#F4F3EF]/50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Telefono o Email</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Es: info@mio-sito.it"
+                    className="w-full bg-[#F4F3EF]/50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
+                >
+                  <span>Invia Messaggio</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
       {/* ACCORDION FAQ CHIARO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200 relative z-10">
         <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-zinc-900">Domande Frequenti</h2>
@@ -247,58 +328,6 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
               </AnimatePresence>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* MODULO CONTATTO MINIMALE */}
-      <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-zinc-200">
-        <div className="bg-white border border-zinc-200 p-8 rounded-3xl shadow-xl">
-          {inviato ? (
-            <div className="py-12 text-center space-y-4">
-              <div className="h-16 w-16 bg-[#5F6F52]/10 border border-[#5F6F52]/30 rounded-full flex items-center justify-center mx-auto">
-                <Check className="h-8 w-8 text-[#5F6F52]" />
-              </div>
-              <h3 className="text-2xl font-bold font-serif italic text-zinc-900">Richiesta Ricevuta!</h3>
-              <p className="text-zinc-500 text-sm max-w-xs mx-auto">
-                Ti risponderemo entro le prossime 24 ore.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleFormSubmit} className="space-y-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold font-serif italic text-zinc-900 mb-1">Mettiti in Contatto</h3>
-                <p className="text-xs text-zinc-500 font-mono">Inizia il tuo percorso creativo</p>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Nome e Cognome</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Es: Mario Rossi"
-                  className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Telefono o Email</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Es: info@mio-sito.it"
-                  className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
-              >
-                <span>Avvia Progetto</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-          )}
         </div>
       </section>
 
@@ -347,9 +376,11 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
 
           <div className="space-y-4 text-xs text-zinc-500 font-light text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
-            <p>P.IVA: IT01234567890</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
-              <a href="#" className="hover:text-zinc-950 transition-colors">Privacy Policy</a>
+              <Link href={`/${slug}/privacy`} className="hover:text-zinc-950 transition-colors">
+                Privacy Policy
+              </Link>
               <a href="#" className="hover:text-zinc-950 transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-zinc-950 transition-colors">Termini e Condizioni</a>
             </div>
@@ -369,7 +400,7 @@ export default function Template_il_creativo({ data, nomeCliente }: TemplateProp
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
           >
             <p className="text-xs text-zinc-650 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
