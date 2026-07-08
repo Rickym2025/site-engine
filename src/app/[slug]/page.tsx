@@ -10,6 +10,7 @@ import Template_l_autorita from '@/components/Template_l_autorita';     // Templ
 import Template_il_creativo from '@/components/Template_il_creativo';   // Template 5
 import Template_il_regista from '@/components/Template_il_regista';     // Template 6 (Showcase Video)
 import Template_l_empatico from '@/components/Template_l_empatico';     // Template 7
+import Template_la_sorgente from '@/components/Template_la_sorgente'; // Template 8
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -91,6 +92,15 @@ export default async function SitePage({ params }: PageProps) {
   if (site.template_id === 7) {
     return (
       <Template_l_empatico 
+        data={siteData} 
+        nomeCliente={site.nome_cliente} 
+      />
+    );
+  }
+
+  if (site.template_id === 8) {
+    return (
+      <Template_la_sorgente 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
       />
