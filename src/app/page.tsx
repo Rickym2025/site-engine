@@ -13,6 +13,7 @@ import Template_il_creativo from '@/components/Template_il_creativo';
 import Template_il_regista from '@/components/Template_il_regista';
 import Template_l_empatico from '@/components/Template_l_empatico';
 import Template_la_sorgente from '@/components/Template_la_sorgente';
+import Template_il_sentiero from '@/components/Template_il_sentiero';
 
 // DATI DI ESEMPIO PER LE DEMO (NEUROMARKETING MOCK)
 const mockDemoData = {
@@ -171,6 +172,7 @@ export default function GeneratorHome() {
               { id: 6, label: 'Il Regista' },
               { id: 7, label: 'L\'Empatico' },
               { id: 8, label: 'La Sorgente' },
+              { id: 9, label: 'Il Sentiero' },
             ].map((t) => (
               <button
                 key={t.id}
@@ -222,6 +224,7 @@ export default function GeneratorHome() {
           {activeTemplateId === 6 && <Template_il_regista data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 7 && <Template_l_empatico data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
           {activeTemplateId === 8 && <Template_la_sorgente data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
+          {activeTemplateId === 9 && <Template_il_sentiero data={previewData} nomeCliente={isDemoMode ? "Azienda Demo S.r.l." : nomeCliente} />}
         </div>
 
       </div>
@@ -753,7 +756,47 @@ export default function GeneratorHome() {
                     </div>
                   </div>
                 
+                  {/* TEMPLATE 9: IL SENTIERO */}
+                  <div 
+                    onClick={() => setTemplateId(9)}
+                    className={`border-2 p-6 rounded-3xl relative transition-all cursor-pointer flex flex-col md:flex-row items-center justify-between gap-6 ${
+                      templateId === 9 ? 'border-cyan-400 bg-cyan-950/10' : 'border-zinc-900 bg-zinc-900/30 hover:border-zinc-800'
+                    }`}
+                  >
+                    <div className="space-y-2 flex-grow text-left">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-extrabold text-lg text-white">"Il Sentiero"</h4>
+                        {templateId === 9 && <span className="bg-cyan-500 text-black text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full">Selezionato</span>}
+                      </div>
+                      <p className="text-sm font-bold text-[#D4AF37]">Ideale per: Psicoterapeuti, Centri di Cura, Cliniche di Salute Mentale ad alto valore</p>
+                      <p className="text-xs text-zinc-450 leading-relaxed max-w-lg">
+                        Struttura cinematografica con immagine Hero a tutto schermo e pannello in vetro satinato. Integra un'elegante timeline verticale passo-passo che illustra il percorso terapeutico per guidare visivamente il paziente.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleViewDemo(9); }}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-400 hover:text-white bg-zinc-950 hover:bg-zinc-900 px-4 py-2.5 rounded-xl border border-zinc-900 transition-all mt-4"
+                      >
+                        <Eye className="h-4 w-4" /> Esplora Anteprima Live
+                      </button>
+                    </div>
+                  
+                    {/* MINI FINESTRA 3:4 VISIVA FULL-BLEED */}
+                    <div className="w-24 h-32 md:w-28 md:h-36 shrink-0 bg-stone-900 border border-zinc-800 rounded-xl overflow-hidden p-2 flex flex-col justify-between relative group shadow-lg gap-1">
+                      {/* Rappresentazione Hero a tutto schermo con box centrale */}
+                      <div className="absolute inset-0 bg-[#1E3F20]/40 z-0 flex items-center justify-center p-2">
+                        <div className="bg-black/50 border border-white/10 w-full h-16 rounded-md flex flex-col justify-center items-center gap-1">
+                          <div className="h-1 w-10 bg-white rounded"></div>
+                          <div className="h-1 w-6 bg-white/55 rounded"></div>
+                        </div>
+                      </div>
+                      <div className="h-1.5 bg-[#D4AF37] rounded relative z-10 w-4"></div>
+                      <div className="h-1 bg-zinc-150 rounded relative z-10 w-full"></div>
+                    </div>
+                  </div>
 
+
+                
               </div>
             </div>
 
