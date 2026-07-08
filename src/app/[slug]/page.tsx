@@ -9,9 +9,9 @@ import Template_il_chirurgo from '@/components/Template_il_chirurgo';   // Templ
 import Template_l_autorita from '@/components/Template_l_autorita';     // Template 4 (Google-Approved)
 import Template_il_creativo from '@/components/Template_il_creativo';   // Template 5
 import Template_il_regista from '@/components/Template_il_regista';     // Template 6 (Showcase Video)
-import Template_l_empatico from '@/components/Template_l_empatico';     // Template 7
-import Template_la_sorgente from '@/components/Template_la_sorgente';   // Template 8
-import Template_il_sentiero from '@/components/Template_il_sentiero';   // Template 9
+import Template_l_empatico from '@/components/Template_l_empatico';     // Template 7 (Psicologi Verde)
+import Template_la_sorgente from '@/components/Template_la_sorgente';   // Template 8 (Psicologi Zen)
+import Template_il_sentiero from '@/components/Template_il_sentiero';   // Template 9 (Psicologi Forest)
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -41,7 +41,6 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_guardiano 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
-        slug={site.slug}
       />
     );
   }
@@ -51,7 +50,6 @@ export default async function SitePage({ params }: PageProps) {
       <Template_l_atelier 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
-        slug={site.slug}
       />
     );
   }
@@ -91,7 +89,6 @@ export default async function SitePage({ params }: PageProps) {
       <Template_il_regista 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
-        slug={site.slug}
       />
     );
   }
@@ -120,7 +117,7 @@ export default async function SitePage({ params }: PageProps) {
     return (
       <Template_il_sentiero 
         data={siteData} 
-        nomeCliente={site.nome_cliente}
+        nomeCliente={site.nome_cliente} 
         slug={site.slug}
       />
     );
@@ -134,3 +131,4 @@ export default async function SitePage({ params }: PageProps) {
       slug={site.slug}
     />
   );
+}
