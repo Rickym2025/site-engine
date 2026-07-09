@@ -36,7 +36,7 @@ export default async function SitePage({ params }: PageProps) {
   const siteData = site.site_data;
 
   // =========================================================================
-  // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG
+  // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG (Coercizione booleana pura)
   // =========================================================================
   const { data: posts } = await supabase
     .from('omnia_posts')
@@ -92,14 +92,57 @@ export default async function SitePage({ params }: PageProps) {
     "image": siteData.logo_url || siteData.foto_profilo || undefined
   };
 
+  // Funzione di utilità per incapsulare il template scelto mantenendo intatto il tag script invisibile e il pulsante magico
   const renderWithSeo = (templateComponent: React.ReactNode) => {
     return (
       <>
+        {/* Iniettiamo il tag script richiesto da Google per la SEO locale */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+
+        {/* 🪄 SCRIPT E BOTTONE MAGIC LINK: Sblocca il pulsante Scrivi Blog invisibile agli utenti comuni */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                
+                // Se la URL contiene ?editor=true, sblocchiamo per sempre l'editor su questo browser
+                if (window.location.search.includes('editor=true')) {
+                  localStorage.setItem('is_editor', 'true');
+                }
+                
+                // Controlla la presenza del pulsante nel DOM con un sondaggio rapido (evita i problemi di asincronia di React)
+                if (localStorage.getItem('is_editor') === 'true') {
+                  var checkExist = setInterval(function() {
+                    var btn = document.getElementById('magic-scrivi-blog-btn');
+                    if (btn) {
+                      btn.classList.remove('hidden');
+                      clearInterval(checkExist);
+                    }
+                  }, 50);
+                  
+                  // Timeout di sicurezza dopo 4 secondi per evitare cicli infiniti
+                  setTimeout(function() { clearInterval(checkExist); }, 4000);
+                }
+              })();
+            `
+          }}
+        />
+
         {templateComponent}
+
+        {/* Pulsante magico fluttuante invisibile di default */}
+        <a
+          id="magic-scrivi-blog-btn"
+          href={`/${slug}/admin`}
+          className="hidden fixed bottom-6 right-6 z-[999] bg-[#0d0f17] text-white hover:bg-stone-900 border border-zinc-800/80 px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all scale-100 hover:scale-105 active:scale-95"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pen-line"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>Scrivi Blog</span>
+        </a>
       </>
     );
   };
@@ -134,7 +177,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
-        hasBlog={hasBlog} // <--- Passiamo il flag del blog
+        hasBlog={hasBlog}
       />
     );
   }
@@ -156,7 +199,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
-        hasBlog={hasBlog} // <--- Passiamo il flag del blog
+        hasBlog={hasBlog}
       />
     );
   }
@@ -178,7 +221,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
-        hasBlog={hasBlog} // <--- Passiamo il flag del blog
+        hasBlog={hasBlog}
       />
     );
   }
@@ -189,7 +232,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
-        hasBlog={hasBlog} // <--- Passiamo il flag del blog
+        hasBlog={hasBlog}
       />
     );
   }
@@ -200,7 +243,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
-        hasBlog={hasBlog} // <--- Passiamo il flag del blog
+        hasBlog={hasBlog}
       />
     );
   }
