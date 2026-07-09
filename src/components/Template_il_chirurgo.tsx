@@ -30,6 +30,7 @@ interface TemplateProps {
   };
   nomeCliente: string;
   slug: string;
+  hasBlog?: boolean;
 }
 
 export default function Template_il_chirurgo({ data, nomeCliente, slug }: TemplateProps) {
