@@ -103,6 +103,12 @@ export default function Template_il_regista({ data, nomeCliente, slug }: Templat
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-zinc-300">
             <a href="#recensioni" className="hover:text-white transition-colors">Testimonianze</a>
             <a href="#progetto" className="hover:text-white transition-colors">Il Progetto</a>
+             {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
             <a href="#studio" className="hover:text-white transition-colors">Sede</a>
             <a href="#contatto" className="hover:text-white transition-colors">Contatto</a>
           </nav>
@@ -451,6 +457,13 @@ export default function Template_il_regista({ data, nomeCliente, slug }: Templat
               <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
+
+                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+                {hasBlog && (
+                  <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                    Blog
+                  </Link>
+                )}
               <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
             </div>
