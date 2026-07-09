@@ -102,6 +102,12 @@ export default function Template_la_sorgente({ data, nomeCliente, slug }: Templa
           <nav className="hidden md:flex items-center space-x-8 text-[11px] font-bold uppercase tracking-wider text-slate-500">
             <a href="#percorso" className="hover:text-slate-900 transition-colors">Il Percorso</a>
             <a href="#aree" className="hover:text-slate-900 transition-colors">Aree di Lavoro</a>
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#studio" className="hover:text-slate-900 transition-colors">Lo Studio</a>
             <a href="#contatto" className="hover:text-slate-900 transition-colors">Contatti</a>
           </nav>
@@ -400,6 +406,12 @@ export default function Template_la_sorgente({ data, nomeCliente, slug }: Templa
               <Link href={`/${slug}/privacy`} className="hover:text-slate-950 transition-colors">
                 Privacy & Trattamento Dati (GDPR)
               </Link>
+                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
               <a href="#" className="hover:text-slate-950 transition-colors">Note Legali Deontologiche</a>
             </div>
           </div>
