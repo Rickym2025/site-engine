@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft, Play, Heart, Star, Check, Phone, Layers, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // IMPORTIAMO I COMPONENTI DI TUTTI I 9 TEMPLATE REALI
 import Template_il_guardiano from '@/components/Template_il_guardiano';
