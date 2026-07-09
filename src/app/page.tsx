@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from 'react';
 import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft, Play, Heart, Star, Check, Phone, Layers, ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // IMPORTIAMO I COMPONENTI DI TUTTI I 9 TEMPLATE REALI
 import Template_il_guardiano from '@/components/Template_il_guardiano';
@@ -192,7 +191,7 @@ export default function GeneratorHome() {
       <div className="min-h-screen bg-[#0d0f17] flex flex-col">
         
         {/* BARRA DI CONTROLLO SANDBOX DARK CON BACKDROP BLUR ELEGANTE */}
-        <div className="bg-[#0e1017]/95 border-b border-zinc-800/80 px-6 py-4 flex flex-col xl:flex-row items-center justify-between gap-4 sticky top-0 z-50 backdrop-blur-md">
+        <div className="bg-[#0e1017]/95 border-b border-zinc-800/80 px-6 py-4 flex flex-col xl:flex-row items-center justify-between gap-4 sticky top-0 z-50 backdrop-blur-xl">
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => setIsPreviewing(false)}
@@ -236,7 +235,7 @@ export default function GeneratorHome() {
                 className={`text-[10px] sm:text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${
                   activeTemplateId === t.id 
                     ? 'bg-zinc-900 text-white font-extrabold shadow-sm' 
-                    : 'text-stone-400 hover:text-white hover:bg-zinc-900/40'
+                    : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/40'
                 }`}
               >
                 {t.label}
@@ -256,7 +255,7 @@ export default function GeneratorHome() {
           ) : (
             <button
               onClick={() => window.open(`/${slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-')}`, '_blank')}
-              className="w-full sm:w-auto bg-zinc-900 hover:bg-zinc-850 text-white border border-zinc-800/80 hover:border-zinc-700 font-extrabold text-xs px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-all"
+              className="w-full sm:w-auto bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-xs px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-all"
             >
               <span>Apri Sito Ufficiale</span>
               <ExternalLink className="h-4 w-4" />
@@ -298,7 +297,7 @@ export default function GeneratorHome() {
           <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-md">
             <Shield className="h-4.5 w-4.5 text-cyan-400" />
           </div>
-          <span className="font-serif font-black text-base tracking-widest uppercase text-white">Sitengine <span className="text-cyan-400">AI</span></span>
+          <span className="font-serif font-black text-base tracking-widest uppercase text-white">SiteEngine <span className="text-cyan-400">AI</span></span>
         </div>
         <span className="text-[10px] font-mono text-zinc-400 border border-zinc-800 rounded-full px-3 py-1 bg-zinc-950/40 font-bold">RM Studio Creator v2.1</span>
       </header>
@@ -312,7 +311,7 @@ export default function GeneratorHome() {
             <span className="text-[10px] font-mono text-cyan-300 font-bold uppercase tracking-widest">Siti d'Autore in 24 Ore</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-black mb-4 tracking-tight leading-[1.1] text-white">
-            Generatore di Landing Page <br />
+            Crea la tua Landing Page <br />
             <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">Ad Alta Conversione</span>
           </h1>
           <p className="text-zinc-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
@@ -326,7 +325,7 @@ export default function GeneratorHome() {
           {loading && (
             <div className="absolute inset-0 bg-black/95 rounded-[40px] z-50 flex flex-col items-center justify-center p-6 text-center">
               <div className="h-10 w-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mb-6"></div>
-              <h2 className="text-xl font-bold mb-2 text-white">Generazione della struttura...</h2>
+              <h2 className="text-xl font-bold mb-2 text-white">Generazione della struttura terapeutica...</h2>
               <p className="text-sm text-zinc-400 max-w-xs font-mono">
                 Sincronizzazione della mappa, della privacy policy compliant GDPR e inserimento dei trigger cognitivi.
               </p>
@@ -442,7 +441,7 @@ export default function GeneratorHome() {
                   <input
                     type="url"
                     placeholder="https://facebook.com/mia-pagina"
-                    className="w-full bg-[#151722] border border-zinc-800 focus:border-cyan-400 rounded-xl p-4 text-white placeholder-zinc-550 transition-all outline-none text-sm"
+                    className="w-full bg-[#151722] border border-zinc-800 focus:border-[#5F6F52] rounded-xl p-4 text-[#e2e8f0] placeholder-stone-550 transition-all outline-none text-sm"
                     value={socialFb}
                     onChange={(e) => setSocialFb(e.target.value)}
                   />
@@ -453,7 +452,7 @@ export default function GeneratorHome() {
                   <input
                     type="url"
                     placeholder="https://instagram.com/mio-profilo"
-                    className="w-full bg-[#151722] border border-zinc-800 focus:border-cyan-400 rounded-xl p-4 text-white placeholder-zinc-550 transition-all outline-none text-sm"
+                    className="w-full bg-[#151722] border border-zinc-800 focus:border-[#5F6F52] rounded-xl p-4 text-[#e2e8f0] placeholder-stone-550 transition-all outline-none text-sm"
                     value={socialIg}
                     onChange={(e) => setSocialIg(e.target.value)}
                   />
@@ -470,7 +469,7 @@ export default function GeneratorHome() {
                 <textarea
                   required
                   rows={3}
-                  placeholder="Es: Primo colloquio conoscitivo gratuito, Sedute detraibili fiscalmente, Iscrizione Albo degli Psicologi, Terapia cognitivo-comportamentale focalizzata sul problema"
+                  placeholder="Es: Primo colloquio conoscitivo gratuito, Sedute detraibili fiscalmente, Terapia cognitivo-comportamentale focalizzata sul problema"
                   className="w-full bg-[#151722] border border-zinc-800 focus:border-cyan-400 rounded-xl p-4 text-white placeholder-zinc-550 transition-all outline-none text-sm leading-relaxed"
                   value={puntiForza}
                   onChange={(e) => setPuntiForza(e.target.value)}
@@ -584,7 +583,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(3); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -627,7 +626,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(4); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -649,7 +648,7 @@ export default function GeneratorHome() {
                         <div className="h-1 w-8 bg-stone-750 rounded-sm"></div>
                       </div>
                     </div>
-                    <div className="h-2 bg-stone-850 rounded-full w-full"></div>
+                    <div className="h-2 bg-[#12141c] rounded-full w-full"></div>
                   </div>
                 </div>
 
@@ -670,7 +669,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(5); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -700,7 +699,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-purple-550/10 text-purple-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-purple-500/20">Video & UGC</span>
+                      <span className="bg-purple-555/10 text-purple-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-purple-500/20">Video & UGC</span>
                       {templateId === 6 && <span className="bg-purple-600 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">06. Il Regista</h4>
@@ -708,7 +707,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(6); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -717,13 +716,13 @@ export default function GeneratorHome() {
                   {/* ANTEPRIMA VISIVA GIGANTE (MOCKUP 3:4) */}
                   <div className="w-36 h-48 shrink-0 bg-[#09090E] border border-[#1b1e2e] rounded-2xl overflow-hidden p-3 flex flex-col justify-between shadow-md relative z-10 gap-1.5">
                     <div className="border-b border-stone-850 pb-1">
-                      <div className="h-2 w-10 bg-purple-500 rounded"></div>
+                      <div className="h-2 w-10 bg-purple rounded"></div>
                     </div>
                     <div className="flex-grow flex flex-col justify-center items-center relative space-y-1">
                       <div className="h-16 w-full bg-stone-900 border border-stone-800 rounded-md flex items-center justify-center relative">
                         <Play className="h-4 w-4 text-purple-500 fill-purple-500" />
                       </div>
-                      <div className="h-2 w-full bg-stone-900 rounded"></div>
+                      <div className="h-2 w-full bg-[#1b1e2e] rounded"></div>
                     </div>
                     <div className="h-2 bg-[#1b1e2e] rounded-full w-full"></div>
                   </div>
@@ -746,7 +745,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(7); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -759,7 +758,7 @@ export default function GeneratorHome() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 flex-grow items-center py-1">
                       <div className="space-y-1">
-                        <div className="h-1.5 w-10 bg-stone-300 rounded"></div>
+                        <div className="h-1.5 w-10 bg-stone-350 rounded"></div>
                         <div className="h-1.5 w-8 bg-stone-250 rounded"></div>
                       </div>
                       <div className="h-20 bg-[#FAF9F5] rounded-full border border-stone-200 shadow-sm flex items-center justify-center">
@@ -787,7 +786,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(8); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -826,7 +825,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(9); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -900,7 +899,7 @@ export default function GeneratorHome() {
                       <input
                         type="text"
                         required
-                        placeholder="Es: +393331234567"
+                        placeholder="Es: +393357401206"
                         className="w-full bg-[#151722] border border-zinc-800 focus:border-purple-500 rounded-xl p-3 text-white placeholder-zinc-650 transition-all outline-none text-xs"
                         value={adminPhone}
                         onChange={(e) => setAdminPhone(e.target.value)}
