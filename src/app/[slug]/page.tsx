@@ -22,14 +22,13 @@ export default async function SitePage({ params }: PageProps) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
 
-  // 1. Chiediamo i dati a Supabase
+  // 1. Chiediamo i dati del sito a Supabase
   const { data: site, error } = await supabase
     .from('omnia_sites')
     .select('*')
     .eq('slug', slug)
     .single();
 
-  // 2. Se non esiste o non è attivo, 404
   if (error || !site || !site.is_active) {
     return notFound();
   }
@@ -37,10 +36,21 @@ export default async function SitePage({ params }: PageProps) {
   const siteData = site.site_data;
 
   // =========================================================================
+  // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG
+  // =========================================================================
+  const { data: posts } = await supabase
+    .from('omnia_posts')
+    .select('id')
+    .eq('site_slug', slug)
+    .eq('is_published', true)
+    .limit(1);
+
+  const hasBlog = posts && posts.length > 0;
+  // =========================================================================
+
+  // =========================================================================
   // 🪐 GENERAZIONE AUTOMATICA E SISTEMATICA DEL JSON-LD (Dati Strutturati SEO)
   // =========================================================================
-  
-  // Rileva automaticamente la tipologia professionale per Google in base al settore o al template
   let schemaType = "LocalBusiness"; 
   const settoreLower = (siteData.settore || "").toLowerCase();
   
@@ -49,7 +59,7 @@ export default async function SitePage({ params }: PageProps) {
     settoreLower.includes("psicoter") || 
     settoreLower.includes("medic") || 
     settoreLower.includes("terap") ||
-    [3, 7, 8, 9].includes(site.template_id) // Template sanitari/psicologi
+    [3, 7, 8, 9].includes(site.template_id)
   ) {
     schemaType = "MedicalBusiness";
   } else if (
@@ -66,13 +76,12 @@ export default async function SitePage({ params }: PageProps) {
     schemaType = "ProfessionalService";
   }
 
-  // Costruiamo il pacchetto JSON-LD con i dati dinamici estratti da Supabase
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": schemaType,
     "name": site.nome_cliente,
     "description": siteData.hero?.subheadline || siteData.punti_forza || "",
-    "url": `https://${site.slug}.rmstudio.app`, // Verrà letto correttamente anche in caso di dominio custom mappato
+    "url": `https://${site.slug}.rmstudio.app`, 
     "address": siteData.indirizzo ? {
       "@type": "PostalAddress",
       "streetAddress": siteData.indirizzo,
@@ -83,11 +92,9 @@ export default async function SitePage({ params }: PageProps) {
     "image": siteData.logo_url || siteData.foto_profilo || undefined
   };
 
-  // Funzione di utilità per incapsulare il template scelto mantenendo intatto il tag script invisibile
   const renderWithSeo = (templateComponent: React.ReactNode) => {
     return (
       <>
-        {/* Iniettiamo il tag script richiesto da Google per la SEO locale */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -96,10 +103,9 @@ export default async function SitePage({ params }: PageProps) {
       </>
     );
   };
-
   // =========================================================================
 
-  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO (Incapsulati nella funzione SEO)
+  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO
   if (site.template_id === 1) {
     return renderWithSeo(
       <Template_il_guardiano 
@@ -126,6 +132,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog} // <--- Passiamo il flag del blog
       />
     );
   }
@@ -146,6 +153,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog} // <--- Passiamo il flag del blog
       />
     );
   }
@@ -166,6 +174,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog} // <--- Passiamo il flag del blog
       />
     );
   }
@@ -176,6 +185,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog} // <--- Passiamo il flag del blog
       />
     );
   }
@@ -186,6 +196,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog} // <--- Passiamo il flag del blog
       />
     );
   }
