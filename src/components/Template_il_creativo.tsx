@@ -85,6 +85,12 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#bento" className="hover:text-zinc-900 transition-colors">Il Progetto</a>
             <a href="#recensioni" className="hover:text-zinc-900 transition-colors">Dicono di noi</a>
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#faq" className="hover:text-zinc-900 transition-colors">FAQ</a>
             <a href="#contatto" className="hover:text-zinc-900 transition-colors">Contatti</a>
           </nav>
@@ -382,6 +388,12 @@ export default function Template_il_creativo({ data, nomeCliente, slug }: Templa
               <Link href={`/${slug}/privacy`} className="hover:text-zinc-950 transition-colors">
                 Privacy Policy
               </Link>
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
               <a href="#" className="hover:text-zinc-950 transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-zinc-950 transition-colors">Termini e Condizioni</a>
             </div>
