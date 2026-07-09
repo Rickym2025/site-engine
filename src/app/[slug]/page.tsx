@@ -1,6 +1,7 @@
 // src/app/[slug]/page.tsx
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
+import React from 'react';
 
 // IMPORTAZIONE SEMPLICE E COERENTE DEI TEMPLATE IN ITALIANO
 import Template_il_guardiano from '@/components/Template_il_guardiano'; // Template 1
@@ -35,9 +36,72 @@ export default async function SitePage({ params }: PageProps) {
 
   const siteData = site.site_data;
 
-  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO (Tutti con passaggio dello slug abilitato)
-  if (site.template_id === 1) {
+  // =========================================================================
+  // 🪐 GENERAZIONE AUTOMATICA E SISTEMATICA DEL JSON-LD (Dati Strutturati SEO)
+  // =========================================================================
+  
+  // Rileva automaticamente la tipologia professionale per Google in base al settore o al template
+  let schemaType = "LocalBusiness"; 
+  const settoreLower = (siteData.settore || "").toLowerCase();
+  
+  if (
+    settoreLower.includes("psicolog") || 
+    settoreLower.includes("psicoter") || 
+    settoreLower.includes("medic") || 
+    settoreLower.includes("terap") ||
+    [3, 7, 8, 9].includes(site.template_id) // Template sanitari/psicologi
+  ) {
+    schemaType = "MedicalBusiness";
+  } else if (
+    settoreLower.includes("avvocat") || 
+    settoreLower.includes("legale") || 
+    settoreLower.includes("studio leg")
+  ) {
+    schemaType = "Attorney";
+  } else if (
+    settoreLower.includes("consul") || 
+    settoreLower.includes("coach") || 
+    site.template_id === 4
+  ) {
+    schemaType = "ProfessionalService";
+  }
+
+  // Costruiamo il pacchetto JSON-LD con i dati dinamici estratti da Supabase
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": schemaType,
+    "name": site.nome_cliente,
+    "description": siteData.hero?.subheadline || siteData.punti_forza || "",
+    "url": `https://${site.slug}.rmstudio.app`, // Verrà letto correttamente anche in caso di dominio custom mappato
+    "address": siteData.indirizzo ? {
+      "@type": "PostalAddress",
+      "streetAddress": siteData.indirizzo,
+      "addressCountry": "IT"
+    } : undefined,
+    "telephone": siteData.telefono || undefined,
+    "email": siteData.email || undefined,
+    "image": siteData.logo_url || siteData.foto_profilo || undefined
+  };
+
+  // Funzione di utilità per incapsulare il template scelto mantenendo intatto il tag script invisibile
+  const renderWithSeo = (templateComponent: React.ReactNode) => {
     return (
+      <>
+        {/* Iniettiamo il tag script richiesto da Google per la SEO locale */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {templateComponent}
+      </>
+    );
+  };
+
+  // =========================================================================
+
+  // 3. SMISTAMENTO DEI TEMPLATE COERENTE IN ITALIANO (Incapsulati nella funzione SEO)
+  if (site.template_id === 1) {
+    return renderWithSeo(
       <Template_il_guardiano 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -47,7 +111,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 2) {
-    return (
+    return renderWithSeo(
       <Template_l_atelier 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -57,7 +121,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 3) {
-    return (
+    return renderWithSeo(
       <Template_il_chirurgo 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -67,7 +131,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 4) {
-    return (
+    return renderWithSeo(
       <Template_l_autorita 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -77,7 +141,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 5) {
-    return (
+    return renderWithSeo(
       <Template_il_creativo 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -87,7 +151,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 6) {
-    return (
+    return renderWithSeo(
       <Template_il_regista 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -97,7 +161,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 7) {
-    return (
+    return renderWithSeo(
       <Template_l_empatico 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -107,7 +171,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 8) {
-    return (
+    return renderWithSeo(
       <Template_la_sorgente 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -117,7 +181,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   if (site.template_id === 9) {
-    return (
+    return renderWithSeo(
       <Template_il_sentiero 
         data={siteData} 
         nomeCliente={site.nome_cliente} 
@@ -127,7 +191,7 @@ export default async function SitePage({ params }: PageProps) {
   }
 
   // Fallback se nessun template corrisponde
-  return (
+  return renderWithSeo(
     <Template_l_autorita 
       data={siteData} 
       nomeCliente={site.nome_cliente} 
