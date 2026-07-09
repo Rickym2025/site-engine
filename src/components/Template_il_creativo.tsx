@@ -30,6 +30,7 @@ interface TemplateProps {
   };
   nomeCliente: string;
   slug: string;
+  hasBlog?: boolean;
 }
 
 export default function Template_il_creativo({ data, nomeCliente, slug }: TemplateProps) {
