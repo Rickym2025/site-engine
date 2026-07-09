@@ -119,6 +119,12 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug }: Templa
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#contatto" className="hover:text-zinc-950 transition-colors">Prenota</a>
             <a href="#servizi" className="hover:text-zinc-950 transition-colors">Trattamenti</a>
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#recensioni" className="hover:text-zinc-950 transition-colors">Testimonianze</a>
             <a href="#studio" className="hover:text-zinc-950 transition-colors">Sede</a>
             <a href="#faq" className="hover:text-zinc-950 transition-colors">FAQ</a>
@@ -386,6 +392,12 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug }: Templa
               <Link href={`/${slug}/privacy`} className="hover:text-zinc-950 transition-colors">
                 Privacy Policy
               </Link>
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
               <a href="#" className="hover:text-zinc-950 transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-zinc-950 transition-colors">Termini e Condizioni</a>
             </div>
