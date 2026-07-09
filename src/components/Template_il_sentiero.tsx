@@ -90,6 +90,12 @@ export default function Template_il_sentiero({ data, nomeCliente, slug }: Templa
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-stone-200/90">
             <a href="#tappe" className="hover:text-white transition-colors">Il Metodo</a>
             <a href="#specializzazioni" className="hover:text-white transition-colors">Specializzazioni</a>
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#studio" className="hover:text-white transition-colors">Dove Ricevo</a>
             <a href="#prenota" className="hover:text-white transition-colors">Prenotazioni</a>
           </nav>
@@ -466,6 +472,14 @@ export default function Template_il_sentiero({ data, nomeCliente, slug }: Templa
               <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
                 Normativa Privacy GDPR
               </Link>
+
+                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+                {hasBlog && (
+                  <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                    Blog
+                  </Link>
+                )}
+              
               <a href="#" className="hover:text-white transition-colors">Consenso Informato Sanitario</a>
             </div>
           </div>
