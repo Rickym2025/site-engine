@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_il_sentiero({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, immagine_hero, piva } = data;
   const servizi = data.servizi || [];
   
