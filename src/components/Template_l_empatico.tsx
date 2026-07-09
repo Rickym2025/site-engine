@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_l_empatico({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
   const servizi = data.servizi || [];
   
