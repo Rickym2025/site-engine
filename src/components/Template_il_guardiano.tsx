@@ -112,6 +112,12 @@ export default function Template_il_guardiano({ data, nomeCliente, slug }: Templ
           {/* MENU ANCORAGGI COMPLETO */}
           <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-zinc-400">
             <a href="#servizi" className="hover:text-white transition-colors">Servizi</a>
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#recensioni" className="hover:text-white transition-colors">Dicono di noi</a>
             <a href="#contatto" className="hover:text-white transition-colors">Sede e Contatti</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
@@ -385,6 +391,13 @@ export default function Template_il_guardiano({ data, nomeCliente, slug }: Templ
               <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
+
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
               <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
             </div>
