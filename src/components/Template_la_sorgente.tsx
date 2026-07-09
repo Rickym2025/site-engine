@@ -31,6 +31,7 @@ interface TemplateProps {
   };
   nomeCliente: string;
   slug: string;
+  hasBlog?: boolean;
 }
 
 export default function Template_la_sorgente({ data, nomeCliente, slug }: TemplateProps) {
