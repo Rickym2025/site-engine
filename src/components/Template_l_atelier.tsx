@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_l_atelier({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#F59E0B', video_bg_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
