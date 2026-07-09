@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_la_sorgente({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
   const servizi = data.servizi || [];
   
