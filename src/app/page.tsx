@@ -298,7 +298,7 @@ export default function GeneratorHome() {
           <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-md">
             <Shield className="h-4.5 w-4.5 text-cyan-400" />
           </div>
-          <span className="font-serif font-black text-base tracking-widest uppercase text-white">SiteEngine <span className="text-cyan-400">AI</span></span>
+          <span className="font-serif font-black text-base tracking-widest uppercase text-white">Sitengine <span className="text-cyan-400">AI</span></span>
         </div>
         <span className="text-[10px] font-mono text-zinc-400 border border-zinc-800 rounded-full px-3 py-1 bg-zinc-950/40 font-bold">RM Studio Creator v2.1</span>
       </header>
