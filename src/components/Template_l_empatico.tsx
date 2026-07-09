@@ -108,6 +108,12 @@ export default function Template_l_empatico({ data, nomeCliente, slug }: Templat
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-stone-500">
             <a href="#approccio" className="hover:text-stone-900 transition-colors">Il mio Approccio</a>
             <a href="#servizi" className="hover:text-stone-900 transition-colors">Aree di Intervento</a>
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
             <a href="#contatto" className="hover:text-stone-900 transition-colors">Prenota un Colloquio</a>
             <a href="#faq" className="hover:text-stone-900 transition-colors">FAQ</a>
           </nav>
@@ -382,6 +388,12 @@ export default function Template_l_empatico({ data, nomeCliente, slug }: Templat
               <Link href={`/${slug}/privacy`} className="hover:text-stone-950 transition-colors">
                 Privacy Policy
               </Link>
+                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                  Blog
+                </Link>
+              )}
               <a href="#" className="hover:text-stone-950 transition-colors">Deontologia Sanitaria</a>
             </div>
           </div>
