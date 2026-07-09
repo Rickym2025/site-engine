@@ -33,7 +33,18 @@ export default async function SitePage({ params }: PageProps) {
     return notFound();
   }
 
-  const siteData = site.site_data;
+  // =========================================================================
+  // ⚡ PARSING DIFENSIVO DI SITE_DATA (Risolve il crash del 'headline')
+  // =========================================================================
+  let siteData = site.site_data;
+  if (typeof siteData === 'string') {
+    try {
+      siteData = JSON.parse(siteData);
+    } catch (e) {
+      console.error("Errore durante il parsing JSON di site_data:", e);
+    }
+  }
+  // =========================================================================
 
   // =========================================================================
   // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG (Coercizione booleana pura)
@@ -52,7 +63,7 @@ export default async function SitePage({ params }: PageProps) {
   // 🪐 GENERAZIONE AUTOMATICA E SISTEMATICA DEL JSON-LD (Dati Strutturati SEO)
   // =========================================================================
   let schemaType = "LocalBusiness"; 
-  const settoreLower = (siteData.settore || "").toLowerCase();
+  const settoreLower = (siteData?.settore || "").toLowerCase();
   
   if (
     settoreLower.includes("psicolog") || 
@@ -80,16 +91,16 @@ export default async function SitePage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": schemaType,
     "name": site.nome_cliente,
-    "description": siteData.hero?.subheadline || siteData.punti_forza || "",
+    "description": siteData?.hero?.subheadline || siteData?.punti_forza || "",
     "url": `https://${site.slug}.rmstudio.app`, 
-    "address": siteData.indirizzo ? {
+    "address": siteData?.indirizzo ? {
       "@type": "PostalAddress",
       "streetAddress": siteData.indirizzo,
       "addressCountry": "IT"
     } : undefined,
-    "telephone": siteData.telefono || undefined,
-    "email": siteData.email || undefined,
-    "image": siteData.logo_url || siteData.foto_profilo || undefined
+    "telephone": siteData?.telefono || undefined,
+    "email": siteData?.email || undefined,
+    "image": siteData?.logo_url || siteData?.foto_profilo || undefined
   };
 
   // Funzione di utilità per incapsulare il template scelto mantenendo intatto il tag script invisibile e il pulsante magico
