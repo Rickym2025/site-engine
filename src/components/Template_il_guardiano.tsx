@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_il_guardiano({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#06B6D4', hero_image_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
