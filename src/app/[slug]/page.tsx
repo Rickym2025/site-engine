@@ -45,7 +45,7 @@ export default async function SitePage({ params }: PageProps) {
     .eq('is_published', true)
     .limit(1);
 
-  const hasBlog = posts && posts.length > 0;
+  const hasBlog = !!(posts && posts.length > 0);
   // =========================================================================
 
   // =========================================================================
