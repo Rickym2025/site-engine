@@ -112,6 +112,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog}
       />
     );
   }
@@ -122,6 +123,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog}
       />
     );
   }
@@ -143,6 +145,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog}
       />
     );
   }
@@ -164,6 +167,7 @@ export default async function SitePage({ params }: PageProps) {
         data={siteData} 
         nomeCliente={site.nome_cliente} 
         slug={site.slug}
+        hasBlog={hasBlog}
       />
     );
   }
@@ -207,6 +211,7 @@ export default async function SitePage({ params }: PageProps) {
       data={siteData} 
       nomeCliente={site.nome_cliente} 
       slug={site.slug}
+      hasBlog={hasBlog}
     />
   );
 }
