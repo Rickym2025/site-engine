@@ -31,6 +31,7 @@ interface TemplateProps {
   };
   nomeCliente: string;
   slug: string;
+  hasBlog?: boolean;
 }
 
 export default function Template_il_regista({ data, nomeCliente, slug }: TemplateProps) {
