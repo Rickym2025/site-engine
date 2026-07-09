@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, use } from 'react';
-import { Phone, Check, Send, Mail, MapPin, ArrowLeft, KeyRound, Sparkles, Smile, BookOpen } from 'lucide-react';
+import { Phone, Check, Send, Mail, MapPin, ArrowLeft, KeyRound, Sparkles, Smile, BookOpen, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
