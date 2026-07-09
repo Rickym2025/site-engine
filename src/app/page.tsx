@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { Shield, Sparkles, CheckCircle, Mail, MapPin, Share2, Image as ImageIcon, Eye, ExternalLink, ArrowLeft, Play, Heart, Star, Check, Phone, Layers, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // IMPORTIAMO I COMPONENTI DI TUTTI I 9 TEMPLATE REALI
 import Template_il_guardiano from '@/components/Template_il_guardiano';
@@ -63,7 +64,9 @@ export default function GeneratorHome() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [adminJson, setAdminAdminJson] = useState('');
-  const [adminPhone, setAdminPhone] = useState('');
+  
+  // MANTENUTO IL CAMPO VUOTO COME DA TUA RICHIESTA PER COMPILAZIONE MANUALE
+  const [adminPhone, setAdminPhone] = useState(''); 
   const [adminLoading, setAdminLoading] = useState(false);
 
   // Controlla la URL all'avvio senza rompere il build-time SSR di Next.js
@@ -235,7 +238,7 @@ export default function GeneratorHome() {
                 className={`text-[10px] sm:text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${
                   activeTemplateId === t.id 
                     ? 'bg-zinc-900 text-white font-extrabold shadow-sm' 
-                    : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/40'
+                    : 'text-stone-400 hover:text-white hover:bg-zinc-900/40'
                 }`}
               >
                 {t.label}
@@ -255,7 +258,7 @@ export default function GeneratorHome() {
           ) : (
             <button
               onClick={() => window.open(`/${slug.toLowerCase().replace(/[^a-z0-9-_]/g, '-')}`, '_blank')}
-              className="w-full sm:w-auto bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-xs px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-all"
+              className="w-full sm:w-auto bg-zinc-900 hover:bg-[#5F6F52] text-white font-extrabold text-xs px-5 py-3 rounded-xl flex items-center justify-center gap-2 transition-all"
             >
               <span>Apri Sito Ufficiale</span>
               <ExternalLink className="h-4 w-4" />
@@ -314,7 +317,7 @@ export default function GeneratorHome() {
             Crea la tua Landing Page <br />
             <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">Ad Alta Conversione</span>
           </h1>
-          <p className="text-zinc-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
+          <p className="text-zinc-450 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
             Inserisci i dati essenziali del professionista. Il nostro algoritmo compilerà la struttura strategica di vendita generando l'anteprima.
           </p>
         </div>
@@ -381,7 +384,7 @@ export default function GeneratorHome() {
                 <div className="text-left">
                   <label className="block text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-2">Slug desiderato (Indirizzo web)</label>
                   <div className="relative flex items-center">
-                    <span className="absolute left-4 text-zinc-500 font-mono text-sm">/</span>
+                    <span className="absolute left-4 text-zinc-650 font-mono text-sm">/</span>
                     <input
                       type="text"
                       required
@@ -505,7 +508,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(1); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -542,11 +545,11 @@ export default function GeneratorHome() {
                       {templateId === 2 && <span className="bg-amber-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">02. L'Atelier</h4>
-                    <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Fascino cinematico oscuro. Texture pixelata dorata sovrapposta a video-background oscurato. Perfetto per creazioni d'arte e immobili ad alto margine.</p>
+                    <p className="text-sm text-zinc-450 font-light leading-relaxed max-w-lg">Fascino cinematico oscuro. Texture pixelata dorata sovrapposta a video-background oscurato. Perfetto per creazioni d'arte e immobili ad alto margine.</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(2); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -558,8 +561,8 @@ export default function GeneratorHome() {
                       <div className="h-2 w-10 bg-amber-500 rounded"></div>
                     </div>
                     <div className="flex flex-col items-center justify-center flex-grow py-2 space-y-1">
-                      <div className="h-2 w-16 bg-stone-850 rounded"></div>
-                      <div className="h-2 w-12 bg-stone-850 rounded"></div>
+                      <div className="h-2 w-16 bg-[#161a25] rounded"></div>
+                      <div className="h-2 w-12 bg-[#161a25] rounded"></div>
                       <div className="h-3 w-8 bg-amber-500 rounded-sm mt-1"></div>
                     </div>
                     <div className="h-2 bg-stone-800 rounded-full w-full"></div>
@@ -583,7 +586,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(3); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -605,7 +608,7 @@ export default function GeneratorHome() {
                         <div className="h-2 bg-blue-500 rounded-sm"></div>
                       </div>
                     </div>
-                    <div className="h-2 bg-stone-100 rounded-full w-full"></div>
+                    <div className="h-2 bg-[#1b1e2e] rounded-full w-full"></div>
                   </div>
                 </div>
 
@@ -626,7 +629,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(4); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -661,7 +664,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-stone-500/10 text-stone-300 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-stone-500/20">Bento & Designer</span>
+                      <span className="bg-[#5f6f52]/10 text-[#a3b899] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#5f6f52]/20">Bento & Designer</span>
                       {templateId === 5 && <span className="bg-[#5F6F52] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">05. Il Creativo</h4>
@@ -669,7 +672,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(5); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -707,7 +710,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(6); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -719,7 +722,7 @@ export default function GeneratorHome() {
                       <div className="h-2 w-10 bg-purple rounded"></div>
                     </div>
                     <div className="flex-grow flex flex-col justify-center items-center relative space-y-1">
-                      <div className="h-16 w-full bg-stone-900 border border-stone-800 rounded-md flex items-center justify-center relative">
+                      <div className="h-16 w-full bg-stone-900 border border-stone-850 rounded-md flex items-center justify-center relative">
                         <Play className="h-4 w-4 text-purple-500 fill-purple-500" />
                       </div>
                       <div className="h-2 w-full bg-[#1b1e2e] rounded"></div>
@@ -737,7 +740,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#10b981]/20">Psicologi & Benessere</span>
+                      <span className="bg-[#10b981]/10 text-[#6ee7b7] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#10b981]/20">Psicologi & Benessere</span>
                       {templateId === 7 && <span className="bg-[#10b981] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">07. L'Empatico</h4>
@@ -745,7 +748,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(7); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -758,7 +761,7 @@ export default function GeneratorHome() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 flex-grow items-center py-1">
                       <div className="space-y-1">
-                        <div className="h-1.5 w-10 bg-stone-350 rounded"></div>
+                        <div className="h-1.5 w-10 bg-stone-300 rounded"></div>
                         <div className="h-1.5 w-8 bg-stone-250 rounded"></div>
                       </div>
                       <div className="h-20 bg-[#FAF9F5] rounded-full border border-stone-200 shadow-sm flex items-center justify-center">
@@ -786,7 +789,7 @@ export default function GeneratorHome() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(8); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
@@ -802,7 +805,7 @@ export default function GeneratorHome() {
                         <div className="h-1.5 w-10 bg-stone-300 rounded"></div>
                         <div className="h-2 w-8 bg-slate-900 rounded-sm"></div>
                       </div>
-                      <div className="bg-slate-250 rounded-lg border border-stone-200"></div>
+                      <div className="bg-slate-250 rounded-lg border border-stone-250"></div>
                     </div>
                     <div className="h-2 bg-stone-200 rounded-full w-full"></div>
                   </div>
@@ -818,14 +821,14 @@ export default function GeneratorHome() {
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
                       <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-emerald-500/20">Cinematic & Introspezione</span>
-                      {templateId === 9 && <span className="bg-emerald-700 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
+                      {templateId === 9 && <span className="bg-[#10b981] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">09. Il Sentiero</h4>
                     <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Immagine Hero a tutto schermo ad altissimo impatto d'atmosfera. Integra una raffinata timeline di crescita terapeutica verticale.</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(9); }}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl border border-zinc-800 transition-all"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-300 hover:text-white bg-zinc-900 px-4 py-2 rounded-xl transition-all border border-zinc-800"
                     >
                       <Eye className="h-4 w-4" /> Esplora Anteprima Live
                     </button>
