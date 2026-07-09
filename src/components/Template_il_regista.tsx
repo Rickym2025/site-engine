@@ -34,7 +34,7 @@ interface TemplateProps {
   hasBlog?: boolean;
 }
 
-export default function Template_il_regista({ data, nomeCliente, slug }: TemplateProps) {
+export default function Template_il_regista({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#8B5CF6', video_bg_url, email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
 
