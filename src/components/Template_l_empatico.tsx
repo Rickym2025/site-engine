@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Calendar, Smile, ShieldAlert } from 'lucide-react';
+import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Smile, Sparkles } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -26,8 +27,8 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
-    foto_profilo?: string; // Nuova chiave opzionale per la foto dello psicologo
-    piva?: string;
+    foto_profilo?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
@@ -35,7 +36,7 @@ interface TemplateProps {
 }
 
 export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
+  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -50,7 +51,6 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
   const fallbackIndirizzo = indirizzo || "Via della Pace 15, Studio Professionale (RO)";
   const fallbackFb = social_fb || "https://facebook.com";
   const fallbackIg = social_ig || "https://instagram.com";
-  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -79,7 +79,7 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden"
+      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
       
       {/* BACKGROUND ORGANICO CON SFUMATURE MORBIDE SAGE-GREEN & SABBIA */}
@@ -107,13 +107,13 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
           
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-wider text-stone-500">
             <a href="#approccio" className="hover:text-stone-900 transition-colors">Il mio Approccio</a>
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-stone-950 transition-colors">
+                Blog
+              </Link>
+            )}
             <a href="#servizi" className="hover:text-stone-900 transition-colors">Aree di Intervento</a>
-              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
-              {hasBlog && (
-                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
-                  Blog
-                </Link>
-              )}
             <a href="#contatto" className="hover:text-stone-900 transition-colors">Prenota un Colloquio</a>
             <a href="#faq" className="hover:text-stone-900 transition-colors">FAQ</a>
           </nav>
@@ -215,13 +215,9 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
       <section id="contatto" className="max-w-5xl mx-auto px-6 pb-24 relative z-10">
         <div className="bg-[#FAF9F5] border border-stone-200 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {/* Sinistra: Rassicurazioni, Etica e MAPPA DI GOOGLE */}
+          {/* Sinistra: Rassicurazioni ed Etica */}
           <div className="lg:col-span-5 space-y-6 text-left">
             <h3 className="text-2xl md:text-3xl font-serif font-black text-stone-900 leading-tight">Fai il primo passo nel totale rispetto dei tuoi tempi</h3>
-            
-            {/* 📍 Google Map perfettamente integrata a dimensione ideale */}
-            <GoogleMap address={indirizzo || fallbackIndirizzo} />
-
             <p className="text-sm text-stone-500 font-light leading-relaxed">
               Il primo colloquio conoscitivo serve ad inquadrare la tua situazione, definire i tuoi obiettivi e capire se la mia metodologia di lavoro si adatta alle tue necessità.
             </p>
@@ -296,6 +292,36 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Warm integrato) */}
+      {/* ========================================================================= */}
+      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-stone-200/50 relative z-10 text-left">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Accoglienza dello Studio</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-stone-900 tracking-tight">Lo Studio Privato</h2>
+            <p className="text-sm text-stone-500 font-light leading-relaxed">
+              Riceviamo i pazienti su appuntamento all'interno di uno spazio intimo, caldo e silenzioso, strutturato per favorire la massima concentrazione, comfort e riservatezza.
+            </p>
+            <div className="space-y-4 pt-4 text-xs font-bold text-stone-600">
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-stone-450" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-5 w-5 text-stone-450 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            {/* Componente mappa nativo e dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
+      {/* GALLERIA FOTOGRAFICA CON TEMA WARM INTEGRATO */}
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="warm" />
+
       {/* ACCORDION FAQ E DETRAIBILITÀ FISCALE */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-stone-200/50 relative z-10">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
@@ -339,38 +365,38 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
 
       {/* FOOTER ISTITUZIONALE */}
       <footer className="border-t border-stone-200/50 bg-white py-16 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
           
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <span className="font-serif font-bold text-lg text-stone-900">{nomeCliente}</span>
             <p className="text-xs text-stone-500 leading-relaxed font-light">
               Prestazioni sanitarie protette ed erogate in conformità alle direttive dell'Ordine Nazionale degli Psicologi.
             </p>
           </div>
 
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Studio & Contatti</h4>
             <ul className="space-y-3 text-xs text-stone-500 font-light">
               <li className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-stone-400" />
+                <Mail className="h-4 w-4 text-stone-450" />
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-stone-900 transition-colors">{fallbackEmail}</a>
               </li>
               <li className="flex items-start space-x-2">
-                <MapPin className="h-4 w-4 text-stone-400 shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-stone-450 shrink-0 mt-0.5" />
                 <span>{fallbackIndirizzo}</span>
               </li>
             </ul>
           </div>
 
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
             <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-stone-400 text-stone-400 hover:text-stone-900 transition-all" aria-label="Facebook">
+              <a href={fallbackFb} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-[#5F6F52] text-stone-400 hover:text-stone-900 transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
                 </svg>
               </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-stone-400 text-stone-400 hover:text-stone-900 transition-all" aria-label="Instagram">
+              <a href={fallbackIg} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-[#5F6F52] text-stone-400 hover:text-stone-900 transition-all" aria-label="Instagram">
                 <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -381,48 +407,47 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
           </div>
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Normative</h4>
-            <p>Iscrizione Albo Psicologi N. [Inserire Numero]</p>
-            <p>P.IVA: {fallbackPiva}</p>
-            <div className="flex flex-col space-y-2">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Trasparenza Fiscale</h4>
+            <p>Iscrizione Ordine Nazionale Psicologi N. [Numero]</p>
+            <div className="flex flex-col space-y-1">
               <Link href={`/${slug}/privacy`} className="hover:text-stone-950 transition-colors">
                 Privacy Policy
               </Link>
-                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
               {hasBlog && (
-                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                <Link href={`/${slug}/blog`} className="hover:text-stone-950 transition-colors">
                   Blog
                 </Link>
               )}
-              <a href="#" className="hover:text-stone-950 transition-colors">Deontologia Sanitaria</a>
+              <a href="#" className="hover:text-stone-950 transition-colors">Normativa Privacy GDPR</a>
+              <a href="#" className="hover:text-stone-950 transition-colors">Consenso Informato Sanitario</a>
             </div>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-stone-100 text-center text-xs text-stone-400 font-mono tracking-widest">
-          © {new Date().getFullYear()} {nomeCliente} • RM Studio Web Engine
+        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-stone-100 text-center text-[10px] text-stone-500 font-mono tracking-widest">
+          © {new Date().getFullYear()} {nomeCliente} • Sviluppato da RM Studio Engine
         </div>
       </footer>
 
-      {/* COOKIE BANNER */}
+      {/* COOKIE BANNER MINIMAL */}
       <AnimatePresence>
         {showCookies && (
           <motion.div 
-            initial={{ opacity: 0, y: 100 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-stone-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-xs bg-white border border-stone-200 p-6 rounded-none shadow-xl z-100 backdrop-blur-xl flex flex-col gap-4 text-slate-800"
           >
-            <p className="text-xs text-stone-600 leading-relaxed font-light text-left">
-              Questo sito web utilizza solo cookie tecnici necessari per il corretto funzionamento. Cliccando su "Accetto", acconsenti al loro utilizzo.
+            <p className="text-[11px] text-slate-500 leading-relaxed font-light text-left">
+              Uso solo cookie tecnici per garantire la corretta fluidità della navigazione sul nostro portale.
             </p>
-            <div className="flex items-center justify-end space-x-3">
+            <div className="flex items-center justify-end">
               <button 
                 onClick={acceptCookies}
-                className="bg-stone-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-stone-800 transition-all flex items-center space-x-2"
+                className="bg-stone-900 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-none hover:brightness-105 transition-all"
               >
-                <span>Accetto</span>
-                <Check className="h-3.5 w-3.5" />
+                Accetto
               </button>
             </div>
           </motion.div>
