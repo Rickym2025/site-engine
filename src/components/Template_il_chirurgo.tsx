@@ -16,7 +16,6 @@ interface TemplateProps {
       subheadline: string;
       cta1: string;
       cta2: string;
-      galleria?: string[];
     };
     servizi: Array<{
       titolo: string;
@@ -29,6 +28,7 @@ interface TemplateProps {
     social_fb?: string;
     social_ig?: string;
     piva?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
