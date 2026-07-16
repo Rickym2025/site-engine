@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Sparkles, Check, Send, Star, Mail, MapPin, ChevronDown, Calendar, Eye, Globe } from 'lucide-react';
+import { Shield, Check, Mail, MapPin, ChevronDown, Globe } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     piva?: string;
     galleria?: string[];
   };
@@ -36,7 +38,7 @@ interface TemplateProps {
 }
 
 export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#10B981', email, indirizzo, social_fb, social_ig, piva } = data;
+  const { hero, social_proof, brand_color = '#10B981', email, indirizzo, piva } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -46,8 +48,6 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
   // FALLBACK DIMOSTRATIVI
   const fallbackEmail = email || `consulenza@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Via dell'Ingegneria 42, Centro Direzionale (RO)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
   const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
@@ -193,7 +193,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
       {/* RECENT REVIEWS (METALLIC LOOK) */}
       <section id="percorso" className="bg-slate-950/40 border-y border-slate-900 py-16 px-6 relative z-10">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6">
-          <Star className="h-6 w-6 text-amber-500 fill-amber-500 shrink-0" />
+          <svg className="h-6 w-6 text-amber-500 fill-amber-500 shrink-0" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           <p className="text-lg md:text-xl font-medium text-slate-350 italic leading-relaxed text-center sm:text-left">
             "{social_proof}"
           </p>
@@ -219,7 +219,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
                   <Shield className="h-6 w-6 text-[var(--brand-color)]" />
                 </div>
                 <h3 className="text-xl font-bold text-white">{servizio.titolo}</h3>
-                <p className="text-xs text-slate-400 font-light leading-relaxed">{servizio.descrizione}</p>
+                <p className="text-xs text-slate-400 font-light leading-relaxed">{servizio.descrizione || servizio.description}</p>
               </div>
             </motion.div>
           ))}
@@ -300,7 +300,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
           {inviato ? (
             <div className="py-12 text-center space-y-4">
               <div className="h-16 w-16 bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-full flex items-center justify-center mx-auto text-[var(--brand-color)]">
-                <Check className="h-8 w-8" />
+                <svg className="h-8 w-8 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
               <h3 className="text-2xl font-bold text-white font-serif">Richiesta Ricevuta!</h3>
               <p className="text-zinc-500 text-sm max-w-xs mx-auto">
@@ -370,22 +370,10 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-500">Seguici</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-450 hover:text-white transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-440 hover:text-white transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-zinc-550 font-light">
