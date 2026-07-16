@@ -33,6 +33,7 @@ interface TemplateProps {
     piva?: string;
     video_bg_url?: string; // Video di sfondo cinematico
     galleria?: string[];
+    recensioni?: any[];
   };
   nomeCliente: string;
   slug: string;
