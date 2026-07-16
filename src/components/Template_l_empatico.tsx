@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Smile, Sparkles } from 'lucide-react';
+import { Heart, Compass, Check, Send, Mail, MapPin, ChevronDown, Smile } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     foto_profilo?: string;
     galleria?: string[];
   };
@@ -36,7 +38,7 @@ interface TemplateProps {
 }
 
 export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, social_fb, social_ig, foto_profilo } = data;
+  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, foto_profilo } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -49,8 +51,6 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
   // FALLBACK DIMOSTRATIVI
   const fallbackEmail = email || `studio@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Via della Pace 15, Studio Professionale (RO)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -204,7 +204,7 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
               </h3>
               
               <p className="text-sm text-stone-500 font-light leading-relaxed">
-                {servizio.descrizione}
+                {servizio.descrizione || servizio.description}
               </p>
             </motion.div>
           ))}
@@ -388,22 +388,10 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-stone-400">Seguici</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-[#5F6F52] text-stone-400 hover:text-stone-900 transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-stone-50 rounded-full border border-stone-200 hover:border-[#5F6F52] text-stone-400 hover:text-stone-900 transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-stone-500 font-light text-left">
@@ -437,7 +425,7 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-xs bg-white border border-stone-200 p-6 rounded-none shadow-xl z-100 backdrop-blur-xl flex flex-col gap-4 text-slate-800"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-xs bg-white border border-stone-200 p-6 rounded-none shadow-xl z-[100] backdrop-blur-xl flex flex-col gap-4 text-slate-800"
           >
             <p className="text-[11px] text-slate-500 leading-relaxed font-light text-left">
               Uso solo cookie tecnici per garantire la corretta fluidità della navigazione sul nostro portale.
