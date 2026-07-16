@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Milestone, Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, ArrowDown, Shield, ShieldCheck } from 'lucide-react';
+import { Milestone, Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, ArrowDown, Shield } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -26,8 +27,9 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
-    immagine_hero?: string;
     piva?: string;
+    immagine_hero?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
@@ -35,7 +37,7 @@ interface TemplateProps {
 }
 
 export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, immagine_hero, piva } = data;
+  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, piva, immagine_hero } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -79,7 +81,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden"
+      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
 
       {/* NAVBAR TRASPARENTE IN SOVRAPPOSIZIONE */}
@@ -89,14 +91,14 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
           
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-stone-200/90">
             <a href="#tappe" className="hover:text-white transition-colors">Il Metodo</a>
-            <a href="#specializzazioni" className="hover:text-white transition-colors">Specializzazioni</a>
             {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
             {hasBlog && (
-              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+              <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
                 Blog
               </Link>
             )}
-            <a href="#studio" className="hover:text-white transition-colors">Dove Ricevo</a>
+            <a href="#specializzazioni" className="hover:text-white transition-colors">Specializzazioni</a>
+            <a href="#sede" className="hover:text-white transition-colors">Dove Ricevo</a>
             <a href="#prenota" className="hover:text-white transition-colors">Prenotazioni</a>
           </nav>
           
@@ -126,7 +128,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="bg-black/40 border border-white/10 p-8 md:p-12 rounded-[36px] backdrop-blur-xl shadow-2xl text-white space-y-6"
+            className="bg-black/40 border border-white/10 p-8 md:p-12 rounded-[36px] backdrop-blur-xl shadow-2xl text-white space-y-6 animate-none"
           >
             <div className="inline-flex items-center space-x-2 bg-white/10 border border-white/15 px-4 py-1.5 rounded-full">
               <Compass className="h-4 w-4 text-[#D4AF37] animate-spin" style={{ animationDuration: '20s' }} />
@@ -182,7 +184,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
 
-      {/* 🚀 LE TRE TAPPE DEL SENTIERO (TIMELINE VERTICALE) */}
+      {/* 🚀 LE TRE TAPPE DEL SENTIERO (TIMELINE VERTICALE DI CONVERSIONE) */}
       <section id="tappe" className="py-24 bg-white border-y border-stone-200/50 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           
@@ -205,7 +207,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
                 <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-bold">Fase 1: Accoglienza e Ascolto</span>
                 <h3 className="text-2xl font-serif font-black text-stone-950">Il Primo Colloquio Conoscitivo</h3>
                 <p className="text-sm text-stone-500 font-light leading-relaxed max-w-2xl mt-1">
-                  Uno spazio iniziale dedicato a comprendere quali sono le tue fatiche attuali. Non è richiesto alcun tipo di preparazione: parlerai unicamente di ciò che ti senti di condividere, nel totale rispetto dei tuoi tempi e della tua privacy.
+                  Uno spazio iniziale dedicato a comprendere quali sono le tue fatiche attuali. Non è richiesto alcun tipo di preparazione: parlerai unicamente di ciò che ti senti di considerare e condividere, nel totale rispetto dei tuoi tempi e della tua privacy.
                 </p>
               </div>
             </div>
@@ -271,31 +273,34 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
       </section>
 
       {/* ========================================================================= */}
-      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE (Visualizzazione organica sopra le prenotazioni) */}
+      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE (Stile Dark integrato) */}
       {/* ========================================================================= */}
-      <section id="studio" className="py-24 px-6 max-w-6xl mx-auto border-t border-stone-200/50 relative z-10 animate-none">
+      <section id="sede" className="py-20 px-6 max-w-6xl mx-auto border-b border-zinc-900 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-black">La Sede</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-black text-stone-900 tracking-tight">Lo Studio Clinico</h2>
-            <p className="text-sm text-stone-500 font-light leading-relaxed">
-              Le sedute in presenza si svolgono in un ambiente accogliente, silenzioso e strutturato per garantirti la massima serenità e il totale rispetto del segreto professionale e terapeutico.
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Presidio Fisico</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-white italic">La Sede dello Studio</h2>
+            <p className="text-sm text-zinc-400 font-light leading-relaxed">
+              Riceviamo i pazienti su appuntamento all'interno di una struttura dedicata, garantendo la totale conformità con le norme sanitarie e il massimo comfort di accoglienza.
             </p>
-            <div className="space-y-4 pt-2 text-xs font-bold text-stone-600">
-              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[var(--brand-color)]" /> {fallbackEmail}</p>
-              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            <div className="space-y-4 pt-4 text-xs font-bold text-zinc-500">
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-zinc-600" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-5 w-5 text-zinc-600 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
             </div>
           </div>
 
           <div className="lg:col-span-7">
-            {/* Componente mappa responsive nativo */}
+            {/* Componente mappa nativo e dinamico */}
             <GoogleMap address={indirizzo || fallbackIndirizzo} />
           </div>
 
         </div>
       </section>
       {/* ========================================================================= */}
+
+      {/* GALLERIA FOTOGRAFICA CON TEMA DARK INTEGRATO */}
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="dark" />
 
       {/* MODULO PRENOTAZIONI CON DETTAGLI CLINICI ED ETICI */}
       <section id="prenota" className="max-w-4xl mx-auto px-6 pb-24 relative z-10">
@@ -320,7 +325,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
               {/* Copy a sinistra */}
               <div className="lg:col-span-5 space-y-4 text-left">
                 <span className="text-[9px] font-mono text-[#D4AF37] uppercase tracking-widest font-black">Riservatezza & Sicurezza</span>
-                <h3 className="text-2xl md:text-3xl font-serif font-black text-white leading-tight">Richiedi un Primo Incontro</h3>
+                <h3 className="text-2xl md:text-3xl font-serif font-black text-white leading-tight">Richiesta di Consulenza</h3>
                 <p className="text-xs text-stone-300 font-light leading-relaxed">
                   Invia una richiesta preliminare. Sarà mia cura risponderti via mail o telefonicamente per concordare giorno e orario del primo colloquio conoscitivo.
                 </p>
@@ -370,7 +375,6 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
                     className="w-full bg-[#D4AF37] hover:bg-[#c29c2d] text-stone-900 font-black text-xs uppercase tracking-widest py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg"
                   >
                     <span>Richiedi Disponibilità</span>
-                    <Send className="h-3.5 w-3.5" />
                   </button>
                 </form>
               </div>
@@ -381,7 +385,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
 
-      {/* ACCORDION FAQ DETRAIBILITÀ & PRESTAZIONI */}
+      {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-stone-200/50 relative z-10">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
           <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-black">Informazioni legali e pratiche</span>
@@ -397,10 +401,10 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
             <div key={idx} className="border-b border-stone-200/50 pb-4">
               <button 
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full flex items-center justify-between text-left font-serif font-bold text-lg py-3 hover:text-zinc-950 transition-colors"
+                className="w-full flex items-center justify-between text-left font-serif font-bold text-lg py-3 hover:text-[#5F6F52] transition-colors"
               >
                 <span>{faq.q}</span>
-                <ChevronDown className={`h-5 w-5 text-stone-400 transition-transform ${activeFaq === idx ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-4 w-4 text-stone-400 transition-transform ${activeFaq === idx ? 'rotate-180' : ''}`} />
               </button>
               
               <AnimatePresence>
@@ -411,7 +415,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-stone-500 font-light leading-relaxed text-xs pt-2 pb-4">
+                    <p className="text-[#94a3b8] font-light leading-relaxed text-sm pt-2 pb-4">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -423,7 +427,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
       </section>
 
       {/* FOOTER PREMIUM IN VERDE FORESTA */}
-      <footer className="border-t border-stone-800 bg-[#0E1F11] text-stone-300 py-16 px-6 relative z-10">
+      <footer className="border-t border-stone-850 bg-[#0E1F11] text-stone-300 py-16 px-6 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
           
           <div className="space-y-4">
@@ -450,12 +454,12 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
           <div className="space-y-4">
             <h4 className="font-bold text-[10px] text-white uppercase tracking-wider">Social Media</h4>
             <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-stone-300 hover:text-white transition-all" aria-label="Facebook">
+              <a href={fallbackFb} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-[#94a3b8] hover:text-white transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
                 </svg>
               </a>
-              <a href={fallbackIg} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-stone-300 hover:text-white transition-all" aria-label="Instagram">
+              <a href={fallbackIg} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-[#94a3b8] hover:text-white transition-all" aria-label="Instagram">
                 <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -467,19 +471,18 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
 
           <div className="space-y-4 text-xs text-stone-400 font-light">
             <h4 className="font-bold text-[10px] text-white uppercase tracking-wider">Trasparenza Fiscale</h4>
-            <p>P.IVA: {fallbackPiva}</p>
+            <p>Iscrizione Ordine Nazionale Psicologi N. [Numero]</p>
             <div className="flex flex-col space-y-1">
               <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
-                Normativa Privacy GDPR
+                Privacy Policy
               </Link>
-
-                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
-                {hasBlog && (
-                  <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
-                    Blog
-                  </Link>
-                )}
-              
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {hasBlog && (
+                <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
+                  Blog
+                </Link>
+              )}
+              <a href="#" className="hover:text-white transition-colors">Normativa Privacy GDPR</a>
               <a href="#" className="hover:text-white transition-colors">Consenso Informato Sanitario</a>
             </div>
           </div>
