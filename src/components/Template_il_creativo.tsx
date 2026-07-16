@@ -75,7 +75,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
   const bentoImg2 = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600"; // Architettura/mosaico
 
   return (
-    <div className="min-h-screen bg-[#F4F3EF] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative overflow-x-hidden text-left">
+    className="min-h-screen bg-gradient-to-b from-[#F4F3EF] via-[#F4F3EF] to-[var(--brand-color-glow)] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative overflow-x-hidden text-left">
       
       {/* Texture di carta pressata di sfondo (Sottilissimo rumore organico) */}
       <div className="fixed inset-0 z-40 opacity-[0.025] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9Ii4xNSIvPgo8L3N2Zz4=')] bg-repeat" />
@@ -232,7 +232,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
       <Gallery galleria={data.galleria} brandColor={brand_color} theme="warm" />
 
       {/* ACCORDION FAQ CHIARO */}
-      <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200 relative z-10">
+      <section id="faq" className="py-24 px-8 max-w-3xl mx-auto bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-zinc-900">Domande Frequenti</h2>
         
         <div className="space-y-4 text-left">
