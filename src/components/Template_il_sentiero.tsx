@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Milestone, Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, ArrowDown, Shield } from 'lucide-react';
+import { Milestone, Compass, Check, Mail, MapPin, ChevronDown, ArrowDown, Shield } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     piva?: string;
     immagine_hero?: string;
     galleria?: string[];
@@ -37,7 +39,7 @@ interface TemplateProps {
 }
 
 export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, social_fb, social_ig, piva, immagine_hero } = data;
+  const { hero, social_proof, brand_color = '#1E3F20', email, indirizzo, piva, immagine_hero } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -50,8 +52,6 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
   // FALLBACK DIMOSTRATIVI
   const fallbackEmail = email || `contatti@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Via dei Pioppi 24, Presso Centro Olistico (RO)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
   const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
@@ -265,7 +265,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
                   <Milestone className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-serif font-bold text-stone-950">{s.titolo}</h3>
-                <p className="text-xs text-stone-500 font-light leading-relaxed">{s.descrizione}</p>
+                <p className="text-xs text-stone-500 font-light leading-relaxed">{s.descrizione || s.descrizione}</p>
               </div>
             </div>
           ))}
@@ -451,22 +451,10 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4">
             <h4 className="font-bold text-[10px] text-white uppercase tracking-wider">Social Media</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-[#94a3b8] hover:text-white transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-2.5 bg-white/5 rounded-xl border border-white/10 hover:border-white text-[#94a3b8] hover:text-white transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-stone-400 font-light">
