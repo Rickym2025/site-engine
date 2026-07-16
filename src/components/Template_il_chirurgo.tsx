@@ -80,7 +80,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#FAF9F5] text-zinc-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden"
+      className="min-h-screen bg-gradient-to-b from-[#FAF9F5] via-[#FAF9F5] to-[var(--brand-color-glow)] text-zinc-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden"
     >
       
       {/* ========================================================================= */}
@@ -251,7 +251,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
       </section>
 
       {/* DETTAGLIO SERVIZI */}
-      <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto relative z-10">
+      <section id="servizi" className="py-20 px-8 max-w-6xl mx-auto bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <h2 className="text-3xl md:text-4xl font-black text-center mb-16 tracking-widest uppercase text-zinc-900">
           I Vantaggi del Nostro Servizio
         </h2>
