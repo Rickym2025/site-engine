@@ -49,14 +49,7 @@ export default async function SitePage({ params }: PageProps) {
   // =========================================================================
   // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG (Coercizione booleana pura)
   // =========================================================================
-  const { data: posts } = await supabase
-    .from('omnia_posts')
-    .select('id')
-    .eq('site_slug', slug)
-    .eq('is_published', true)
-    .limit(1);
-
-  const hasBlog = !!(posts && posts.length > 0);
+  const hasBlog = !!(siteData?.blog_posts && siteData.blog_posts.length > 0);
   // =========================================================================
 
   // =========================================================================
