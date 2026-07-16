@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown, ArrowRight } from 'lucide-react';
+import { Shield, Star, Check, Mail, MapPin, ChevronDown } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     piva?: string;
     foto_profilo?: string; // Foto di presidio/forza
     galleria?: string[];
@@ -37,7 +39,7 @@ interface TemplateProps {
 }
 
 export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#06B6D4', email, indirizzo, social_fb, social_ig, piva, foto_profilo } = data;
+  const { hero, social_proof, brand_color = '#06B6D4', email, indirizzo, piva, foto_profilo } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -50,8 +52,6 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
   // FALLBACK DIMOSTRATIVI
   const fallbackEmail = email || `sicurezza@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Viale dell'Industria 17b, Rovigo (RO)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
   const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
           
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-zinc-400">
             <a href="#progetto" className="hover:text-white transition-colors">La Protezione</a>
-            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG */}
             {hasBlog && (
               <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
                 Blog
@@ -148,7 +148,7 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
           </div>
         </div>
 
-        {/* Immagine di Forza a Destra (Forma organica e morbida) */}
+        {/* Immagine di Forza a Destra */}
         <div className="lg:col-span-5 relative flex justify-center">
           <div className="absolute inset-0 bg-[#0d0f17] rounded-[32px] transform rotate-3 scale-95 -z-10 border border-zinc-800" />
           <img 
@@ -189,7 +189,7 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
                   <Shield className="h-6 w-6 text-[var(--brand-color)]" />
                 </div>
                 <h3 className="text-xl font-bold text-white">{servizio.titolo}</h3>
-                <p className="text-xs text-zinc-400 font-light leading-relaxed">{servizio.descrizione}</p>
+                <p className="text-xs text-zinc-400 font-light leading-relaxed">{servizio.descrizione || servizio.description}</p>
               </div>
             </motion.div>
           ))}
@@ -264,13 +264,13 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
         </div>
       </section>
 
-      {/* MODULO CONTATTO (VETRO SATINATO DARK) */}
+      {/* MODULO CONTATTO */}
       <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-zinc-900">
         <div className="bg-[#0b0b0f] border border-zinc-900 p-8 rounded-3xl shadow-xl">
           {inviato ? (
             <div className="py-12 text-center space-y-4">
               <div className="h-16 w-16 bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-full flex items-center justify-center mx-auto text-[var(--brand-color)]">
-                <Check className="h-8 w-8" />
+                <svg className="h-8 w-8 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
               <h3 className="text-2xl font-bold text-white">Richiesta Ricevuta!</h3>
               <p className="text-zinc-500 text-sm max-w-xs mx-auto">
@@ -340,22 +340,10 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-500">Seguici</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-450 hover:text-white transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-450 hover:text-white transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-zinc-550 font-light">
