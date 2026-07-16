@@ -7,6 +7,7 @@ import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     social_fb?: string;
     social_ig?: string;
     piva?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
@@ -70,7 +72,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
   const bentoImg2 = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600"; // Architettura/mosaico
 
   return (
-    <div className="min-h-screen bg-[#F4F3EF] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative">
+    <div className="min-h-screen bg-[#F4F3EF] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative overflow-x-hidden text-left">
       
       {/* Texture di carta pressata di sfondo (Sottilissimo rumore organico) */}
       <div className="fixed inset-0 z-40 opacity-[0.025] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9Ii4xNSIvPgo8L3N2Zz4=')] bg-repeat" />
@@ -84,13 +86,13 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
           
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#bento" className="hover:text-zinc-900 transition-colors">Il Progetto</a>
-            <a href="#recensioni" className="hover:text-zinc-900 transition-colors">Dicono di noi</a>
             {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
             {hasBlog && (
-              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+              <Link href={`/${slug}/blog`} className="hover:text-zinc-900 transition-colors">
                 Blog
               </Link>
             )}
+            <a href="#recensioni" className="hover:text-zinc-900 transition-colors">Dicono di noi</a>
             <a href="#faq" className="hover:text-zinc-900 transition-colors">FAQ</a>
             <a href="#contatto" className="hover:text-zinc-900 transition-colors">Contatti</a>
           </nav>
@@ -129,7 +131,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
         <div className="flex justify-center">
           <a
             href="#contatto"
-            className="bg-[#5F6F52] hover:bg-[#4a583e] text-white font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-md animate-none"
+            className="bg-[#5F6F52] hover:bg-[#4a583e] text-white font-bold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-md"
           >
             <Phone className="h-5 w-5" />
             <span>{hero.cta1}</span>
@@ -169,7 +171,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 <Star key={i} className="h-4 w-4 fill-amber-600" />
               ))}
             </div>
-            <p className="text-zinc-600 text-sm italic font-light">
+            <p className="text-zinc-650 text-sm italic font-light">
               "{social_proof}"
             </p>
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Recensione</span>
@@ -205,7 +207,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
             <div className="space-y-2">
               <h4 className="font-bold text-lg font-serif italic">{servizi[2]?.titolo || "Spedizione"}</h4>
-              <p className="text-xs text-zinc-500 font-light leading-relaxed">{servizi[2]?.descrizione || "Spedizioni assicurate in tutta Europa con protocolli di massima protezione."}</p>
+              <p className="text-xs text-zinc-500 font-light leading-relaxed">{servizi[2]?.descrizione || "Spedizioni assicurate in tutta Europa con perizie tecniche dedicate."}</p>
             </div>
           </motion.div>
 
@@ -222,6 +224,9 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
       {/* ========================================================================= */}
+
+      {/* GALLERIA FOTOGRAFICA CON TEMA WARM INTEGRATO */}
+      <Gallery galleria={data.galleria} brandColor="#5F6F52" theme="warm" />
 
       {/* ACCORDION FAQ CHIARO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200 relative z-10">
@@ -271,7 +276,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
           <div className="lg:col-span-6 space-y-6 text-left">
             <span className="text-xs font-mono text-[#5F6F52] uppercase tracking-widest font-bold">La nostra posizione</span>
             <h3 className="text-3xl md:text-4xl font-light font-serif italic text-zinc-900 leading-none">Vieni a trovarci in Atelier</h3>
-            <p className="text-sm text-zinc-600 font-light leading-relaxed">
+            <p className="text-sm text-zinc-650 font-light leading-relaxed">
               Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l'integrità e la riservatezza delle consulenze e delle opere in esposizione.
             </p>
             
@@ -325,7 +330,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
 
                 <button
                   type="submit"
-                  className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
+                  className="w-full bg-[#5F6F52] hover:bg-[#4a583e] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md animate-none"
                 >
                   <span>Invia Messaggio</span>
                   <ArrowRight className="h-4 w-4" />
@@ -340,16 +345,16 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
 
       {/* FOOTER ORGANICO */}
       <footer className="border-t border-zinc-200 bg-white py-16 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
           
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <span className="font-extrabold text-lg tracking-widest text-zinc-900 uppercase">{nomeCliente}</span>
             <p className="text-xs text-zinc-500 leading-relaxed font-light">
               Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l'esperienza d'autore.
             </p>
           </div>
 
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Contatti Diretti</h4>
             <ul className="space-y-3 text-xs text-zinc-500 font-light">
               <li className="flex items-center space-x-2">
@@ -363,7 +368,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </ul>
           </div>
 
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Seguici</h4>
             <div className="flex items-center space-x-3">
               <a href={fallbackFb} target="_blank" className="p-3 bg-zinc-50 rounded-full border border-zinc-200 hover:border-[#5F6F52] text-zinc-500 hover:text-[#5F6F52] transition-all" aria-label="Facebook">
@@ -381,7 +386,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
           </div>
 
-          <div className="space-y-4 text-xs text-zinc-500 font-light text-left">
+          <div className="space-y-4 text-xs text-zinc-500 font-light">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Trasparenza</h4>
             <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
@@ -425,7 +430,6 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-800 transition-all flex items-center space-x-2"
               >
                 <span>Accetto</span>
-                <Check className="h-3.5 w-3.5" />
               </button>
             </div>
           </motion.div>
