@@ -19,9 +19,11 @@ interface TemplateProps {
       cta1: string;
       cta2: string;
     };
+    // ⚡ Aggiorna questo blocco per accettare sia la versione italiana che inglese
     servizi: Array<{
       titolo: string;
-      descrizione: string;
+      descrizione?: string; 
+      description?: string; 
     }>;
     social_proof: string;
     brand_color?: string;
@@ -29,10 +31,9 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
-    social_linkedin?: string;
     piva?: string;
     galleria?: string[];
-    recensioni?: any[];
+    recensioni?: any[]; // (Aggiungi anche questo se usi ReviewsMarquee qui)
   };
   nomeCliente: string;
   slug: string;
