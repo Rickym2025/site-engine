@@ -32,6 +32,7 @@ interface TemplateProps {
     social_linkedin?: string;
     foto_profilo?: string;
     galleria?: string[];
+    recensioni?: any[];
   };
   nomeCliente: string;
   slug: string;
