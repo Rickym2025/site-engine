@@ -81,7 +81,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#060608] text-zinc-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden"
+      className="min-h-screen bg-gradient-to-b from-[#FAF9F5] via-[#FAF9F5] to-[var(--brand-color-glow)] text-zinc-800 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden"
     >
       
       {/* Texture di carta pressata di sfondo (Sottilissimo rumore organico) */}
@@ -200,7 +200,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
       {/* ========================================================================= */}
       {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Dark integrato) */}
       {/* ========================================================================= */}
-      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-b border-zinc-900 relative z-10">
+      <section id="studio" className="py-20 px-8 max-w-6xl mx-auto bg-[#0b0b12] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6 text-left">
