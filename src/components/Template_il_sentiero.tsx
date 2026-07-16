@@ -83,7 +83,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
+      className="min-h-screen bg-gradient-to-b from-[#FAF9F5] via-[#FAF9F5] to-[var(--brand-color-glow)] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
 
       {/* NAVBAR TRASPARENTE IN SOVRAPPOSIZIONE */}
@@ -253,7 +253,7 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
       </section>
 
       {/* SPECIALIZZAZIONI (AREE DI INTERVENTO) */}
-      <section id="specializzazioni" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+      <section id="specializzazioni" className="py-24 px-8 max-w-6xl mx-auto bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
           <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-black">Aree di competenza clinica</span>
           <h2 className="text-3xl md:text-4xl font-serif font-black text-stone-900">Ambiti di Intervento</h2>
