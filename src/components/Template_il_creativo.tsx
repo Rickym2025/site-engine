@@ -366,7 +366,8 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-zinc-900 transition-colors">{fallbackEmail}</a>
               </li>
               <li className="flex items-start space-x-2">
-                <MapPin className="h-4 w-4 text-[#5F6F52]" shrink-0 mt-0.5" />
+                {/* ⚡ Qui è stata corretta la formattazione dei parametri */}
+                <MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" />
                 <span>{fallbackIndirizzo}</span>
               </li>
             </ul>
