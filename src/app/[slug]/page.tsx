@@ -47,9 +47,17 @@ export default async function SitePage({ params }: PageProps) {
   // =========================================================================
 
   // =========================================================================
-  // ⚡ CONTROLLO AUTOMATICO PRESENZA ARTICOLI BLOG (Coercizione booleana pura)
+  // ⚡ CONTROLLO IBRIDO PRESENZA ARTICOLI BLOG (Cerca sia nel DB sia nel JSON)
   // =========================================================================
-  const hasBlog = !!(siteData?.blog_posts && siteData.blog_posts.length > 0);
+  const { data: dbPosts } = await supabase
+    .from('omnia_posts')
+    .select('id')
+    .eq('site_slug', slug)
+    .eq('is_published', true)
+    .limit(1);
+
+  // Il blog è attivo se c'è almeno un post nel DB OPPURE se è presente l'array blog_posts nel JSON unico
+  const hasBlog = !!(dbPosts && dbPosts.length > 0) || !!(siteData?.blog_posts && siteData.blog_posts.length > 0);
   // =========================================================================
 
   // =========================================================================
@@ -106,7 +114,7 @@ export default async function SitePage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
 
-        {/* 🪄 SCRIPT E BOTTONE MAGIC LINK: Sblocca il pulsante Scrivi Blog invisibile agli utenti comuni */}
+        {/* 🪄 SCRIPT E BOTTONE MAGIC LINK */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -118,7 +126,7 @@ export default async function SitePage({ params }: PageProps) {
                   localStorage.setItem('is_editor', 'true');
                 }
                 
-                // Controlla la presenza del pulsante nel DOM con un sondaggio rapido (evita i problemi di asincronia di React)
+                // Controlla la presenza del pulsante nel DOM con un sondaggio rapido
                 if (localStorage.getItem('is_editor') === 'true') {
                   var checkExist = setInterval(function() {
                     var btn = document.getElementById('magic-scrivi-blog-btn');
