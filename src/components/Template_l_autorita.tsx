@@ -79,7 +79,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#030712] text-slate-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden text-left"
+      className="min-h-screen bg-gradient-to-b from-[#030712] via-[#030712] to-[var(--brand-color-glow)] text-slate-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden text-left"
     >
       
       {/* BACKGROUND DEEP BLUE/INDIAGO CON SFUMATURE METALLICHE */}
@@ -206,7 +206,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
       <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* GRID DEI SERVIZI CON EFFETTO SPOTLIGHT */}
-      <section id="servizi" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+      <section id="servizi" className="py-24 px-8 max-w-6xl mx-auto bg-slate-950/40 border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
           <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-black">Ambiti Operativi</span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">I Servizi di Consulenza</h2>
