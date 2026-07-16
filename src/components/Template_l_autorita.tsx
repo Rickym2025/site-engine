@@ -9,6 +9,7 @@ import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
 import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
+import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -199,6 +200,9 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
           </p>
         </div>
       </section>
+
+      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
+      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* GRID DEI SERVIZI CON EFFETTO SPOTLIGHT */}
       <section id="servizi" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
