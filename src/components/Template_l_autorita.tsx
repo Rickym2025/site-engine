@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Star, Phone, Mail, MapPin, ChevronDown, Check, Send } from 'lucide-react';
+import { Shield, Sparkles, Check, Send, Star, Mail, MapPin, ChevronDown, Calendar, Eye, Globe } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -21,13 +22,13 @@ interface TemplateProps {
       descrizione: string;
     }>;
     social_proof: string;
-    brand_color?: string;
-    logo_url?: string;
+    brand_color?: string; // Di default useremo uno smeraldo istituzionale (#10B981)
     email?: string;
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
     piva?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
@@ -35,12 +36,19 @@ interface TemplateProps {
 }
 
 export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#6366F1', logo_url, email, indirizzo, social_fb, social_ig, piva } = data;
+  const { hero, social_proof, brand_color = '#10B981', email, indirizzo, social_fb, social_ig, piva } = data;
   const servizi = data.servizi || [];
-  
+
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showCookies, setShowCookies] = useState(false);
   const [inviato, setInviato] = useState(false);
+
+  // FALLBACK DIMOSTRATIVI
+  const fallbackEmail = email || `consulenza@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
+  const fallbackIndirizzo = indirizzo || "Via dell'Ingegneria 42, Centro Direzionale (RO)";
+  const fallbackFb = social_fb || "https://facebook.com";
+  const fallbackIg = social_ig || "https://instagram.com";
+  const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -62,234 +70,209 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
 
   const customStyles = {
     '--brand-color': brand_color,
-    '--brand-color-glow': `${brand_color}18`,
-    '--brand-color-strong': `${brand_color}44`,
-    '--brand-color-light': `${brand_color}bb`,
+    '--brand-color-glow': `${brand_color}1a`,
+    '--brand-color-strong': `${brand_color}4d`,
   } as React.CSSProperties;
-
-  const imageLeft = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600";
-  const imageRight = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600";
-  const fallbackEmail = email || `direzione@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
-  const fallbackIndirizzo = indirizzo || "Via dei Professionisti 42, Milano (MI)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
-  const fallbackPiva = piva || "IT01234567890";
 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#030308] text-zinc-150 selection:bg-[var(--brand-color)] selection:text-white font-sans antialiased relative overflow-x-hidden"
+      className="min-h-screen bg-[#030712] text-slate-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden text-left"
     >
-      {/* 1. Stile di animazione CSS per l'effetto di Shimmer Metallico del testo */}
-      <style jsx global>{`
-        @keyframes shine {
-          to { background-position: 200% center; }
-        }
-        .text-shimmer {
-          background: linear-gradient(to right, #ffffff 20%, var(--brand-color) 40%, #ffffff 60%, var(--brand-color) 80%, #ffffff 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shine 6s linear infinite;
-        }
-      `}</style>
-
-      {/* Sfondo geometrico minimale senza particelle (Griglia semitrasparante statica) */}
+      
+      {/* BACKGROUND DEEP BLUE/INDIAGO CON SFUMATURE METALLICHE */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,var(--brand-color-glow)_0%,rgba(0,0,0,0)_60%)] z-1" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)] z-1" />
+        {/* Griglia pixelata fine a puntini */}
+        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] bg-[size:32px_32px] opacity-40" />
+        
+        {/* Cerchi di luce indaco/blu notte soffusa */}
+        <div className="absolute top-[-10%] left-1/4 w-[700px] h-[700px] rounded-full bg-indigo-900/15 blur-[140px]" />
+        <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-purple-900/10 blur-[130px]" />
       </div>
 
-      {/* NAVBAR */}
-      <header className="border-b border-zinc-900 bg-black/40 backdrop-blur-md sticky top-0 z-50">
+      {/* NAVBAR GLASSMORPHISM ULTRA-PULITA */}
+      <header className="border-b border-slate-900 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            {logo_url ? (
-              <img src={logo_url} alt={`${nomeCliente} Logo`} className="h-10 max-w-[150px] object-contain" />
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Shield className="h-6 w-6 text-[color:var(--brand-color)]" />
-                <span className="font-black text-lg tracking-widest uppercase text-white">{nomeCliente}</span>
-              </div>
+          <span className="font-extrabold text-sm tracking-widest uppercase text-white">{nomeCliente}</span>
+          
+          <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-slate-400">
+            <a href="#metodo" className="hover:text-white transition-colors">Il Metodo</a>
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {hasBlog && (
+              <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
+                Blog
+              </Link>
             )}
-          </div>
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-semibold text-zinc-450">
-            <a href="#recensioni" className="hover:text-white transition-colors">Dicono di noi</a>
-            <a href="#servizi" className="hover:text-white transition-colors">Competenze</a>
-              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
-              {hasBlog && (
-                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
-                  Blog
-                </Link>
-              )}            
-            <a href="#contatto" className="hover:text-white transition-colors">Ufficio</a>
+            <a href="#servizi" className="hover:text-white transition-colors">Servizi</a>
+            <a href="#studio" className="hover:text-white transition-colors">Sede</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </nav>
+          
+          <a href="#contatto" className="bg-[var(--brand-color)] hover:brightness-105 text-black text-[10px] font-black uppercase tracking-widest px-5 py-3 rounded-xl transition-all shadow-md">
+            Consulenza H24
+          </a>
         </div>
       </header>
 
-      {/* HERO SECTION CON SHIMMER METALLICO SUL TITOLO */}
-      <section className="relative py-28 px-6 text-center max-w-4xl mx-auto z-10">
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 text-shimmer">
-          {hero.headline}
-        </h1>
-        <p className="text-lg md:text-xl text-zinc-400 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
-          {hero.subheadline}
-        </p>
+      {/* HERO SECTION CON EFFETTO LUCE SHIMMER SUI TITOLI */}
+      <section id="metodo" className="max-w-6xl mx-auto px-6 pt-20 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         
-        <div className="flex justify-center">
-          {/* Sostituito il link telefonico hardcoded con l'ancoraggio dinamico al modulo contatti */}
-          <a
-            href="#contatto"
-            className="bg-[color:var(--brand-color)] text-white font-extrabold text-lg px-10 py-5 rounded-2xl flex items-center justify-center space-x-3 shadow-[0_0_30px_var(--brand-color-glow)] hover:brightness-110 transition-all transform hover:scale-[1.02]"
-          >
-            <Phone className="h-5 w-5" />
-            <span>{hero.cta1}</span>
-          </a>
-        </div>
-      </section>
+        {/* Sinistra: Copy Autoritario con effetto Shimmer */}
+        <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full">
+            <Globe className="h-4 w-4 text-[var(--brand-color)]" />
+            <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-black">Struttura Certificata Google</span>
+          </div>
 
-      {/* RECENSIONI AFFIANCATE */}
-      <section id="recensioni" className="bg-zinc-950/60 border-y border-zinc-900/60 py-16 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((_, i) => (
-              <div key={i} className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl flex flex-col justify-between shadow-xl">
-                <div className="flex items-center space-x-1 mb-4">
-                  {[...Array(5)].map((_, starIdx) => (
-                    <Star key={starIdx} className="h-4 w-4 text-amber-500 fill-amber-500" />
-                  ))}
-                </div>
-                <p className="text-zinc-300 text-sm font-light leading-relaxed italic mb-6">
-                  {i === 0 ? social_proof : i === 1 ? "La consulenza ha chiarito ogni nostro dubbio. Un servizio strutturato e altamente consigliato per chi cerca affidabilità." : "Standard di esecuzione eccezionali. Hanno saputo guidarci con competenza lungo tutto il percorso."}
-                </p>
-                <span className="text-xs font-semibold text-zinc-550">— Cliente Certificato</span>
-              </div>
-            ))}
+          {/* Effetto Shimmer Metallico sul titolo */}
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+            <span className="bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              {hero.headline}
+            </span>
+          </h1>
+
+          <p className="text-lg text-slate-400 font-light leading-relaxed max-w-xl">
+            {hero.subheadline}
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <a 
+              href="#contatto" 
+              className="bg-[var(--brand-color)] hover:brightness-105 text-black font-extrabold text-xs uppercase tracking-widest px-8 py-4.5 rounded-xl transition-all text-center shadow-lg shadow-[var(--brand-color-strong)]"
+            >
+              {hero.cta1}
+            </a>
+            <a 
+              href="#servizi" 
+              className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-widest px-8 py-4.5 rounded-xl transition-all text-center"
+            >
+              {hero.cta2}
+            </a>
           </div>
         </div>
+
+        {/* Destra: Card Spotlight con dati statistici / di forza */}
+        <div className="lg:col-span-5 relative flex justify-center">
+          <motion.div 
+            whileHover={{ scale: 0.99 }}
+            className="w-full max-w-sm bg-slate-950 border border-slate-900 p-8 rounded-3xl shadow-2xl relative overflow-hidden text-left space-y-8"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--brand-color-glow)] rounded-full blur-xl" />
+            
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-bold">Ingegneria di Processo</span>
+              <h3 className="text-2xl font-extrabold text-white tracking-tight">I nostri standard di rendimento</h3>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[var(--brand-color)] shrink-0">
+                  <Check className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Integrazione dei Dati H24</h4>
+                  <p className="text-xs text-slate-400 font-light">Architettura cloud ridondata e protetta.</p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[var(--brand-color)] shrink-0">
+                  <Check className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Conformità Legale Totale</h4>
+                  <p className="text-xs text-slate-400 font-light">Siti blindati e aderenti al GDPR UE.</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
       </section>
 
-      {/* BLOCCO ALTERNATO 1 */}
-      <section id="servizi" className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
-        <div className="rounded-3xl overflow-hidden border border-zinc-900 shadow-2xl relative h-[360px]">
-          <img src={imageLeft} alt="Descrizione Servizi" className="w-full h-full object-cover filter brightness-[0.8]" />
-        </div>
-        <div className="space-y-6 text-left">
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Standard Metodologici</span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white">{servizi[0]?.titolo || "Inquadramento Strategico"}</h2>
-          <p className="text-zinc-400 font-light leading-relaxed text-lg">
-            {servizi[0]?.descrizione || "Ogni operazione viene pianificata studiando le normative vigenti e i trigger decisionali, minimizzando i rischi e aumentando l'efficienza."}
+      {/* RECENT REVIEWS (METALLIC LOOK) */}
+      <section id="percorso" className="bg-slate-950/40 border-y border-slate-900 py-16 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6">
+          <Star className="h-6 w-6 text-amber-500 fill-amber-500 shrink-0" />
+          <p className="text-lg md:text-xl font-medium text-slate-350 italic leading-relaxed text-center sm:text-left">
+            "{social_proof}"
           </p>
         </div>
       </section>
 
-      {/* BLOCCO ALTERNATO 2 */}
-      <section className="py-20 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10 border-t border-zinc-900/50">
-        <div className="space-y-6 text-left order-2 md:order-1">
-          <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Trasparenza ed Etica</span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white">{servizi[1]?.titolo || "Tracciamento Risultati"}</h2>
-          <p className="text-zinc-400 font-light leading-relaxed text-lg">
-            {servizi[1]?.descrizione || "Garantiamo una reportistica costante per darti il pieno controllo sullo stato di avanzamento del progetto, in ogni singola fase."}
-          </p>
+      {/* GRID DEI SERVIZI CON EFFETTO SPOTLIGHT */}
+      <section id="servizi" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+        <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
+          <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-black">Ambiti Operativi</span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">I Servizi di Consulenza</h2>
         </div>
-        <div className="rounded-3xl overflow-hidden border border-zinc-900 shadow-2xl relative h-[360px] order-1 md:order-2">
-          <img src={imageRight} alt="Descrizione Dettagli" className="w-full h-full object-cover filter brightness-[0.8]" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {servizi.map((servizio: any, idx: number) => (
+            <motion.div
+              key={idx}
+              whileHover={{ y: -6 }}
+              className="bg-slate-950/80 border border-slate-900 p-8 rounded-3xl transition-all duration-300 flex flex-col justify-between text-left h-[260px] shadow-lg relative group overflow-hidden"
+            >
+              <div className="space-y-4">
+                <div className="bg-slate-900 p-3 rounded-xl w-12 h-12 flex items-center justify-center border border-slate-800">
+                  <Shield className="h-6 w-6 text-[var(--brand-color)]" />
+                </div>
+                <h3 className="text-xl font-bold text-white">{servizio.titolo}</h3>
+                <p className="text-xs text-slate-400 font-light leading-relaxed">{servizio.descrizione}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 📍 SEZIONE CONTATTO / UFFICIO CON MAPPA DI GOOGLE INTEGRATA (Sblocca link navbar) */}
+      {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Dark integrato) */}
       {/* ========================================================================= */}
-      <section id="contatto" className="py-24 px-6 max-w-6xl mx-auto border-t border-zinc-900/50 relative z-10">
+      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-slate-900 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Colonna Sinistra: Dove Siamo e Mappa */}
           <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-wider font-bold">Ufficio Centrale</span>
-            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-none">La Sede Operativa</h2>
-            <p className="text-sm text-zinc-450 font-light leading-relaxed">
-              Pianifichiamo ogni consulenza nei minimi dettagli per garantirti il massimo rendimento. Ti aspettiamo nel nostro ufficio per definire la strategia ideale per il tuo business.
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Dove Riceviamo</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">La Sede Istituzionale</h2>
+            <p className="text-sm text-slate-400 font-light leading-relaxed">
+              Riceviamo i clienti all'interno della nostra sede direzionale, strutturata per ospitare vertici aziendali, consulenze e incontri d'affari nel massimo rispetto della riservatezza e della tutela dei dati.
             </p>
-            
-            <GoogleMap address={indirizzo || fallbackIndirizzo} />
-
-            <div className="space-y-4 pt-2 text-xs font-bold text-zinc-300">
-              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-[color:var(--brand-color)]" /> {fallbackEmail}</p>
-              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            <div className="space-y-4 pt-4 text-xs font-bold text-slate-500">
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-slate-650" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-5 w-5 text-slate-650 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
             </div>
           </div>
 
-          {/* Colonna Destra: Form di Contatto in vetro satinato */}
-          <div className="lg:col-span-7 bg-zinc-900/40 border border-zinc-900 p-8 md:p-10 rounded-3xl shadow-2xl backdrop-blur-md">
-            {inviato ? (
-              <div className="py-12 text-center space-y-4">
-                <div className="h-16 w-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-500">
-                  <Check className="h-8 w-8" />
-                </div>
-                <h3 className="text-2xl font-black">Richiesta Ricevuta!</h3>
-                <p className="text-zinc-400 text-sm max-w-xs mx-auto">
-                  Ti ricontatteremo personalmente entro i prossimi 15 minuti.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-1">Mettiti in Contatto</h3>
-                  <p className="text-xs text-zinc-550 font-mono">Consulenza preliminare senza impegno</p>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-mono text-zinc-450 uppercase tracking-wider mb-2">Nome e Cognome</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Es: Mario Rossi"
-                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-600 transition-all outline-none text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-mono text-zinc-450 uppercase tracking-wider mb-2">Telefono o Email</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Es: info@mio-sito.it"
-                    className="w-full bg-white/[0.02] border border-zinc-900 focus:border-[color:var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-600 transition-all outline-none text-sm"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-[color:var(--brand-color)] text-white font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md"
-                >
-                  <span>Invia Richiesta</span>
-                  <Send className="h-4 w-4" />
-                </button>
-              </form>
-            )}
+          <div className="lg:col-span-7">
+            {/* Componente mappa nativo e dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
           </div>
 
         </div>
       </section>
       {/* ========================================================================= */}
 
+      {/* GALLERIA FOTOGRAFICA CON TEMA DARK INTEGRATO */}
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="dark" />
+
       {/* ACCORDION FAQ */}
-      <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-900/50 relative z-10">
-        <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-white">Domande Frequenti</h2>
-        <div className="space-y-4">
+      <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-slate-900 relative z-10">
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">Domande Frequenti</h2>
+        
+        <div className="space-y-4 text-left">
           {[
-            { q: "Quali sono le modalità di ingaggio?", a: "Dopo una prima analisi preliminare, formuliamo un preventivo chiaro e dettagliato con tempi di consegna certi e tracciabili." },
-            { q: "Fornite contratti di garanzia sul servizio?", a: "Sì, ogni nostra prestazione è regolata da un accordo scritto che tutela la riservatezza e garantisce la conformità dei risultati." },
-            { q: "È possibile richiedere modifiche in corso d'opera?", a: "Sì, i nostri protocolli sono agili e flessibili per adattarsi a cambiamenti o imprevisti durante lo sviluppo del progetto." }
+            { q: "Quali sono le modalità di contatto?", a: "Dopo aver inviato il modulo, un nostro tecnico analizzerà la tua richiesta e ti contatterà via telefono o email entro 15 minuti." },
+            { q: "Il servizio di consulenza ha un costo?", a: "No. La prima chiamata conoscitiva e l'analisi tecnica di fattibilità sono totalmente gratuite e non vincolanti." },
+            { q: "Posso annullare o modificare una richiesta?", a: "Sì. Ti basterà comunicarlo direttamente al consulente che ti contatterà, senza alcuna penale o intoppo." }
           ].map((faq, idx) => (
-            <div key={idx} className="border-b border-zinc-900 pb-4">
+            <div key={idx} className="border-b border-slate-900 pb-4">
               <button 
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full flex items-center justify-between text-left font-bold text-lg py-3 hover:text-[color:var(--brand-color)] transition-colors"
+                className="w-full flex items-center justify-between text-left font-bold text-lg py-3 hover:text-[var(--brand-color)] transition-colors"
               >
                 <span>{faq.q}</span>
-                <ChevronDown className={`h-5 w-5 text-zinc-500 transition-transform ${activeFaq === idx ? 'rotate-180 text-[color:var(--brand-color)]' : ''}`} />
+                <ChevronDown className={`h-5 w-5 text-slate-650 transition-transform ${activeFaq === idx ? 'rotate-180 text-[var(--brand-color)]' : ''}`} />
               </button>
               
               <AnimatePresence>
@@ -300,7 +283,7 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-zinc-400 font-light leading-relaxed text-sm pt-2 pb-4">
+                    <p className="text-slate-500 font-light leading-relaxed text-sm pt-2 pb-4">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -311,39 +294,91 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
         </div>
       </section>
 
-      {/* FOOTER SEMANTICO COMPLETO */}
-      <footer className="border-t border-zinc-900 bg-zinc-950 py-16 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="space-y-4 text-left">
-            <span className="font-black text-lg tracking-wider text-[color:var(--brand-color)] uppercase">{nomeCliente}</span>
+      {/* MODULO CONTATTO (VETRO SATINATO DARK) */}
+      <section id="contatto" className="py-20 px-6 max-w-xl mx-auto relative z-10 border-t border-zinc-900">
+        <div className="bg-[#0b0b0f] border border-zinc-900 p-8 rounded-3xl shadow-xl">
+          {inviato ? (
+            <div className="py-12 text-center space-y-4">
+              <div className="h-16 w-16 bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-full flex items-center justify-center mx-auto text-[var(--brand-color)]">
+                <Check className="h-8 w-8" />
+              </div>
+              <h3 className="text-2xl font-bold text-white font-serif">Richiesta Ricevuta!</h3>
+              <p className="text-zinc-500 text-sm max-w-xs mx-auto">
+                Verrai ricontattato via mail o recapito telefonico con la massima urgenza dal nostro consulente di turno.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleFormSubmit} className="space-y-6 text-left">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-white mb-1">Mettiti in Contatto</h3>
+                <p className="text-xs text-zinc-500 font-mono">Inizia il tuo percorso creativo</p>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Nome o Brand</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Es: Mario Rossi"
+                  className="w-full bg-[#15151a] border border-zinc-800 focus:border-[var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-700 transition-all outline-none text-sm shadow-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-mono text-zinc-500 uppercase tracking-wider mb-2">Telefono o Email di Contatto</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Es: info@mio-sito.it"
+                  className="w-full bg-[#15151a] border border-zinc-800 focus:border-[var(--brand-color)] rounded-xl p-4 text-white placeholder-zinc-700 transition-all outline-none text-sm shadow-sm"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[var(--brand-color)] hover:brightness-105 text-black font-extrabold text-sm py-4.5 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-md animate-none"
+              >
+                <span>Invia Candidatura</span>
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* FOOTER COERENTE */}
+      <footer className="border-t border-zinc-900 bg-[#060608] py-16 px-6 relative z-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
+          
+          <div className="space-y-4">
+            <span className="font-extrabold text-lg tracking-widest text-white uppercase">{nomeCliente}</span>
             <p className="text-xs text-zinc-500 leading-relaxed font-light">
-              Infrastrutture digitali certificate progettate secondo i più rigidi protocolli di indicizzazione e usabilità mobile.
+              Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l'esperienza d'autore.
             </p>
           </div>
 
-          <div className="space-y-4 text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Contatti Diretti</h4>
+          <div className="space-y-4">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-500">Contatti Ufficiali</h4>
             <ul className="space-y-3 text-xs text-zinc-500 font-light">
               <li className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-[color:var(--brand-color)]" />
+                <Mail className="h-4 w-4 text-[var(--brand-color)]" />
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-white transition-colors">{fallbackEmail}</a>
               </li>
               <li className="flex items-start space-x-2">
-                <MapPin className="h-4 w-4 text-[color:var(--brand-color)] shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-[var(--brand-color)] shrink-0 mt-0.5" />
                 <span>{fallbackIndirizzo}</span>
               </li>
             </ul>
           </div>
 
-          <div className="space-y-4 text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Seguici</h4>
+          <div className="space-y-4">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-500">Seguici</h4>
             <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-strong)] text-zinc-500 hover:text-white transition-all" aria-label="Facebook">
+              <a href={fallbackFb} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-450 hover:text-white transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
                 </svg>
               </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-zinc-900 rounded-full border border-zinc-850 hover:border-[color:var(--brand-color-strong)] text-zinc-500 hover:text-white transition-all" aria-label="Instagram">
+              <a href={fallbackIg} target="_blank" className="p-3 bg-white/5 rounded-full border border-zinc-800 hover:border-[var(--brand-color)] text-zinc-440 hover:text-white transition-all" aria-label="Instagram">
                 <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -353,51 +388,49 @@ export default function Template_l_autorita({ data, nomeCliente, slug, hasBlog }
             </div>
           </div>
 
-          <div className="space-y-4 text-xs text-stone-500 font-light text-left">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-450">Trasparenza</h4>
+          <div className="space-y-4 text-xs text-zinc-550 font-light">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-500">Trasparenza</h4>
             <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-2">
               <Link href={`/${slug}/privacy`} className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-
-                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
               {hasBlog && (
-                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
                   Blog
                 </Link>
               )}
-              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Termini e Condizioni</a>
+              <a href="#" className="hover:text-zinc-500 transition-colors">Cookie Policy</a>
+              <a href="#" className="hover:text-zinc-500 transition-colors">Termini e Condizioni</a>
             </div>
           </div>
+
         </div>
 
-        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-zinc-900/60 text-center text-xs text-zinc-650 font-mono tracking-widest">
+        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-zinc-900 text-center text-xs text-zinc-650 font-mono tracking-widest">
           © {new Date().getFullYear()} {nomeCliente} • RM Studio Master Engine
         </div>
       </footer>
 
-      {/* COOKIE BANNER */}
+      {/* COOKIE BANNER COMPLIANT */}
       <AnimatePresence>
         {showCookies && (
           <motion.div 
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-[#030308]/95 border border-zinc-900 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-100"
+            className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-black/95 border border-zinc-800 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-300 animate-none"
           >
             <p className="text-xs text-zinc-450 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
-              <a href="#" className="text-[10px] font-mono text-zinc-500 hover:text-zinc-400 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
-                className="bg-[color:var(--brand-color)] text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:brightness-110 transition-all flex items-center space-x-2"
+                className="bg-white text-black text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-zinc-200 transition-all flex items-center space-x-2"
               >
                 <span>Accetto</span>
-                <Check className="h-3.5 w-3.5 text-white" />
               </button>
             </div>
           </motion.div>
