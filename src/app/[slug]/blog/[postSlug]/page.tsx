@@ -13,7 +13,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const resolvedParams = await params;
   const { slug, postSlug } = resolvedParams;
 
-  // 1. Recuperiamo i dettagli del sito
+  // 1. Recuperiamo i dettagli generali del sito
   const { data: site } = await supabase
     .from('omnia_sites')
     .select('nome_cliente, site_data')
@@ -22,14 +22,39 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   if (!site) return notFound();
 
+  // Parsing difensivo di site_data
   let siteData = site.site_data as any;
   if (typeof siteData === 'string') {
-    try { siteData = JSON.parse(siteData); } catch (e) {}
+    try {
+      siteData = JSON.parse(siteData);
+    } catch (e) {
+      console.error("Errore parsing site_data nella lettura del post:", e);
+    }
   }
 
-  // 2. Cerchiamo il post direttamente nell'array del JSON unico
-  const post = siteData?.blog_posts?.find((p: any) => p.slug === postSlug);
+  // 2. Cerchiamo prima l'articolo nella tabella omnia_posts (database live di Elena)
+  const { data: dbPost } = await supabase
+    .from('omnia_posts')
+    .select('*')
+    .eq('site_slug', slug)
+    .eq('slug', postSlug)
+    .eq('is_published', true)
+    .single();
 
+  let post = dbPost as any;
+
+  // 3. Fallback: se l'articolo non è nel database, lo cerchiamo all'interno del JSON unico
+  if (!post) {
+    const jsonPost = siteData?.blog_posts?.find((p: any) => p.slug === postSlug);
+    if (jsonPost) {
+      post = {
+        ...jsonPost,
+        created_at: jsonPost.created_at || "Articolo"
+      };
+    }
+  }
+
+  // Se l'articolo non esiste in nessuna delle due fonti, restituiamo 404
   if (!post) return notFound();
 
   const brandColor = siteData?.brand_color || '#5F6F52';
@@ -40,7 +65,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   } as React.CSSProperties;
 
   return (
-    <div style={customStyles} className="min-h-screen bg-[#FAF9F5] text-stone-800 py-16 px-6 font-sans relative text-left">
+    <div 
+      style={customStyles} 
+      className="min-h-screen bg-[#FAF9F5] text-stone-800 py-16 px-6 font-sans relative text-left"
+    >
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#e6e4dc_1.2px,transparent_1.2px)] bg-[size:24px_24px] opacity-40" />
       </div>
@@ -58,7 +86,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="flex items-center gap-4 text-xs font-mono text-stone-400 uppercase tracking-wider">
               <span className="flex items-center gap-1.5">
                 <Calendar className="h-4 w-4" />
-                {post.created_at || "Articolo"}
+                {post.created_at && !isNaN(Date.parse(post.created_at)) 
+                  ? new Date(post.created_at).toLocaleDateString('it-IT') 
+                  : post.created_at || "Approfondimento"}
               </span>
               <span>•</span>
               <span className="flex items-center gap-1.5">
@@ -77,13 +107,16 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Formattazione automatica del testo con Tailwind Typography */}
+          {/* Formattazione controllata e automatica dei paragrafi tramite interruzione a capo */}
           <div className="prose prose-stone max-w-none prose-p:text-stone-600 prose-p:leading-relaxed prose-headings:font-serif">
-            {post.content.split('\n').map((para: string, idx: number) => (
-              <p key={idx} className="mb-6 font-light text-base leading-relaxed">
-                {para}
-              </p>
-            ))}
+            {post.content.split('\n').map((para: string, idx: number) => {
+              if (!para.trim()) return null;
+              return (
+                <p key={idx} className="mb-6 font-light text-base leading-relaxed text-left">
+                  {para}
+                </p>
+              );
+            })}
           </div>
         </article>
       </div>
