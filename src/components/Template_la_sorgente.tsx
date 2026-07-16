@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Check, Send, Mail, MapPin, ChevronDown, ArrowRight } from 'lucide-react';
+import { Compass, Check, Send, Mail, MapPin, ChevronDown, Sparkles, Eye, ArrowRight, User, Milestone } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -26,8 +27,9 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
-    foto_profilo?: string;
     piva?: string;
+    foto_profilo?: string;
+    galleria?: string[];
   };
   nomeCliente: string;
   slug: string;
@@ -35,7 +37,7 @@ interface TemplateProps {
 }
 
 export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, social_fb, social_ig, foto_profilo, piva } = data;
+  const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, social_fb, social_ig, piva, foto_profilo } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -82,7 +84,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#F8F9FA] text-slate-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden"
+      className="min-h-screen bg-[#F8F9FA] text-slate-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
       
       {/* BACKGROUND MINIMALE NORDIC ZEN CON GRIGLIA A LINEE GRIGIE FINISSIME */}
@@ -90,7 +92,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
         {/* Griglia a linee ortogonali finissime */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-35" />
         
-        {/* Cerchio di luce fredda azzurra sullo sfondo */}
+        {/* Cerchio di luce fredda azzurra soffusa sullo sfondo */}
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-sky-200/20 blur-[150px]" />
       </div>
 
@@ -101,13 +103,13 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
           
           <nav className="hidden md:flex items-center space-x-8 text-[11px] font-bold uppercase tracking-wider text-slate-500">
             <a href="#percorso" className="hover:text-slate-900 transition-colors">Il Percorso</a>
-            <a href="#aree" className="hover:text-slate-900 transition-colors">Aree di Lavoro</a>
-              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
             {hasBlog && (
-              <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+              <Link href={`/${slug}/blog`} className="hover:text-slate-900 transition-colors">
                 Blog
               </Link>
             )}
+            <a href="#aree" className="hover:text-slate-900 transition-colors">Aree di Lavoro</a>
             <a href="#studio" className="hover:text-slate-900 transition-colors">Lo Studio</a>
             <a href="#contatto" className="hover:text-slate-900 transition-colors">Contatti</a>
           </nav>
@@ -178,7 +180,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
-            {/* Selettore dei Focus a Sinistar */}
+            {/* Selettore dei Focus a Sinistra */}
             <div className="lg:col-span-5 space-y-3">
               {servizi.map((s: any, idx: number) => (
                 <button
@@ -220,30 +222,6 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
 
-      {/* 📍 SEZIONE STUDIO CLINICO & MAPPA DI GOOGLE (Oltre a connettere l'ancora, posiziona perfettamente la mappa) */}
-      <section id="studio" className="py-24 bg-white border-b border-gray-200/50 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="text-[10px] font-bold text-sky-500 uppercase tracking-widest">La Sede</span>
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Lo Studio Professionale</h2>
-            <p className="text-slate-550 font-light leading-relaxed text-sm">
-              L'attività clinica si svolge in uno spazio confortevole e accogliente, strutturato per proteggere la massima privacy e riservatezza del paziente in linea con il codice deontologico.
-            </p>
-            <div className="space-y-3 pt-2 text-xs font-semibold text-slate-600">
-              <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-slate-400" /> {fallbackEmail}</p>
-              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            {/* Componente mappa nativo e dinamico */}
-            <GoogleMap address={indirizzo || fallbackIndirizzo} />
-          </div>
-
-        </div>
-      </section>
-
       {/* FORM DI CONTATTO RIGIDO NORDIC */}
       <section id="contatto" className="py-24 px-6 max-w-4xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
@@ -256,7 +234,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
             </p>
             <div className="space-y-4 pt-4 text-xs font-bold text-slate-600">
               <p className="flex items-center gap-3"><Mail className="h-4 w-4 text-slate-400" /> {fallbackEmail}</p>
-              <p className="flex items-center gap-3"><MapPin className="h-4 w-4 text-slate-400" /> {fallbackIndirizzo}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-4 w-4 text-slate-400 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
             </div>
           </div>
 
@@ -315,6 +293,36 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Clean integrato) */}
+      {/* ========================================================================= */}
+      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-gray-200/50 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Dove Riceviamo</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-slate-900 tracking-tight">Lo Studio Professionale</h2>
+            <p className="text-sm text-slate-500 font-light leading-relaxed">
+              Riceviamo i nostri pazienti in un contesto professionale e conforme con i massimi requisiti di igiene, comfort e tutela della privacy.
+            </p>
+            <div className="space-y-4 pt-4 text-xs font-bold text-slate-600">
+              <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-slate-400" /> {fallbackEmail}</p>
+              <p className="flex items-start gap-3"><MapPin className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" /> <span>{fallbackIndirizzo}</span></p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            {/* Componente mappa nativo e dinamico */}
+            <GoogleMap address={indirizzo || fallbackIndirizzo} />
+          </div>
+
+        </div>
+      </section>
+      {/* ========================================================================= */}
+
+      {/* GALLERIA FOTOGRAFICA CON TEMA CLEAN INTEGRATO */}
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="clean" />
+
       {/* ACCORDION FAQ FISCALE & CODICE DEONTOLOGICO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-gray-200/50 relative z-10">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-2">
@@ -358,16 +366,16 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
 
       {/* FOOTER NORDIC */}
       <footer className="border-t border-gray-200/60 bg-white py-16 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
           
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <span className="font-extrabold text-sm tracking-widest text-slate-900 uppercase">{nomeCliente}</span>
             <p className="text-xs text-slate-450 leading-relaxed font-light">
               Pratiche terapeutiche basate su evidenze scientifiche ed erogate in conformità alle norme di legge e al regolamento GDPR.
             </p>
           </div>
 
-          <div className="space-y-4 text-left">
+          <div className="space-y-4">
             <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-450">Contatti Ufficiali</h4>
             <ul className="space-y-3 text-xs text-slate-500 font-light">
               <li className="flex items-center space-x-2">
@@ -381,8 +389,8 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
             </ul>
           </div>
 
-          <div className="space-y-4 text-left">
-            <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-450">Profili Social</h4>
+          <div className="space-y-4">
+            <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-450">Seguici</h4>
             <div className="flex items-center space-x-3">
               <a href={fallbackFb} target="_blank" className="p-2.5 bg-slate-50 rounded-none border border-gray-200 hover:border-slate-900 text-slate-500 hover:text-slate-900 transition-all" aria-label="Facebook">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -401,24 +409,25 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
 
           <div className="space-y-4 text-xs text-slate-450 font-light text-left">
             <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-450">Riferimenti Fiscali</h4>
-            <p>P.IVA: {fallbackPiva} • Albo F.V.G. N. [Inserire]</p>
+            <p>P.IVA: {fallbackPiva}</p>
             <div className="flex flex-col space-y-1">
               <Link href={`/${slug}/privacy`} className="hover:text-slate-950 transition-colors">
-                Privacy & Trattamento Dati (GDPR)
+                Privacy Policy
               </Link>
-                  {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
+              {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG ANCHE NEL FOOTER */}
               {hasBlog && (
-                <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
+                <Link href={`/${slug}/blog`} className="hover:text-slate-950 transition-colors">
                   Blog
                 </Link>
               )}
+              <a href="#" className="hover:text-slate-950 transition-colors">Normativa Privacy GDPR</a>
               <a href="#" className="hover:text-slate-950 transition-colors">Note Legali Deontologiche</a>
             </div>
           </div>
         </div>
 
         <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-gray-200 text-center text-[10px] text-slate-400 font-mono tracking-widest">
-          © {new Date().getFullYear()} {nomeCliente} • Powered by RM Studio Custom Engine
+          © {new Date().getFullYear()} {nomeCliente} • Sviluppato da RM Studio Engine
         </div>
       </footer>
 
