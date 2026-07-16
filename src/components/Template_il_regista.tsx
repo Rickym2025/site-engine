@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Sparkles, ChevronDown, Check } from 'lucide-react';
+import { Play, Sparkles, ChevronDown, Check, Mail, MapPin } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
