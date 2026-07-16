@@ -13,7 +13,7 @@ export default async function BlogIndexPage({ params }: PageProps) {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
 
-  // 1. Recuperiamo i dettagli del sito (inclusi i blog post nel JSON unico)
+  // 1. Recuperiamo i dettagli del sito e il JSON unico
   const { data: site } = await supabase
     .from('omnia_sites')
     .select('nome_cliente, site_data')
@@ -22,18 +22,50 @@ export default async function BlogIndexPage({ params }: PageProps) {
 
   if (!site) return notFound();
 
-  // Parsing difensivo del JSON
+  // Parsing difensivo del JSON unico site_data
   let siteData = site.site_data as any;
   if (typeof siteData === 'string') {
     try {
       siteData = JSON.parse(siteData);
     } catch (e) {
-      console.error(e);
+      console.error("Errore parsing site_data nel Blog Index:", e);
     }
   }
 
-  // Estraiamo i post direttamente dal campo site_data
-  const posts = (siteData?.blog_posts || []) as any[];
+  // 2. Recuperiamo gli articoli pubblicati da Elena su Supabase
+  const { data: dbPosts } = await supabase
+    .from('omnia_posts')
+    .select('*')
+    .eq('site_slug', slug)
+    .eq('is_published', true)
+    .order('created_at', { ascending: false });
+
+  // 3. Recuperiamo gli articoli integrati nel JSON unico (se presenti)
+  const jsonPosts = siteData?.blog_posts || [];
+
+  // 4. Unione intelligente: priorità ai post sul DB, fallback su quelli del JSON
+  const mergedPostsMap = new Map();
+
+  // Inseriamo prima i post del JSON
+  jsonPosts.forEach((post: any) => {
+    mergedPostsMap.set(post.slug, {
+      ...post,
+      created_at: post.created_at || "Articolo"
+    });
+  });
+
+  // Sovrascriviamo con i post di Supabase (che hanno priorità assoluta di scrittura)
+  if (dbPosts) {
+    dbPosts.forEach((post: any) => {
+      mergedPostsMap.set(post.slug, {
+        ...post,
+        created_at: new Date(post.created_at).toLocaleDateString('it-IT')
+      });
+    });
+  }
+
+  // Trasformiamo la mappa unificata in un array
+  const posts = Array.from(mergedPostsMap.values());
   const brandColor = siteData?.brand_color || '#5F6F52';
 
   const customStyles = {
@@ -46,12 +78,14 @@ export default async function BlogIndexPage({ params }: PageProps) {
       style={customStyles}
       className="min-h-screen bg-[#FAF9F5] text-stone-800 py-16 px-6 font-sans relative"
     >
+      {/* Background decorativo */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#e6e4dc_1.2px,transparent_1.2px)] bg-[size:24px_24px] opacity-40" />
       </div>
 
       <div className="max-w-4xl mx-auto space-y-12 relative z-10">
         
+        {/* Intestazione del Blog */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-stone-200 pb-8 text-left">
           <div className="space-y-3">
             <span className="bg-[var(--brand-color-glow)] text-[var(--brand-color)] text-[10px] font-mono font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[var(--brand-color)]/10">
@@ -69,7 +103,8 @@ export default async function BlogIndexPage({ params }: PageProps) {
           </Link>
         </div>
 
-        {posts && posts.length > 0 ? (
+        {/* Griglia unificata */}
+        {posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {posts.map((post: any, idx: number) => (
               <article 
@@ -90,7 +125,7 @@ export default async function BlogIndexPage({ params }: PageProps) {
                     <div className="flex items-center gap-4 text-[10px] font-mono text-stone-400 uppercase tracking-wider">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="h-3 w-3" />
-                        {post.created_at || "Recente"}
+                        {post.created_at}
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1.5">
@@ -122,6 +157,7 @@ export default async function BlogIndexPage({ params }: PageProps) {
             ))}
           </div>
         ) : (
+          /* Schermata di cortesia se nessun articolo è presente nel JSON o nel DB */
           <div className="py-24 text-center bg-white border border-stone-200 rounded-[36px] space-y-4 shadow-sm">
             <div className="w-16 h-16 bg-[#FAF9F5] border border-stone-200/60 rounded-full flex items-center justify-center mx-auto text-stone-400 shadow-inner">
               <BookOpen className="h-6 w-6" />
