@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown, ShieldCheck } from 'lucide-react';
+import { Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     piva?: string;
     galleria?: string[];
   };
@@ -36,7 +38,7 @@ interface TemplateProps {
 }
 
 export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, brand_color = '#3B82F6', email, indirizzo, social_fb, social_ig, piva } = data;
+  const { hero, social_proof, brand_color = '#3B82F6', email, indirizzo, piva } = data;
   const servizi = data.servizi || [];
   
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -46,8 +48,6 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
   // FALLBACK DIMOSTRATIVI
   const fallbackEmail = email || `prenotazioni@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Viale della Costituzione 40, Centro Medico (VE)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
   const fallbackPiva = piva || "IT01234567890";
 
   useEffect(() => {
@@ -82,14 +82,14 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
     >
       
       {/* ========================================================================= */}
-      {/* TECNOLOGIA VISIVA: GRIGLIA A PUNTI E AURORE PASTELLO FLUTTUANTI (STILE LIGHT SAAS) */}
+      {/* TECNOLOGIA VISIVA: GRIGLIA A PUNTI E AURORE PASTELLO FLUTTUANTI */}
       {/* ========================================================================= */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
         {/* 1. Sfondo a micro-punti grigi finissimi (Dot-Matrix di precisione) */}
         <div className="absolute inset-0 bg-[radial-gradient(#e4e4e7_1.2px,transparent_1.2px)] bg-[size:24px_24px] opacity-70" />
 
-        {/* 2. Sfumature Aurora Pastello fluttuanti (Nuvole di colore ciano/rosa molto soffuse) */}
+        {/* 2. Sfumature Aurora Pastello fluttuanti */}
         <motion.div
           animate={{
             x: [0, 50, -30, 0],
@@ -121,7 +121,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#contatto" className="hover:text-zinc-950 transition-colors">Prenota</a>
             <a href="#servizi" className="hover:text-zinc-950 transition-colors">Trattamenti</a>
-            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG */}
             {hasBlog && (
               <Link href={`/${slug}/blog`} className="hover:text-zinc-950 transition-colors">
                 Blog
@@ -142,7 +142,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
       {/* HERO SECTION CON MODULO INTEGRATO */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         
-        {/* Sinistra: Copy Clinico ad altissima leggibilità (H1 enorme, testi 18px) */}
+        {/* Sinistra: Copy Clinico ad altissima leggibilità */}
         <div className="lg:col-span-6 space-y-6 text-left">
           <div className="inline-flex items-center space-x-2 bg-white border border-zinc-200 px-4 py-1.5 rounded-full shadow-sm">
             <Sparkles className="h-4 w-4 text-[color:var(--brand-color)]" />
@@ -165,14 +165,14 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
                 </div>
                 <div>
                   <h4 className="font-bold text-zinc-800 text-lg">{servizio.titolo}</h4>
-                  <p className="text-sm text-zinc-500 leading-relaxed font-light mt-1">{servizio.descrizione}</p>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-light mt-1">{servizio.descrizione || servizio.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Destra: Modulo di Contatto in stile Apple Checkout (Glassmorphism su Sfondo Chiaro) */}
+        {/* Destra: Modulo di Contatto */}
         <motion.div 
           id="contatto"
           initial={{ opacity: 0, y: 30 }}
@@ -241,7 +241,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
       {/* RECENT REVIEWS */}
       <section id="recensioni" className="bg-[#FAF9F5] border-y border-zinc-200/60 py-16 px-6 relative z-10">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6">
-          <Star className="h-8 w-8 text-amber-500 fill-amber-500 shrink-0" />
+          <svg className="h-8 w-8 text-amber-500 fill-amber-500 shrink-0" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           <p className="text-lg md:text-xl font-medium text-zinc-700 italic leading-relaxed">
             "{social_proof}"
           </p>
@@ -271,7 +271,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
                 </h3>
                 
                 <p className="text-lg text-zinc-500 font-light leading-relaxed">
-                  {servizio.descrizione}
+                  {servizio.descrizione || servizio.description}
                 </p>
               </motion.div>
             );
@@ -280,7 +280,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
       </section>
 
       {/* ========================================================================= */}
-      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE (Elegante e bilanciata sopra il footer) */}
+      {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE */}
       {/* ========================================================================= */}
       <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-zinc-200/60 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -371,22 +371,10 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4 text-left">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Seguici</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-zinc-50 rounded-full border border-zinc-200 hover:border-zinc-400 text-zinc-500 hover:text-zinc-900 transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-zinc-50 rounded-full border border-zinc-200 hover:border-zinc-400 text-zinc-500 hover:text-zinc-900 transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-zinc-500 font-light text-left">
@@ -409,7 +397,7 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
         </div>
 
         <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-zinc-100 text-center text-xs text-zinc-400 font-mono tracking-widest">
-          © {new Date().getFullYear()} {nomeCliente} • RM Studio Master Engine
+          © {new Date().getFullYear()} {nomeCliente} • Sviluppato da RM Studio Master Engine
         </div>
       </footer>
 
@@ -422,14 +410,14 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
             exit={{ opacity: 0, y: 100 }}
             className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
           >
-            <p className="text-xs text-zinc-600 leading-relaxed font-light text-left">
+            <p className="text-xs text-zinc-650 leading-relaxed font-light text-left">
               Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
               <a href="#" className="text-[10px] font-mono text-zinc-500 hover:text-zinc-800 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
-                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-800 transition-all flex items-center space-x-2"
+                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-200 transition-all flex items-center space-x-2"
               >
                 <span>Accetto</span>
                 <Check className="h-3.5 w-3.5" />
