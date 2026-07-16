@@ -8,7 +8,8 @@ import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
-import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
+import SocialLinks from './SocialLinks';
+import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -278,6 +279,9 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
           })}
         </div>
       </section>
+
+      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
+      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* ========================================================================= */}
       {/* 📍 LA SEDE CLINICA & MAPPA DI GOOGLE */}
