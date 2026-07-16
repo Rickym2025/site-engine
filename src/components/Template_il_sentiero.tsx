@@ -9,6 +9,7 @@ import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
 import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
+import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -183,6 +184,9 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
           <span className="text-3xl font-serif text-[#D4AF37]">”</span>
         </div>
       </section>
+
+      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
+      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* 🚀 LE TRE TAPPE DEL SENTIERO (TIMELINE VERTICALE DI CONVERSIONE) */}
       <section id="tappe" className="py-24 bg-white border-y border-stone-200/50 px-6 relative z-10">
