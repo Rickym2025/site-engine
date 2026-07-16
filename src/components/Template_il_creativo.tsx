@@ -3,11 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown, ArrowUpRight, ArrowRight } from 'lucide-react';
+import { Phone, Star, Check, Sparkles, Mail, MapPin, ChevronDown, ArrowUpRight, ArrowRight } from 'lucide-react';
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
+import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
 
 interface TemplateProps {
   data: {
@@ -27,6 +28,7 @@ interface TemplateProps {
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
+    social_linkedin?: string;
     piva?: string;
     galleria?: string[];
   };
@@ -36,7 +38,7 @@ interface TemplateProps {
 }
 
 export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
-  const { hero, social_proof, email, indirizzo, social_fb, social_ig, piva } = data;
+  const { hero, social_proof, brand_color = '#5F6F52', email, indirizzo, piva } = data;
   const servizi = data.servizi || [];
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -63,8 +65,6 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
 
   const fallbackEmail = email || `atelier@${nomeCliente.toLowerCase().replace(/[^a-z0-9]/g, '')}.it`;
   const fallbackIndirizzo = indirizzo || "Viale dei Cipressi 8, colline Toscane (FI)";
-  const fallbackFb = social_fb || "https://facebook.com";
-  const fallbackIg = social_ig || "https://instagram.com";
   const fallbackPiva = piva || "IT01234567890";
 
   // Foto d'atmosfera organica per le card del bento grid
@@ -86,7 +86,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
           
           <nav className="hidden md:flex items-center space-x-8 text-sm font-bold text-zinc-500">
             <a href="#bento" className="hover:text-zinc-900 transition-colors">Il Progetto</a>
-            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
+            {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK AL BLOG */}
             {hasBlog && (
               <Link href={`/${slug}/blog`} className="hover:text-zinc-900 transition-colors">
                 Blog
@@ -145,7 +145,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
       <section id="bento" className="py-12 px-6 max-w-6xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[220px]">
           
-          {/* Card 1: Grande Mosaico Visivo (Occupazione 2 Colonne, 2 Righe) */}
+          {/* Card 1: Grande Mosaico Visivo */}
           <motion.div 
             whileHover={{ scale: 0.99 }}
             transition={{ type: "spring", stiffness: 100 }}
@@ -164,7 +164,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
           </motion.div>
 
-          {/* Card 2: Social Proof / Testimonial (1 Colonna, 1 Riga) */}
+          {/* Card 2: Social Proof / Testimonial */}
           <div className="bg-[#E6E4DC]/50 border border-zinc-200/80 p-6 rounded-3xl flex flex-col justify-between text-left shadow-sm">
             <div className="flex items-center space-x-1 text-amber-600">
               {[...Array(5)].map((_, i) => (
@@ -177,7 +177,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Recensione</span>
           </div>
 
-          {/* Card 3: Servizio 2 (1 Colonna, 1 Riga) */}
+          {/* Card 3: Servizio 2 */}
           <motion.div 
             whileHover={{ scale: 0.99 }}
             className="bg-[#5F6F52] text-white border border-[#4a583e] p-6 rounded-3xl flex flex-col justify-between text-left shadow-sm hover:brightness-105 transition-all duration-300"
@@ -190,11 +190,11 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
             <div className="space-y-2">
               <h4 className="font-bold text-lg font-serif italic">{servizi[1]?.titolo || "Dettaglio"}</h4>
-              <p className="text-xs text-stone-200 font-light leading-relaxed">{servizi[1]?.descrizione || "Perfezione artigianale maniacale applicata ad ogni millimetro di superficie."}</p>
+              <p className="text-xs text-stone-200 font-light leading-relaxed">{servizi[1]?.descrizione || servizi[1]?.description || "Perfezione artigianale maniacale applicata ad ogni millimetro di superficie."}</p>
             </div>
           </motion.div>
 
-          {/* Card 4: Servizio 3 (1 Colonna, 1 Riga) */}
+          {/* Card 4: Servizio 3 */}
           <motion.div 
             whileHover={{ scale: 0.99 }}
             className="bg-white border border-zinc-200 p-6 rounded-3xl flex flex-col justify-between text-left shadow-sm hover:shadow-md transition-all duration-300"
@@ -207,11 +207,11 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
             <div className="space-y-2">
               <h4 className="font-bold text-lg font-serif italic">{servizi[2]?.titolo || "Spedizione"}</h4>
-              <p className="text-xs text-zinc-500 font-light leading-relaxed">{servizi[2]?.descrizione || "Spedizioni assicurate in tutta Europa con perizie tecniche dedicate."}</p>
+              <p className="text-xs text-zinc-500 font-light leading-relaxed">{servizi[2]?.descrizione || servizi[2]?.description || "Spedizioni assicurate in tutta Europa con perizie tecniche dedicate."}</p>
             </div>
           </motion.div>
 
-          {/* Card 5: Mosaico Fotografico Piccolo (2 Colonne, 1 Riga) */}
+          {/* Card 5: Mosaico Fotografico Piccolo */}
           <div className="md:col-span-2 bg-[#E6E4DC] border border-zinc-200 rounded-3xl relative overflow-hidden group shadow-sm">
             <img src={bentoImg2} alt="Atelier Detail" className="w-full h-full object-cover filter brightness-[0.85] group-hover:scale-102 transition-transform duration-[1.2s]" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
@@ -226,7 +226,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
       {/* ========================================================================= */}
 
       {/* GALLERIA FOTOGRAFICA CON TEMA WARM INTEGRATO */}
-      <Gallery galleria={data.galleria} brandColor="#5F6F52" theme="warm" />
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="warm" />
 
       {/* ACCORDION FAQ CHIARO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200 relative z-10">
@@ -324,7 +324,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                     type="text"
                     required
                     placeholder="Es: info@mio-sito.it"
-                    className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-zinc-800 placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
+                    className="w-full bg-zinc-50 border border-zinc-200 focus:border-[#5F6F52] rounded-xl p-4 text-white placeholder-zinc-400 transition-all outline-none text-sm shadow-sm"
                   />
                 </div>
 
@@ -362,28 +362,16 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-zinc-900 transition-colors">{fallbackEmail}</a>
               </li>
               <li className="flex items-start space-x-2">
-                <MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-[#5F6F52]" shrink-0 mt-0.5" />
                 <span>{fallbackIndirizzo}</span>
               </li>
             </ul>
           </div>
 
+          {/* ⚡ CENTRALIZZAZIONE SOCIAL SISTEMATICA */}
           <div className="space-y-4">
             <h4 className="font-bold text-xs uppercase tracking-wider text-zinc-400">Seguici</h4>
-            <div className="flex items-center space-x-3">
-              <a href={fallbackFb} target="_blank" className="p-3 bg-zinc-50 rounded-full border border-zinc-200 hover:border-[#5F6F52] text-zinc-500 hover:text-[#5F6F52] transition-all" aria-label="Facebook">
-                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
-              </a>
-              <a href={fallbackIg} target="_blank" className="p-3 bg-zinc-50 rounded-full border border-zinc-200 hover:border-[#5F6F52] text-zinc-500 hover:text-[#5F6F52] transition-all" aria-label="Instagram">
-                <svg className="h-4 w-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks data={data} brandColor={brand_color} />
           </div>
 
           <div className="space-y-4 text-xs text-zinc-500 font-light">
@@ -407,7 +395,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
         </div>
 
         <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-zinc-100 text-center text-xs text-zinc-400 font-mono tracking-widest">
-          © {new Date().getFullYear()} {nomeCliente} • RM Studio Master Engine
+          © {new Date().getFullYear()} {nomeCliente} • Sviluppato da RM Studio Master Engine
         </div>
       </footer>
 
@@ -427,7 +415,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
               <a href="#" className="text-[10px] font-mono text-zinc-500 hover:text-zinc-800 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
-                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-800 transition-all flex items-center space-x-2"
+                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-200 transition-all flex items-center space-x-2"
               >
                 <span>Accetto</span>
               </button>
