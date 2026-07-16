@@ -33,6 +33,7 @@ interface TemplateProps {
     piva?: string;
     foto_profilo?: string; // Foto di presidio/forza
     galleria?: string[];
+    recensioni?: any[];
   };
   nomeCliente: string;
   slug: string;
