@@ -9,6 +9,7 @@ import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
 import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
+import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -184,6 +185,9 @@ export default function Template_il_regista({ data, nomeCliente, slug, hasBlog }
           <span className="mx-4">•</span>
         </div>
       </div>
+
+      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
+      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* BLOCCHI DI SERVIZI ALTERNATI (METODOLOGIA) */}
       <section id="progetto" className="py-12 px-6 max-w-6xl mx-auto relative z-10 space-y-16">
