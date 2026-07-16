@@ -87,7 +87,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#F8F9FA] text-slate-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
+      className="min-h-screen bg-gradient-to-b from-[#F8F9FA] via-[#F8F9FA] to-[var(--brand-color-glow)] text-slate-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
       
       {/* BACKGROUND MINIMALE NORDIC ZEN CON GRIGLIA A LINEE GRIGIE FINISSIME */}
@@ -302,7 +302,7 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
       {/* ========================================================================= */}
       {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Clean integrato) */}
       {/* ========================================================================= */}
-      <section id="studio" className="py-20 px-6 max-w-6xl mx-auto border-t border-gray-200/50 relative z-10">
+      <section id="studio" className="py-20 px-8 max-w-6xl mx-auto bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6 text-left">
