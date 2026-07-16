@@ -1,8 +1,8 @@
 // src/components/Gallery.tsx
 "use client";
 
-import React from 'react';
-import { Sparkles, Image as ImageIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Image as ImageIcon, X } from 'lucide-react';
 
 interface GalleryProps {
   galleria?: string[];
@@ -11,6 +11,8 @@ interface GalleryProps {
 }
 
 export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'warm' }: GalleryProps) {
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
+
   // Se non ci sono foto caricate, il componente si auto-distrugge istantaneamente con impatto visivo pari a zero
   if (!galleria || galleria.length === 0) return null;
 
@@ -19,6 +21,36 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
     '--gallery-brand-glow': `${brandColor}0d`,
     '--gallery-brand-strong': `${brandColor}26`,
   } as React.CSSProperties;
+
+  // Renderizza il Lightbox sovrapposto quando un'immagine è selezionata
+  const renderLightbox = () => {
+    if (!selectedImg) return null;
+    return (
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm transition-all duration-300"
+        onClick={() => setSelectedImg(null)}
+      >
+        {/* Pulsante di chiusura fluttuante */}
+        <button
+          className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-[10000] p-2 bg-neutral-900/50 rounded-full focus:outline-none"
+          onClick={() => setSelectedImg(null)}
+          aria-label="Chiudi galleria"
+        >
+          <X className="h-8 w-8" />
+        </button>
+
+        {/* Contenitore Immagine */}
+        <div className="relative max-w-5xl max-h-[85vh] w-full h-full flex items-center justify-center">
+          <img
+            src={selectedImg}
+            alt="Visualizzazione ingrandita"
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none"
+            onClick={(e) => e.stopPropagation()} // Impedisce la chiusura cliccando sull'immagine stessa
+          />
+        </div>
+      </div>
+    );
+  };
 
   // 1. TEMA WARM (Serif, organico, bordi ultra-morbidi) - Es: L'Empatico, Il Sentiero, Il Creativo
   if (theme === 'warm') {
@@ -39,12 +71,17 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {galleria.map((url, idx) => (
-              <div key={idx} className="h-60 rounded-[32px] overflow-hidden border border-stone-200/60 shadow-sm hover:scale-[1.02] transition-transform duration-300">
+              <div 
+                key={idx} 
+                className="h-60 rounded-[32px] overflow-hidden border border-stone-200/60 shadow-sm hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                onClick={() => setSelectedImg(url)}
+              >
                 <img src={url} alt={`Dettaglio galleria ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
               </div>
             ))}
           </div>
         </div>
+        {renderLightbox()}
       </section>
     );
   }
@@ -68,12 +105,17 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {galleria.map((url, idx) => (
-              <div key={idx} className="h-60 rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:scale-[1.02] transition-transform duration-300">
+              <div 
+                key={idx} 
+                className="h-60 rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                onClick={() => setSelectedImg(url)}
+              >
                 <img src={url} alt={`Dettaglio galleria ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
               </div>
             ))}
           </div>
         </div>
+        {renderLightbox()}
       </section>
     );
   }
@@ -96,12 +138,17 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
         </div>
         <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {galleria.map((url, idx) => (
-            <div key={idx} className="h-60 rounded-2xl overflow-hidden border border-zinc-800/80 shadow-lg hover:scale-[1.02] transition-transform duration-300">
+            <div 
+              key={idx} 
+              className="h-60 rounded-2xl overflow-hidden border border-zinc-800/80 shadow-lg hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+              onClick={() => setSelectedImg(url)}
+            >
               <img src={url} alt={`Dettaglio galleria ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
             </div>
           ))}
         </div>
       </div>
+      {renderLightbox()}
     </section>
   );
 }
