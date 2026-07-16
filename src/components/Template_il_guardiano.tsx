@@ -83,7 +83,7 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#07070a] text-zinc-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden text-left"
+      className="min-h-screen bg-gradient-to-b from-[#07070a] via-[#07070a] to-[var(--brand-color-glow)] text-zinc-300 selection:bg-[var(--brand-color)] selection:text-black font-sans antialiased relative overflow-x-hidden text-left"
     >
       
       {/* Texture di carta pressata di sfondo (Sottilissimo rumore organico) */}
@@ -176,7 +176,7 @@ export default function Template_il_guardiano({ data, nomeCliente, slug, hasBlog
       <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* DETTAGLIO SERVIZI (LA PROTEZIONE) */}
-      <section id="progetto" className="py-24 px-6 max-w-6xl mx-auto relative z-10">
+      <section id="progetto" className="py-24 px-8 max-w-6xl mx-auto bg-black/40 border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <div className="text-center max-w-xl mx-auto mb-16 space-y-3">
           <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-black">La nostra operatività</span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">I Servizi di Sicurezza</h2>
