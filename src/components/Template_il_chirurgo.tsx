@@ -7,6 +7,7 @@ import { Phone, Calendar, Star, Check, Send, Sparkles, Mail, MapPin, ChevronDown
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
+import Gallery from './Gallery';
 
 interface TemplateProps {
   data: {
@@ -15,6 +16,7 @@ interface TemplateProps {
       subheadline: string;
       cta1: string;
       cta2: string;
+      galleria?: string[];
     };
     servizi: Array<{
       titolo: string;
@@ -304,6 +306,8 @@ export default function Template_il_chirurgo({ data, nomeCliente, slug, hasBlog 
       </section>
       {/* ========================================================================= */}
 
+      <Gallery galleria={data.galleria} brandColor={brand_color} theme="clean" />
+      
       {/* ACCORDION FAQ */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-200/60 relative z-10">
         <h2 className="text-3xl font-black text-center mb-12 uppercase tracking-wide text-zinc-900">Domande Frequenti</h2>
