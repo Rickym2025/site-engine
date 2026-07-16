@@ -81,7 +81,7 @@ export default function Template_l_empatico({ data, nomeCliente, slug, hasBlog }
   return (
     <div 
       style={customStyles}
-      className="min-h-screen bg-[#FAF9F5] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
+      className="min-h-screen bg-gradient-to-b from-[#FAF9F5] via-[#FAF9F5] to-[var(--brand-color-glow)] text-stone-800 selection:bg-[var(--brand-color)] selection:text-white font-sans relative overflow-x-hidden text-left"
     >
       
       {/* BACKGROUND ORGANICO CON SFUMATURE MORBIDE SAGE-GREEN & SABBIA */}
