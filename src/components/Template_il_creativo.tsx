@@ -9,7 +9,6 @@ import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
 import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
-import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -19,11 +18,10 @@ interface TemplateProps {
       cta1: string;
       cta2: string;
     };
-    // ⚡ Aggiorna questo blocco per accettare sia la versione italiana che inglese
     servizi: Array<{
       titolo: string;
-      descrizione?: string; 
-      description?: string; 
+      descrizione?: string;
+      description?: string;
     }>;
     social_proof: string;
     brand_color?: string;
@@ -33,7 +31,7 @@ interface TemplateProps {
     social_ig?: string;
     piva?: string;
     galleria?: string[];
-    recensioni?: any[]; // (Aggiungi anche questo se usi ReviewsMarquee qui)
+    recensioni?: any[];
   };
   nomeCliente: string;
   slug: string;
@@ -75,7 +73,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
   const bentoImg2 = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600"; // Architettura/mosaico
 
   return (
-    className="min-h-screen bg-gradient-to-b from-[#F4F3EF] via-[#F4F3EF] to-[var(--brand-color-glow)] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative overflow-x-hidden text-left">
+    <div className="min-h-screen bg-gradient-to-b from-[#F4F3EF] via-[#F4F3EF] to-[var(--brand-color-glow)] text-zinc-800 selection:bg-[#5F6F52] selection:text-white font-sans antialiased relative overflow-x-hidden text-left">
       
       {/* Texture di carta pressata di sfondo (Sottilissimo rumore organico) */}
       <div className="fixed inset-0 z-40 opacity-[0.025] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9Ii4xNSIvPgo8L3N2Zz4=')] bg-repeat" />
@@ -115,7 +113,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
           className="inline-flex items-center space-x-2 bg-[#E6E4DC] border border-zinc-300 px-4 py-1.5 rounded-full mb-8"
         >
           <Sparkles className="h-4 w-4 text-[#5F6F52]" />
-          <span className="text-xs font-mono text-zinc-700 uppercase tracking-widest font-semibold">Progetto d'Autore</span>
+          <span className="text-xs font-mono text-zinc-700 uppercase tracking-widest font-semibold">Progetto d&apos;Autore</span>
         </motion.div>
 
         <motion.h1
@@ -163,7 +161,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             </div>
             <div className="relative z-10 text-left text-white space-y-2">
               <h3 className="text-2xl md:text-3xl font-bold font-serif italic">{servizi[0]?.titolo || "Inquadramento"}</h3>
-              <p className="text-sm font-light text-stone-300 max-w-md">{servizi[0]?.descrizione || "Ogni progetto è unico. Uniamo materiali nobili a geometrie moderne per creare qualcosa che dura nel tempo."}</p>
+              <p className="text-sm font-light text-stone-300 max-w-md">{servizi[0]?.descrizione || servizi[0]?.description || "Ogni progetto è unico. Uniamo materiali nobili a geometrie moderne per creare qualcosa che dura nel tempo."}</p>
             </div>
           </motion.div>
 
@@ -175,7 +173,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
               ))}
             </div>
             <p className="text-zinc-650 text-sm italic font-light">
-              "{social_proof}"
+              &ldquo;{social_proof}&rdquo;
             </p>
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">— Recensione</span>
           </div>
@@ -231,7 +229,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
       {/* GALLERIA FOTOGRAFICA CON TEMA WARM INTEGRATO */}
       <Gallery galleria={data.galleria} brandColor={brand_color} theme="warm" />
 
-      {/* ACCORDION FAQ CHIARO */}
+      {/* ACCORDION FAQ CHIARO E SEZIONE DI CONTRASTO COLORATA */}
       <section id="faq" className="py-24 px-8 max-w-3xl mx-auto bg-[var(--brand-color-glow)] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
         <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-zinc-900">Domande Frequenti</h2>
         
@@ -247,7 +245,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 className="w-full flex items-center justify-between text-left font-bold text-lg py-3 hover:text-[#5F6F52] transition-colors"
               >
                 <span>{faq.q}</span>
-                <ChevronDown className={`h-5 w-5 text-zinc-400 transition-transform ${activeFaq === idx ? 'rotate-180 text-[#5F6F52]' : ''}`} />
+                <ChevronDown className={`h-5 w-5 text-zinc-400 transition-transform ${activeFaq === idx ? 'rotate-180' : ''}`} />
               </button>
               
               <AnimatePresence>
@@ -269,9 +267,6 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
         </div>
       </section>
 
-      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
-      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
-
       {/* ========================================================================= */}
       {/* 📍 SEZIONE CONTATTO EDITORIALE CON MAPPA SPLIT-SCREEN COERENTE */}
       {/* ========================================================================= */}
@@ -283,7 +278,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             <span className="text-xs font-mono text-[#5F6F52] uppercase tracking-widest font-bold">La nostra posizione</span>
             <h3 className="text-3xl md:text-4xl font-light font-serif italic text-zinc-900 leading-none">Vieni a trovarci in Atelier</h3>
             <p className="text-sm text-zinc-650 font-light leading-relaxed">
-              Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l'integrità e la riservatezza delle consulenze e delle opere in esposizione.
+              Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l&apos;integrità e la riservatezza delle consulenze e delle opere in esposizione.
             </p>
             
             {/* Componente Mappa dinamico */}
@@ -356,7 +351,7 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
           <div className="space-y-4">
             <span className="font-extrabold text-lg tracking-widest text-zinc-900 uppercase">{nomeCliente}</span>
             <p className="text-xs text-zinc-500 leading-relaxed font-light">
-              Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l'esperienza d'autore.
+              Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l&apos;esperienza d&apos;autore.
             </p>
           </div>
 
@@ -368,7 +363,6 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
                 <a href={`mailto:${fallbackEmail}`} className="hover:text-zinc-900 transition-colors">{fallbackEmail}</a>
               </li>
               <li className="flex items-start space-x-2">
-                {/* ⚡ Qui è stata corretta la formattazione dei parametri */}
                 <MapPin className="h-4 w-4 text-[#5F6F52] shrink-0 mt-0.5" />
                 <span>{fallbackIndirizzo}</span>
               </li>
@@ -416,13 +410,13 @@ export default function Template_il_creativo({ data, nomeCliente, slug, hasBlog 
             className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-white/95 border border-zinc-200 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-800 animate-none"
           >
             <p className="text-xs text-zinc-650 leading-relaxed font-light text-left">
-              Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
+              Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l&apos;ottimizzazione dell&apos;esperienza utente. Cliccando su &ldquo;Accetto&rdquo;, acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
               <a href="#" className="text-[10px] font-mono text-zinc-500 hover:text-zinc-800 underline transition-colors">Maggiori info</a>
               <button 
                 onClick={acceptCookies}
-                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-200 transition-all flex items-center space-x-2"
+                className="bg-zinc-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-zinc-800 transition-all flex items-center space-x-2"
               >
                 <span>Accetto</span>
               </button>
