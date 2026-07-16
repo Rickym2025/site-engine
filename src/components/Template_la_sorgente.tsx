@@ -9,6 +9,7 @@ import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 import Gallery from './Gallery';
 import SocialLinks from './SocialLinks'; // ⚡ Importato il componente globale sistematico
+import ReviewsMarquee from './ReviewsMarquee';
 
 interface TemplateProps {
   data: {
@@ -168,6 +169,9 @@ export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog 
           "{social_proof}"
         </h3>
       </section>
+
+      {/* SEZIONE RECENSIONI SCORREVOLI INTEGRATA */}
+      <ReviewsMarquee recensioni={data.recensioni} brandColor={brand_color} />
 
       {/* BLOCCO INTERATTIVO "COSA STAI AFFRONTANDO?" */}
       <section id="aree" className="py-24 bg-white border-y border-gray-200/50 px-6 relative z-10">
