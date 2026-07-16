@@ -177,7 +177,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
               <div className="space-y-4">
                 <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-wider block">Dettaglio {idx + 1}</span>
                 <h3 className="text-2xl font-serif font-bold text-white italic">{servizio.titolo}</h3>
-                <p className="text-xs text-zinc-400 font-light leading-relaxed">{servizio.descrizione || servicio.description}</p>
+                <p className="text-xs text-zinc-400 font-light leading-relaxed">{servizio.descrizione || servizio.description}</p>
               </div>
             </motion.div>
           ))}
