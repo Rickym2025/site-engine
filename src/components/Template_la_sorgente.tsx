@@ -19,12 +19,14 @@ interface TemplateProps {
       cta1: string;
       cta2: string;
     };
+    // ⚡ Aggiorna questo blocco dei servizi per accettare entrambi i tipi di dato
     servizi: Array<{
       titolo: string;
-      descrizione: string;
+      descrizione?: string;
+      description?: string;
     }>;
     social_proof: string;
-    brand_color?: string; // Di default useremo un blu profondo oceanico rilassante (#0F172A)
+    brand_color?: string;
     email?: string;
     indirizzo?: string;
     social_fb?: string;
@@ -33,13 +35,12 @@ interface TemplateProps {
     piva?: string;
     foto_profilo?: string;
     galleria?: string[];
-    recensioni?: any[];
+    recensioni?: any[]; // (Aggiungi questo se decidi di inserire le recensioni scorrevoli anche qui)
   };
   nomeCliente: string;
   slug: string;
   hasBlog?: boolean;
 }
-
 export default function Template_la_sorgente({ data, nomeCliente, slug, hasBlog }: TemplateProps) {
   const { hero, social_proof, brand_color = '#0F172A', email, indirizzo, piva, foto_profilo } = data;
   const servizi = data.servizi || [];
