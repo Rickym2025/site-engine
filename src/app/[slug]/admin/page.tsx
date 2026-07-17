@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, use } from 'react';
-import { Phone, Check, Send, Mail, MapPin, ArrowLeft, KeyRound, Sparkles, Smile, BookOpen, Image as ImageIcon } from 'lucide-react';
+import { Phone, Check, ArrowLeft, KeyRound, ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -211,7 +211,7 @@ export default function AdminBlogPage({ params }: PageProps) {
             <Check className="h-5 w-5 text-emerald-600 mt-0.5 shrink-0" />
             <div>
               <h4 className="font-bold text-emerald-900 text-sm">Articolo Pubblicato con Successo!</h4>
-              <p className="text-xs text-emerald-700 mt-0.5">La scheda "Blog" si è attivata ed è ora visibile sul tuo sito web. Puoi vederlo direttamente nella lista degli approfondimenti.</p>
+              <p className="text-xs text-emerald-700 mt-0.5">La scheda &ldquo;Blog&rdquo; si è attivata ed è ora visibile sul tuo sito web. Puoi vederlo direttamente nella lista degli approfondimenti.</p>
             </div>
           </div>
         )}
@@ -262,13 +262,16 @@ export default function AdminBlogPage({ params }: PageProps) {
             </div>
           </div>
 
+          {/* ⚡ TEXTAREA OTTIMIZZATA: SPAZIOSA, INTEGRATA E RIDIMENSIONABILE TRASCINANDO IL BORDO */}
           <div>
-            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 mb-2">Testo dell'Articolo (Andare a capo normalmente per creare i paragrafi)</label>
+            <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-stone-500 mb-2">
+              Testo dell&apos;Articolo (Andare a capo normalmente per creare i paragrafi)
+            </label>
             <textarea
               required
-              rows={12}
+              rows={22}
               placeholder="Scrivi qui il tuo articolo. Vai a capo normalmente per separare i paragrafi. Il sistema formatterà e impaginerà tutto in modo automatico."
-              className="w-full bg-[#FAF9F5] border border-stone-200 focus:border-stone-400 rounded-xl p-4 text-stone-900 placeholder-stone-400 transition-all outline-none text-sm leading-relaxed"
+              className="w-full min-h-[450px] bg-[#FAF9F5] border border-stone-200 focus:border-stone-400 rounded-xl p-5 text-stone-900 placeholder-stone-400 transition-all outline-none text-sm leading-relaxed resize-y shadow-inner"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
