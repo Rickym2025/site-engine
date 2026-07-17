@@ -24,16 +24,19 @@ interface TemplateProps {
       descrizione: string;
     }>;
     social_proof: string;
-    brand_color?: string; // Di default useremo un verde foresta profondo (#1E3F20)
+    brand_color?: string;
     email?: string;
     indirizzo?: string;
     social_fb?: string;
     social_ig?: string;
-    social_linkedin?: string;
     piva?: string;
     immagine_hero?: string;
     galleria?: string[];
     recensioni?: any[];
+    // ⚡ Aggiungi queste 3 righe per istruire TypeScript:
+    gallery_title?: string;
+    gallery_subtitle?: string;
+    gallery_description?: string;
   };
   nomeCliente: string;
   slug: string;
