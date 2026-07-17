@@ -913,9 +913,9 @@ export default function GeneratorHome() {
                       <label className="block text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-2">Incolla il JSON del sito</label>
                       <textarea
                         required
-                        rows={8}
-                        placeholder="Incolla il codice JSON qui..."
-                        className="w-full bg-[#151722] border border-zinc-800 focus:border-purple-500 rounded-xl p-3 text-white placeholder-zinc-650 font-mono text-[11px] leading-relaxed transition-all outline-none"
+                        rows={24}
+                        placeholder="Incolla qui il JSON unico strutturato del Lead..."
+                        className="w-full h-[550px] min-h-[450px] bg-[#15151a] border border-zinc-800 focus:border-purple-500 rounded-2xl p-5 text-xs font-mono text-green-400 outline-none transition-all resize-y leading-relaxed shadow-inner" 
                         value={adminJson}
                         onChange={(e) => setAdminAdminJson(e.target.value)}
                       />
