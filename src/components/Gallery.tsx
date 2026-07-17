@@ -8,9 +8,19 @@ interface GalleryProps {
   galleria?: string[];
   brandColor?: string;
   theme?: 'warm' | 'clean' | 'dark'; // Tre varianti grafiche che si adattano ai 9 template
+  title?: string;
+  subtitle?: string;
+  description?: string;
 }
 
-export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'warm' }: GalleryProps) {
+export default function Gallery({ 
+  galleria, 
+  brandColor = '#5F6F52', 
+  theme = 'warm',
+  title,
+  subtitle,
+  description
+}: GalleryProps) {
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
   // Se non ci sono foto caricate, il componente si auto-distrugge istantaneamente con impatto visivo pari a zero
@@ -30,7 +40,6 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm transition-all duration-300"
         onClick={() => setSelectedImg(null)}
       >
-        {/* Pulsante di chiusura fluttuante */}
         <button
           className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors z-[10000] p-2 bg-neutral-900/50 rounded-full focus:outline-none"
           onClick={() => setSelectedImg(null)}
@@ -39,13 +48,12 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
           <X className="h-8 w-8" />
         </button>
 
-        {/* Contenitore Immagine */}
         <div className="relative max-w-5xl max-h-[85vh] w-full h-full flex items-center justify-center">
           <img
             src={selectedImg}
             alt="Visualizzazione ingrandita"
             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none"
-            onClick={(e) => e.stopPropagation()} // Impedisce la chiusura cliccando sull'immagine stessa
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       </div>
@@ -54,19 +62,23 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
 
   // 1. TEMA WARM (Serif, organico, bordi ultra-morbidi) - Es: L'Empatico, Il Sentiero, Il Creativo
   if (theme === 'warm') {
+    const activeSubtitle = subtitle || "Accoglienza & Spazio";
+    const activeTitle = title || "Uno Spazio Pensato per Sentirsi al Sicuro";
+    const activeDesc = description || "Le immagini dello studio privato e dei nostri incontri divulgativi sul territorio. Ogni dettaglio è pensato con cura per garantire il massimo livello di comfort emotivo, riservatezza e accoglienza fin dal primo colloquio.";
+
     return (
       <section style={customStyles} className="py-24 bg-[#FAF9F5] border-t border-stone-200/50 px-6 relative z-10 text-left font-sans">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-4 space-y-4">
             <span className="text-[10px] font-mono text-[var(--gallery-brand)] uppercase tracking-widest font-black flex items-center gap-1.5">
               <Sparkles className="h-4.5 w-4.5 text-[var(--gallery-brand)]" />
-              Accoglienza & Spazio
+              {activeSubtitle}
             </span>
             <h2 className="text-3xl font-serif font-black text-stone-900 tracking-tight leading-tight">
-              Uno Spazio Pensato per Sentirsi al Sicuro
+              {activeTitle}
             </h2>
             <p className="text-sm text-stone-500 font-light leading-relaxed">
-              Le immagini dello studio privato e dei nostri incontri divulgativi sul territorio. Ogni dettaglio è pensato con cura per garantire il massimo livello di comfort emotivo, riservatezza e accoglienza fin dal primo colloquio.
+              {activeDesc}
             </p>
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -88,19 +100,23 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
 
   // 2. TEMA CLEAN (Sans-Serif, geometrico, bordi squadrati) - Es: La Sorgente, Il Chirurgo, L'Autorità
   if (theme === 'clean') {
+    const activeSubtitle = subtitle || "La Struttura";
+    const activeTitle = title || "Sede e Strumentazione Medica";
+    const activeDesc = description || "Esplora la nostra sede professionale e i nostri spazi dedicati. Sviluppiamo percorsi diagnostici e terapeutici avvalendoci di tecnologie e strumentazioni conformi ai massimi standard medici e sanitari vigenti.";
+
     return (
       <section style={customStyles} className="py-24 bg-white border-t border-gray-200/50 px-6 relative z-10 text-left font-sans">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-4 space-y-4">
             <span className="text-[10px] font-bold text-sky-500 uppercase tracking-widest flex items-center gap-1.5">
               <ImageIcon className="h-4.5 w-4.5 text-sky-400" />
-              La Struttura
+              {activeSubtitle}
             </span>
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Sede e Strumentazione Medica
+              {activeTitle}
             </h2>
             <p className="text-sm text-slate-500 font-light leading-relaxed">
-              Esplora la nostra sede professionale e i nostri spazi dedicati. Sviluppiamo percorsi diagnostici e terapeutici avvalendoci di tecnologie e strumentazioni conformi ai massimi standard medici e sanitari vigenti.
+              {activeDesc}
             </p>
           </div>
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -120,20 +136,24 @@ export default function Gallery({ galleria, brandColor = '#5F6F52', theme = 'war
     );
   }
 
-  // 3. TEMA DARK (Obsidian, satinato, bordi traslucidi) - Es: L'Atelier, Il Regista, Il Guardiano
+  // 3. TEMA DARK (Obsidian, satinato, bordi traslucidi) - Es: L'Atelier, Il Regista, Il Guardiano, Il Sentiero
+  const activeSubtitle = subtitle || "Atelier & Opere";
+  const activeTitle = title || "I Nostri Spazi ed Esposizioni";
+  const activeDesc = description || "Una galleria fotografica dei dettagli del nostro atelier e dei percorsi creativi. Diamo forma a opere originali attraverso la selezione di componenti nobili e una precisione artigianale maniacale.";
+
   return (
     <section style={customStyles} className="py-24 bg-[#0a0a0f] border-t border-zinc-900/60 px-6 relative z-10 text-left font-sans">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-4 space-y-4">
           <span className="text-[10px] font-mono text-purple-400 uppercase tracking-widest font-black flex items-center gap-1.5">
             <Sparkles className="h-4.5 w-4.5 text-purple-400 animate-pulse" />
-            Atelier & Opere
+            {activeSubtitle}
           </span>
           <h2 className="text-3xl font-serif font-black text-white tracking-tight leading-tight">
-            I Nostri Spazi ed Esposizioni
+            {activeTitle}
           </h2>
           <p className="text-sm text-zinc-400 font-light leading-relaxed">
-            Una galleria fotografica dei dettagli del nostro atelier e dei percorsi creativi. Diamo forma a opere originali attraverso la selezione di componenti nobili e una precisione artigianale maniacale.
+            {activeDesc}
           </p>
         </div>
         <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
