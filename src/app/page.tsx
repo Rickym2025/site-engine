@@ -285,7 +285,7 @@ export default function GeneratorHome() {
 
   // SCHERMATA DEL FORM GENERATORE TRADIZIONALE
   return (
-    <main className="min-h-screen bg-[#0d0f17] text-[#e2e8f0] font-sans flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+    <main className="min-h-screen bg-[#0d0f17] text-[#e2e8f0] font-sans flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden text-left">
       
       {/* 🌈 AURORE GRADIENTI LUMINOSE DI SFONDO SULLA PALETTE BLU NOTTE SLATE */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -311,14 +311,14 @@ export default function GeneratorHome() {
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 px-4 py-1.5 rounded-full">
             <Sparkles className="h-4 w-4 text-cyan-400 animate-pulse" />
-            <span className="text-[10px] font-mono text-cyan-300 font-bold uppercase tracking-widest">Siti d'Autore in 24 Ore</span>
+            <span className="text-[10px] font-mono text-cyan-300 font-bold uppercase tracking-widest">Siti d&apos;Autore in 24 Ore</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-black mb-4 tracking-tight leading-[1.1] text-white">
             Crea la tua Landing Page <br />
             <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">Ad Alta Conversione</span>
           </h1>
           <p className="text-zinc-450 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed">
-            Inserisci i dati essenziali del professionista. Il nostro algoritmo compilerà la struttura strategica di vendita generando l'anteprima.
+            Inserisci i dati essenziali del professionista. Il nostro algoritmo compilerà la struttura strategica di vendita generando l&apos;anteprima.
           </p>
         </div>
 
@@ -481,7 +481,7 @@ export default function GeneratorHome() {
             </div>
 
             {/* ========================================================================= */}
-            {/* 🪐 SELEZIONE TEMPLATE CON PRE-VISUALIZZAZIONI GIGANTI E TESTI AD ALTO CONTRASTO */}
+            {/* 🪐 SELEZIONE TEMPLATE */}
             {/* ========================================================================= */}
             <div className="space-y-8 pt-6 border-t border-zinc-800/80">
               <div className="text-left">
@@ -500,7 +500,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-cyan-500/10 text-cyan-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-cyan-500/20">Vigilanza & Cantieri</span>
+                      <span className="bg-cyan-500/10 text-cyan-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-cyan-500/20">Vigilanza &amp; Cantieri</span>
                       {templateId === 1 && <span className="bg-cyan-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">01. Il Guardiano</h4>
@@ -541,11 +541,11 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-amber-500/10 text-amber-500 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-amber-500/20">Lusso & Boutique</span>
+                      <span className="bg-amber-500/10 text-amber-500 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-amber-500/20">Lusso &amp; Boutique</span>
                       {templateId === 2 && <span className="bg-amber-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
-                    <h4 className="font-serif font-black text-xl text-white">02. L'Atelier</h4>
-                    <p className="text-sm text-zinc-450 font-light leading-relaxed max-w-lg">Fascino cinematico oscuro. Texture pixelata dorata sovrapposta a video-background oscurato. Perfetto per creazioni d'arte e immobili ad alto margine.</p>
+                    <h4 className="font-serif font-black text-xl text-white">02. L&apos;Atelier</h4>
+                    <p className="text-sm text-zinc-450 font-light leading-relaxed max-w-lg">Fascino cinematico oscuro. Texture pixelata dorata sovrapposta a video-background oscurato. Perfetto per creazioni d&apos;arte e immobili ad alto margine.</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(2); }}
@@ -578,11 +578,11 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-blue-550/10 text-blue-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-blue-500/20">Medicina & Cliniche</span>
+                      <span className="bg-blue-500/10 text-blue-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-blue-500/20">Medicina &amp; Cliniche</span>
                       {templateId === 3 && <span className="bg-blue-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">03. Il Chirurgo</h4>
-                    <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Sfondo chiaro pastello asettico con griglia a punti di precisione. Riduce l'attrito decisionale posizionando il modulo di contatto in primo piano.</p>
+                    <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Sfondo chiaro pastello asettico con griglia a punti di precisione. Riduce l&apos;attrito decisionale posizionando il modulo di contatto in primo piano.</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(3); }}
@@ -621,10 +621,10 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-emerald-500/20">Consulenti & Legali</span>
+                      <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-emerald-500/20">Consulenti &amp; Legali</span>
                       {templateId === 4 && <span className="bg-emerald-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
-                    <h4 className="font-serif font-black text-xl text-white">04. L'Autorità</h4>
+                    <h4 className="font-serif font-black text-xl text-white">04. L&apos;Autorità</h4>
                     <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Struttura autoritaria con effetto shimmer metallico sui titoli principali ed effetto Spotlight luminoso al tocco sulle card dei servizi.</p>
                     <button
                       type="button"
@@ -664,7 +664,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-[#5f6f52]/10 text-[#a3b899] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#5f6f52]/20">Bento & Designer</span>
+                      <span className="bg-[#5f6f52]/10 text-[#a3b899] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#5f6f52]/20">Bento &amp; Designer</span>
                       {templateId === 5 && <span className="bg-[#5F6F52] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">05. Il Creativo</h4>
@@ -702,7 +702,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-purple-555/10 text-purple-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-purple-500/20">Video & UGC</span>
+                      <span className="bg-purple-555/10 text-purple-400 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-purple-500/20">Video &amp; UGC</span>
                       {templateId === 6 && <span className="bg-purple-600 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">06. Il Regista</h4>
@@ -740,10 +740,10 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-[#10b981]/10 text-[#6ee7b7] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#10b981]/20">Psicologi & Benessere</span>
+                      <span className="bg-[#10b981]/10 text-[#6ee7b7] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#10b981]/20">Psicologi &amp; Benessere</span>
                       {templateId === 7 && <span className="bg-[#10b981] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
-                    <h4 className="font-serif font-black text-xl text-white">07. L'Empatico</h4>
+                    <h4 className="font-serif font-black text-xl text-white">07. L&apos;Empatico</h4>
                     <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Tonalità calde terra e verde salvia. Font graziato Serif che comunica accoglienza emotiva e trigger focalizzati sulla detrazione delle spese sanitarie.</p>
                     <button
                       type="button"
@@ -781,7 +781,7 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-[#0ea5e9]/10 text-[#38bdf8] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#0ea5e9]/20">Nordic Zen & Clinica</span>
+                      <span className="bg-[#0ea5e9]/10 text-[#38bdf8] text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-[#0ea5e9]/20">Nordic Zen &amp; Clinica</span>
                       {templateId === 8 && <span className="bg-sky-500 text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">08. La Sorgente</h4>
@@ -820,11 +820,11 @@ export default function GeneratorHome() {
                 >
                   <div className="space-y-3 flex-grow text-left">
                     <div className="flex items-center gap-2">
-                      <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-emerald-500/20">Cinematic & Introspezione</span>
+                      <span className="bg-emerald-500/10 text-emerald-450 text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full font-mono border border-emerald-500/20">Cinematic &amp; Introspezione</span>
                       {templateId === 9 && <span className="bg-[#10b981] text-white text-[8px] font-bold uppercase px-2 py-0.5 rounded-full">Selezionato</span>}
                     </div>
                     <h4 className="font-serif font-black text-xl text-white">09. Il Sentiero</h4>
-                    <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Immagine Hero a tutto schermo ad altissimo impatto d'atmosfera. Integra una raffinata timeline di crescita terapeutica verticale.</p>
+                    <p className="text-sm text-zinc-350 font-light leading-relaxed max-w-lg">Immagine Hero a tutto schermo ad altissimo impatto d&apos;atmosfera. Integra una raffinata timeline di crescita terapeutica verticale.</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); handleViewDemo(9); }}
@@ -893,7 +893,7 @@ export default function GeneratorHome() {
                       <Sparkles className="h-5 w-5 text-purple-400" />
                       Iniezione Rapida Lead • RM Studio
                     </h3>
-                    <p className="text-xs text-zinc-500 mt-1">Incolla il JSON strutturato generato dall'AI per compilare istantaneamente il database e attivare n8n.</p>
+                    <p className="text-xs text-zinc-500 mt-1">Incolla il JSON strutturato generato dall&apos;AI per compilare istantaneamente il database e attivare n8n.</p>
                   </div>
 
                   <form onSubmit={handleAdminSubmit} className="space-y-4">
