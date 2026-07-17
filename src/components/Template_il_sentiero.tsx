@@ -305,7 +305,14 @@ export default function Template_il_sentiero({ data, nomeCliente, slug, hasBlog 
       {/* ========================================================================= */}
 
       {/* GALLERIA FOTOGRAFICA CON TEMA DARK INTEGRATO */}
-      <Gallery galleria={data.galleria} brandColor={brand_color} theme="dark" />
+      <Gallery 
+        galleria={data.galleria} 
+        brandColor={brand_color} 
+        theme="dark" 
+        title={data.gallery_title}
+        subtitle={data.gallery_subtitle}
+        description={data.gallery_description}
+      />
 
       {/* MODULO PRENOTAZIONI CON DETTAGLI CLINICI ED ETICI */}
       <section id="prenota" className="max-w-4xl mx-auto px-6 pb-24 relative z-10">
