@@ -34,6 +34,12 @@ interface TemplateProps {
     video_bg_url?: string; // Video di sfondo cinematico
     galleria?: string[];
     recensioni?: any[];
+    // ⚡ Parametri aggiunti per il supporto al Menu Birre/FAQ dinamiche e Galleria su misura
+    faq?: Array<{ q: string; a: string; }>;
+    faq_title?: string;
+    gallery_title?: string;
+    gallery_subtitle?: string;
+    gallery_description?: string;
   };
   nomeCliente: string;
   slug: string;
@@ -53,6 +59,16 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
   const fallbackIndirizzo = indirizzo || "Viale dei Cipressi 12, Area Artigianale (FI)";
   const fallbackPiva = piva || "IT01234567890";
   const defaultVideoBg = video_bg_url || "https://assets.mixkit.co/videos/preview/mixkit-sports-car-drifting-at-night-42217-large.mp4";
+
+  // Fallback per l'accordion (se non fornito nel JSON, mostra le FAQ dell'Atelier)
+  const defaultFaq = [
+    { q: "Quali sono i tempi di attesa per un progetto?", a: "Essendo lavorazioni interamente artigianali d'autore, i tempi dipendono dalla complessità. Forniamo un cronoprogramma preciso in fase di preventivo." },
+    { q: "Accettate progetti su disegno del cliente?", a: "Sì, realizziamo opere personalizzate collaborando strettamente con i progettisti o con il cliente stesso per interpretare ogni visione." },
+    { q: "Fornite assistenza e perizia a domicilio?", a: "Sì, per i progetti più sensibili offriamo una consulenza tecnica sul posto gestita direttamente dai nostri maestri d'atelier." }
+  ];
+
+  const activeFaqList = data.faq || defaultFaq;
+  const faqTitle = data.faq_title || "Domande Frequenti";
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
@@ -93,7 +109,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
           <span className="font-serif font-black text-lg tracking-widest uppercase text-white">{nomeCliente}</span>
           
           <nav className="hidden md:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-zinc-400">
-            <a href="#atelier" className="hover:text-white transition-colors">L'Atelier</a>
+            <a href="#atelier" className="hover:text-white transition-colors">L&apos;Atelier</a>
             {/* ⚡ SE IL BLOG È ATTIVO, MOSTRA IL LINK ALLA LISTA ARTICOLI */}
             {hasBlog && (
               <Link href={`/${slug}/blog`} className="hover:text-white transition-colors">
@@ -107,7 +123,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
 
           <div className="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full">
             <span className="h-2 w-2 rounded-full bg-[var(--brand-color)] animate-pulse"></span>
-            <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-bold">Progetto d'Autore</span>
+            <span className="text-[10px] font-mono text-[var(--brand-color)] uppercase tracking-widest font-bold">Progetto d&apos;Autore</span>
           </div>
         </div>
       </header>
@@ -138,7 +154,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
             className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-sm"
           >
             <Sparkles className="h-4 w-4 text-[var(--brand-color)]" />
-            <span className="text-[10px] font-mono text-zinc-300 uppercase tracking-widest font-semibold">Consulenza d'Atelier • Su Appuntamento</span>
+            <span className="text-[10px] font-mono text-zinc-300 uppercase tracking-widest font-semibold font-sans">Consulenza d&apos;Atelier • Su Appuntamento</span>
           </motion.div>
 
           <motion.h1
@@ -189,7 +205,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6">
           <svg className="h-6 w-6 text-amber-500 fill-amber-500 shrink-0" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
           <p className="text-lg md:text-xl font-serif font-medium text-zinc-300 italic leading-relaxed">
-            "{social_proof}"
+            &ldquo;{social_proof}&rdquo;
           </p>
         </div>
       </section>
@@ -200,14 +216,14 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
       {/* ========================================================================= */}
       {/* 📍 LA SEDE & MAPPA DI GOOGLE (Stile Dark integrato) */}
       {/* ========================================================================= */}
-      <section id="studio" className="py-20 px-8 max-w-6xl mx-auto bg-[#0b0b12] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left">
+      <section id="studio" className="py-20 px-8 max-w-6xl mx-auto bg-[#0b0b12] border border-[var(--brand-color-strong)] rounded-[40px] relative z-10 my-12 text-left animate-none">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-6 text-left">
             <span className="text-xs font-mono text-[color:var(--brand-color)] uppercase tracking-widest font-black">Dove Operiamo</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-black text-white italic">La Sede dell'Atelier</h2>
+            <h2 className="text-3xl md:text-4xl font-serif font-black text-white italic">La Sede dell&apos;Atelier</h2>
             <p className="text-sm text-zinc-400 font-light leading-relaxed">
-              Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l'integrità e la riservatezza delle consulenze e delle opere in esposizione.
+              Il nostro atelier riceve esclusivamente su appuntamento, al fine di garantire l&apos;integrità e la riservatezza delle consulenze e delle opere in esposizione.
             </p>
             <div className="space-y-4 pt-4 text-xs font-bold text-zinc-500">
               <p className="flex items-center gap-3"><Mail className="h-5 w-5 text-zinc-600" /> {fallbackEmail}</p>
@@ -225,18 +241,23 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
       {/* ========================================================================= */}
 
       {/* GALLERIA FOTOGRAFICA CON TEMA DARK INTEGRATO */}
-      <Gallery galleria={data.galleria} brandColor={brand_color} theme="dark" />
+      <Gallery 
+        galleria={data.galleria} 
+        brandColor={brand_color} 
+        theme="dark" 
+        title={data.gallery_title}
+        subtitle={data.gallery_subtitle}
+        description={data.gallery_description}
+      />
 
-      {/* ACCORDION FAQ CHIARO */}
+      {/* ACCORDION FAQ CHIARO E DINAMICO */}
       <section id="faq" className="py-24 px-6 max-w-3xl mx-auto border-t border-zinc-900 relative z-10">
-        <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-white">Domande Frequenti</h2>
+        <h2 className="text-3xl font-bold font-serif italic text-center mb-12 text-white">
+          {faqTitle}
+        </h2>
         
         <div className="space-y-4 text-left">
-          {[
-            { q: "Quali sono i tempi di attesa per un progetto?", a: "Essendo lavorazioni interamente artigianali d'autore, i tempi dipendono dalla complessità. Forniamo un cronoprogramma preciso in fase di preventivo." },
-            { q: "Accettate progetti su disegno del cliente?", a: "Sì, realizziamo opere personalizzate collaborando strettamente con i progettisti o con il cliente stesso per interpretare ogni visione." },
-            { q: "Fornite assistenza e perizia a domicilio?", a: "Sì, per i progetti più sensibili offriamo una consulenza tecnica sul posto gestita direttamente dai nostri maestri d'atelier." }
-          ].map((faq, idx) => (
+          {activeFaqList.map((faq: any, idx: number) => (
             <div key={idx} className="border-b border-zinc-900 pb-4">
               <button 
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
@@ -254,7 +275,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-zinc-500 font-light leading-relaxed text-sm pt-2 pb-4">
+                    <p className="text-zinc-500 font-light leading-relaxed text-sm pt-2 pb-4 whitespace-pre-line">
                       {faq.a}
                     </p>
                   </motion.div>
@@ -323,7 +344,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
           <div className="space-y-4">
             <span className="font-extrabold text-lg tracking-widest text-white uppercase">{nomeCliente}</span>
             <p className="text-xs text-zinc-500 leading-relaxed font-light">
-              Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l'esperienza d'autore.
+              Mosaici digitali asimmetrici ottimizzati per la scansione visiva e l&apos;esperienza d&apos;autore.
             </p>
           </div>
 
@@ -382,7 +403,7 @@ export default function Template_l_atelier({ data, nomeCliente, slug, hasBlog }:
             className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md bg-black/95 border border-zinc-800 p-6 rounded-3xl shadow-2xl z-100 backdrop-blur-xl flex flex-col gap-4 text-zinc-300 animate-none"
           >
             <p className="text-xs text-zinc-450 leading-relaxed font-light text-left">
-              Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l'ottimizzazione dell'esperienza utente. Cliccando su "Accetto", acconsenti al loro utilizzo.
+              Questo sito web utilizza cookie tecnici necessari per il corretto funzionamento e l&apos;ottimizzazione dell&apos;esperienza utente. Cliccando su &ldquo;Accetto&rdquo;, acconsenti al loro utilizzo.
             </p>
             <div className="flex items-center justify-end space-x-3">
               <button 
